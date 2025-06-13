@@ -1229,7 +1229,7 @@ const AllContent = () => {
           </div>
         </div>
 
-        <div className="bg-white shadow rounded-lg p-4 mt-4 avoid-break">
+        <div className="bg-white p-4 mt-4 avoid-break">
           <h2 className="text-lg font-semibold text-red-600 mb-4">
             Center Wise - Meeting Room / Day Pass Performance Overview
           </h2>
@@ -1319,46 +1319,50 @@ const AllContent = () => {
 
           {/* Chart Grid */}
           <div className="border border-gray-400 no-break">
-            {/* Data Rows First */}
-            {sites.map((site, siteIndex) => (
-              <div key={siteIndex} className="grid grid-cols-9 border-b border-gray-400">
-                <div className="border-r border-gray-400 p-3 bg-gray-50 font-medium text-base text-right print:p-2 print:text-sm">{site}</div>
-                {utilizationRanges.slice(0, 8).map((range, rangeIndex) => {
-                  const roomName = getRoomName(site, range);
-                  const cellColor = getCellColor(range);
-                  return (
-                    <div
-                      key={rangeIndex}
-                      className={`border-r border  border-gray-400 p-2 text-sm font-semibold text-center ${cellColor} min-h-[120px] flex items-center justify-center print:p-1 print:text-xs print:min-h-[80px]`}
-                    >
-                      {roomName && (
-                        <div className="leading-tight">
-                          {roomName.includes(",")
-                            ? roomName.split(",").map((name, i) => <div key={i}>{name.trim()}</div>)
-                            : roomName}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            ))}
+  {/* Data Grid */}
+  {sites.map((site, siteIndex) => (
+    <div key={siteIndex} className="grid grid-cols-9 border-b border-gray-400">
+      {/* Site Label (NO left border) */}
+      <div className="p-3 font-medium text-base text-right print:p-2 print:text-sm border-b border-gray-400">
+        {site}
+      </div>
 
-            {/* Header Row moved to bottom */}
-            <div className="grid grid-cols-9 border-t border-gray-400">
-              <div className="border-r border-gray-400 p-3 bg-gray-50 font-semibold text-center print:p-2">
-                <div className="transform -rotate-90 whitespace-nowrap text-base print:text-sm">Sites</div>
+      {/* Utilization Range Cells */}
+      {utilizationRanges.slice(0, 8).map((range, rangeIndex) => {
+        const roomName = getRoomName(site, range);
+        const cellColor = getCellColor(range);
+        return (
+          <div
+            key={rangeIndex}
+            className={`border-l border-t border-gray-400 p-2 text-sm font-semibold text-center ${cellColor} min-h-[120px] flex items-center justify-center print:p-1 print:text-xs print:min-h-[80px]`}
+          >
+            {roomName && (
+              <div className="leading-tight">
+                {roomName.includes(",")
+                  ? roomName.split(",").map((name, i) => <div key={i}>{name.trim()}</div>)
+                  : roomName}
               </div>
-              {utilizationRanges.slice(0, 8).map((range, index) => (
-                <div
-                  key={index}
-                  className="border-r border-gray-400 p-2 bg-gray-50 text-sm font-semibold text-center min-h-[120px] flex items-center justify-center print:p-1 print:text-xs print:min-h-[100px]"
-                >
-                  {range}
-                </div>
-              ))}
-            </div>
+            )}
           </div>
+        );
+      })}
+    </div>
+  ))}
+
+  {/* Bottom Header Row: Utilization Rate */}
+  <div className="grid grid-cols-9">
+    <div className="p-3 font-semibold text-center print:p-2 print:text-sm text-base"></div>
+    {utilizationRanges.slice(0, 8).map((range, index) => (
+      <div
+        key={index}
+        className="border-t border-l border-gray-400 p-2 text-sm font-semibold text-center min-h-[60px] flex items-center justify-center print:p-1 print:text-xs print:min-h-[40px]"
+      >
+        {range}
+      </div>
+    ))}
+  </div>
+</div>
+
 
           {/* Bottom Label */}
           <div className="mt-4 font-semibold w-full text-center centerone text-base print:text-sm">
@@ -1552,7 +1556,7 @@ const AllContent = () => {
           <hr className="border-t border-gray-400 mb-4 print:border-black print:mb-1" />
 
           <div className="overflow-x-auto print:overflow-visible mb-12 community-section print:mb-2">
-            <table className="table-auto w-full border border-black print:table-fixed print:w-full print:text-[8.8px]">
+            <table className="table-auto w-full border border-black print:table-fixed print:w-full print:text-[10px]">
               <thead className="bg-[#DAD6C9] text-[#C72030] print-bg-red">
                 <tr>
                   {[
@@ -1586,7 +1590,7 @@ const AllContent = () => {
           <hr className="border-t border-gray-400 mb-4 print:border-black " />
 
           {/* Legend */}
-          <div className="flex items-end gap-16 mb-4 justify-end print:gap-2  print:text-[8.8px]">
+          <div className="flex items-end gap-16 mb-4 justify-end print:gap-2  print:text-[10px]">
             {[
               { color: "bg-red-600", underline: "border-red-600", label: "0–39%" },
               { color: "bg-yellow-400", underline: "border-yellow-400", label: "40–69%" },
@@ -1664,35 +1668,35 @@ const AllContent = () => {
         <h1 className="report-title text-3xl font-bold text-center mb-6 bg-[#F6F4EE] py-5 text-gray-800 print:text-black print:text-xl print:mb-5 print:py-2">
           Helpdesk Management
         </h1>
-        <div className="bg-white  p-8 py-0  print:p-2 print:w-[95%] print:mx-auto no-break">
+        <div className="bg-white  p-8 py-0   print:p-2 print:w-[95%] print:mx-auto no-break">
           {/* Snapshot Section */}
-          <div className="mb-10 print:mb-8">
+          <div className="mb-10 print:mb-5 border border-gray-300  print:px-2 ">
             <h2 className="text-lg font-semibold mb-4 border-b border-gray-300 pb-2 print:text-sm print:mb-1 print:pb-1">Snapshot</h2>
             <div className="grid grid-cols-3 gap-6 print:gap-3">
-              <div className="bg-[#f9f7f2] p-6 text-center print:bg-[#f9f7f2] print:p-1">
+              <div className="bg-[#f9f7f2] p-6 text-center print:bg-[#f9f7f2] print:p-5">
                 <div className="text-3xl font-bold print:text-xl">657</div>
                 <div className="text-sm font-medium print:text-[10px]">100.0 %</div>
                 <div className="text-sm font-bold print:text-[10px]">Total Tickets</div>
               </div>
-              <div className="bg-[#f9f7f2] p-6 text-center print:bg-[#f9f7f2] print:p-1">
+              <div className="bg-[#f9f7f2] p-6 text-center print:bg-[#f9f7f2] print:p-5">
                 <div className="text-3xl font-bold text-green-600 print:text-xl print:text-green-600">555</div>
                 <div className="text-sm font-medium print:text-[10px]">84.47 %</div>
                 <div className="text-sm font-bold print:text-[10px]">Closed Tickets</div>
               </div>
-              <div className="bg-[#f9f7f2] p-6 text-center print:bg-[#f9f7f2] print:p-1">
+              <div className="bg-[#f9f7f2] p-6 text-center print:bg-[#f9f7f2] print:p-5">
                 <div className="text-3xl font-bold text-red-600 print:text-xl print:text-red-600">102</div>
                 <div className="text-sm font-medium print:text-[10px]">15.53 %</div>
                 <div className="text-sm font-bold print:text-[10px]">Open Tickets</div>
               </div>
-              <div className="bg-[#f9f7f2] p-6 text-center print:bg-[#f9f7f2] print:p-1">
+              <div className="bg-[#f9f7f2] p-6 text-center print:bg-[#f9f7f2] print:p-5">
                 <div className="text-3xl font-bold print:text-xl">9</div>
                 <div className="text-sm font-bold print:text-[10px]">Customer Tickets</div>
               </div>
-              <div className="bg-[#f9f7f2] p-6 text-center print:bg-[#f9f7f2] print:p-1">
+              <div className="bg-[#f9f7f2] p-6 text-center print:bg-[#f9f7f2] print:p-5">
                 <div className="text-3xl font-bold print:text-xl">49</div>
                 <div className="text-sm font-bold print:text-[10px]">FM Tickets</div>
               </div>
-              <div className="bg-[#f9f7f2] p-6 text-center print:bg-[#f9f7f2] print:p-1">
+              <div className="bg-[#f9f7f2] p-6 text-center print:bg-[#f9f7f2] print:p-5">
                 <div className="text-3xl font-bold print:text-xl">0</div>
                 <div className="text-sm font-bold print:text-[10px]">Total Average Customer Rating</div>
               </div>
@@ -1700,7 +1704,7 @@ const AllContent = () => {
           </div>
 
           {/* Table Section 1 */}
-          <div className="table-section w-full overflow-x-auto print:overflow-visible border py-3 px-3 mb-5 print:p-1 print:mb-5">
+          <div className="table-section w-full overflow-x-auto print:overflow-visible border-gray-300  border py-3 px-3 mb-5 print:p-1 print:mb-5">
             <h2 className="text-lg font-semibold mb-4 border-b border-gray-300 pb-2 print:text-sm print:mb-5 print:pb-1">Ticket Ageing, Closure Efficiency & Feedback Overview by Center</h2>
             <table className="w-full border text-sm text-center break-words print:table-fixed print:w-full print:text-[12px]">
               <thead className="bg-[#DAD6C9] text-[#C72030] print:bg-[#DAD6C9] print:text-[#C72030] font-semibold print-bg-red">
@@ -1708,7 +1712,7 @@ const AllContent = () => {
                   {siteNames.map((site, idx) => (
                     <th
                       key={idx}
-                      className="border border-gray-200 px-2 py-3 text-[10px] print:text-[7px] print:px-1 print:py-1 print:w-[10%] print:min-h-[30px]"
+                      className="border border-gray-200 px-2 py-3 text-[10px] print:text-[10px] print:px-1 print:py-1 print:w-[10%] print:min-h-[30px]"
                       style={{ wordWrap: "break-word", whiteSpace: "normal" }}
                     >
                       {site}
@@ -1751,7 +1755,7 @@ const AllContent = () => {
       <div className="print-page break-before-page">
         {/* Ticket Performance Metrics Section */}
         <div className="ticket-metrics-section mb-10 print:mt-8">
-          <div className=" flex flex-col justify-start border m-auto print:w-[95.5%] w-[95.5%] p-10   print:p-8">
+          <div className=" flex flex-col justify-start border border-gray-300  m-auto print:w-[95.5%] w-[95.5%] p-10   print:p-8">
             <style>{`
           .clip-triangle-tr { clip-path: polygon(100% 0, 0 0, 100% 100%); }
           .clip-triangle-bl { clip-path: polygon(0 0, 0 100%, 100% 100%); }
@@ -1837,8 +1841,13 @@ const AllContent = () => {
                 </div>
               </div>
             </div>
+            <p className="text-xs mt-4 text-gray-600 print:text-[10px] print:mt-1">
+              <strong>Note</strong> : This chart illustrates the number of tickets closed below or above the average aging time, along with the number of customer responses received. It also reflects the percentage of responded tickets relative to the total tickets raised.
+            </p>
           </div>
+
         </div>
+
       </div>
 
       {/* Customer Experience Feedback and Site Performance on New Page */}
@@ -1862,8 +1871,8 @@ const AllContent = () => {
         </div>
 
         {/* Site Performance Table 2 */}
-        <div className="site-performance print:w-[95%] w-[95%] m-auto bg-white border p-6 overflow-auto no-break print:p-2">
-          <h2 className="text-lg font-bold mb-4 print:text-base print:mb-2">
+        <div className="site-performance print:w-[95%] w-[95%] m-auto bg-white border border-gray-300 p-6 overflow-auto no-break print:p-2">
+          <h2 className="text-lg font-bold mb-4 print:text-sm print:mb-2">
             Site Performance: Customer Rating Overview
           </h2>
           <table className="min-w-full text-base text-center border print:table-fixed print:w-full print:text-[10px]">
@@ -2281,20 +2290,20 @@ const AllContent = () => {
 
 
         <div className="border print:border py-3 px-3 mb-6 break-inside-avoid print:break-inside-avoid">
-          <h2 className="bg-white text-lg font-bold print:text-2xl text-lg p-3 border-b border-gray-300 print:text-[13px] print:p-1 print:leading-relaxed">
+          <h2 className="bg-white text-lg font-bold print:text-2xl p-3 border-b border-gray-300 print:text-[13px] print:p-1 print:leading-relaxed">
             AMC Contract Summary – Expiry in 90 Days
           </h2>
           <div className="overflow-x-auto">
             <table className="min-w-full text-base border-t border-[#e2e0dc] leading-normal print:text-[9px] print:leading-loose print:table-fixed print:w-full">
-              <thead className="bg-[#e2e0dc] text-[#c72030]">
+              <thead className="bg-[#DAD6C9] text-[#c72030]">
                 <tr>
-                  <th className="border border-black px-4 py-3 font-semibold text-left print:px-1 print:py-1.5">Site Name</th>
-                  <th className="border border-black px-4 py-3 font-semibold text-left print:px-1 print:py-1.5">AMC Name</th>
-                  <th className="border border-black px-4 py-3 font-semibold text-left print:px-1 print:py-1.5">Contract Start Date</th>
-                  <th className="border border-black px-4 py-3 font-semibold text-left print:px-1 print:py-1.5">Contract End Date</th>
-                  <th className="border border-black px-4 py-3 font-semibold text-left print:px-1 print:py-1.5">Renewal Reminder</th>
-                  <th className="border border-black px-4 py-3 font-semibold text-left print:px-1 print:py-1.5">Projected Renewal Cost (₹)</th>
-                  <th className="border border-black px-4 py-3 font-semibold text-left print:px-1 print:py-1.5">Vendor Contact</th>
+                  <th className="border border-black px-4 py-3 font-semibold text-center  print:px-1 print:py-1.5">Site Name</th>
+                  <th className="border border-black px-4 py-3 font-semibold text-center print:px-1 print:py-1.5">AMC Name</th>
+                  <th className="border border-black px-4 py-3 font-semibold text-center print:px-1 print:py-1.5">Contract Start Date</th>
+                  <th className="border border-black px-4 py-3 font-semibold text-center print:px-1 print:py-1.5">Contract End Date</th>
+                  <th className="border border-black px-4 py-3 font-semibold text-center print:px-1 print:py-1.5">Renewal Reminder</th>
+                  <th className="border border-black px-4 py-3 font-semibold text-center print:px-1 print:py-1.5">Projected Renewal Cost (₹)</th>
+                  <th className="border border-black px-4 py-3 font-semibold text-center print:px-1 print:py-1.5">Vendor Contact</th>
                 </tr>
               </thead>
 
@@ -2362,7 +2371,7 @@ const AllContent = () => {
                   },
                 ].map((row, i) => (
                   <tr key={i} className="bg-white">
-                    <td className="border px-4 py-3 print:px-1 print:py-2">{row.site}</td>
+                    <td className="border px-4 py-3 print:px-1 print:py-2 bg-[#F3F1EB]">{row.site}</td>
                     <td className="border px-4 py-3 print:px-1 print:py-2">{row.amc}</td>
                     <td className="border px-4 py-3 print:px-1 print:py-2">{row.start}</td>
                     <td className="border px-4 py-3 print:px-1 print:py-2">{row.end}</td>
@@ -2370,16 +2379,15 @@ const AllContent = () => {
                       className={`border px-4 py-3 print:border print:border-black print:px-1 print:py-1.5 ${row.highlight ? "text-[#c72030] font-semibold" : ""
                         }`}
                     >
-
                       {row.reminder}
                     </td>
-
                     <td className="border px-4 py-3 print:px-1 print:py-2">{row.cost}</td>
                     <td className="border px-4 py-3 print:px-1 print:py-2">{row.contact}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
+
 
           </div>
           <p className="p-3 text-xs text-gray-600 italic border-t border-gray-300 print:p-1 print:text-[8px] print:leading-relaxed print:mt-2">
@@ -2392,17 +2400,18 @@ const AllContent = () => {
           </h2>
           <div className="overflow-x-auto">
             <table className="min-w-full border text-base leading-normal print:table-fixed print:w-full print:text-[9px] print:leading-loose">
-              <thead className="bg-[#e2e0dc] text-[#c72030]">
+              <thead className="bg-[#DAD6C9] text-[#c72030]">
                 <tr>
-                  <th className="border border-black px-4 py-3 print:px-1 print:py-1.5 text-left">Site Name</th>
-                  <th className="border border-black px-4 py-3 print:px-1 print:py-1.5 text-left">AMC Name</th>
-                  <th className="border border-black px-4 py-3 print:px-1 print:py-1.5 text-left">Contract Start Date</th>
-                  <th className="border border-black px-4 py-3 print:px-1 print:py-1.5 text-left">Contract End Date</th>
-                  <th className="border border-black px-4 py-3 print:px-1 print:py-1.5 text-left">Status</th>
-                  <th className="border border-black px-4 py-3 print:px-1 print:py-1.5 text-left">Projected Renewal Cost (₹)</th>
-                  <th className="border border-black px-4 py-3 print:px-1 print:py-1.5 text-left">Vendor Contact</th>
+                  <th className="border border-black px-4 py-3 print:px-1 print:py-1.5 text-center">Site Name</th>
+                  <th className="border border-black px-4 py-3 print:px-1 print:py-1.5 text-center">AMC Name</th>
+                  <th className="border border-black px-4 py-3 print:px-1 print:py-1.5 text-center">Contract Start Date</th>
+                  <th className="border border-black px-4 py-3 print:px-1 print:py-1.5 text-center">Contract End Date</th>
+                  <th className="border border-black px-4 py-3 print:px-1 print:py-1.5 text-center">Status</th>
+                  <th className="border border-black px-4 py-3 print:px-1 print:py-1.5 text-center">Projected Renewal Cost (₹)</th>
+                  <th className="border border-black px-4 py-3 print:px-1 print:py-1.5 text-center">Vendor Contact</th>
                 </tr>
               </thead>
+
 
               <tbody className="text-left">
                 {[
@@ -2462,7 +2471,7 @@ const AllContent = () => {
                   },
                 ].map((row, i) => (
                   <tr key={i} className={"bg-white"}>
-                    <td className="border px-4 py-3 print:px-1 print:py-2">{row.siteName}</td>
+                    <td className="border px-4 py-3 print:px-1 print:py-2 bg-[#F3F1EB]">{row.siteName}</td>
                     <td className="border px-4 py-3 print:px-1 print:py-2">{row.amcName}</td>
                     <td className="border px-4 py-3 print:px-1 print:py-2">{row.startDate}</td>
                     <td className="border px-4 py-3 print:px-1 print:py-2">{row.endDate}</td>
@@ -2496,7 +2505,7 @@ const AllContent = () => {
             <div className="p-4 text-lg font-semibold border-b border-gray-300 print:p-2 print:text-[13px] ">
               Checklist Progress Status – Center-Wise Quarterly Comparison
             </div>
-            <table className="w-full border print:table-fixed print:w-full print:text-[11px] ">
+            <table className="w-full border print:table-fixed print:w-full print:text-[10px] ">
               <thead>
                 <tr className="bg-[#DAD6C9] text-[#C72030] print:bg-[#DAD6C9] print:text-[#C72030] text-left print-bg-red">
                   <th className="py-4 px-4 print:py-2 print:px-2 print:w-[16%]">Site Name</th>
@@ -2585,7 +2594,7 @@ const AllContent = () => {
                 ))}
               </tbody>
             </table>
-            <div className="text-sm mt-4 px-4 py-2 italic text-gray-700 print:text-[12px] print:mt-2 print:px-2 print:py-1 print:text-black">
+            <div className="text-sm mt-4 px-4 py-2 italic text-gray-700 print:text-[8px] print:mt-2 print:px-2 print:py-1 print:text-black">
               <strong>Note :</strong> This table shows checklist progress by status across centers, comparing the current and last quarter. The "Change in Closed" column highlights the shift in closed checklists since the previous quarter.
             </div>
           </div>
@@ -2595,7 +2604,7 @@ const AllContent = () => {
             <div className="p-4 text-lg font-semibold border-b border-gray-300 print:p-2 print:text-[13px] ">
               Top 10 Overdue Checklists – Center-wise Contribution Comparison
             </div>
-            <table className="w-full border text-sm print:table-fixed print:w-full print:text-[11px] ">
+            <table className="w-full border text-sm print:table-fixed print:w-full print:text-[10px] ">
               <thead>
                 <tr className="bg-[#DAD6C9] text-[#C72030] print:bg-[#DAD6C9] print:text-[#C72030] text-left print-bg-red">
                   <th className="py-4 px-4 print:py-2 print:px-2 print:w-[15%]">Category</th>
@@ -2664,7 +2673,7 @@ const AllContent = () => {
                 ))}
               </tbody>
             </table>
-            <div className="text-sm mt-4 px-4 py-2 italic text-gray-700 print:text-[12px] print:mt-2 print:px-2 print:py-1 print:text-black">
+            <div className="text-sm mt-4 px-4 py-2 italic text-gray-700 print:text-[8px] print:mt-2 print:px-2 print:py-1 print:text-black">
               <strong>Note :</strong> The table displays the top 10 most overdue checklists, with a center-wise
               breakdown of their contribution to the overall overdue count, helping identify key areas of concern.
             </div>
@@ -2707,7 +2716,7 @@ const AllContent = () => {
           </div>
 
           {/* OverstockGridExact Component */}
-          <div className="p-0 mt-3 print:p-0">
+          <div className=" mt-3 print:p-0  border border-gray-300 p-2">
             <style>{`
                 /* Screen view styles only, scoped to overstock-table class */
                 .overstock-table {
@@ -2731,21 +2740,25 @@ const AllContent = () => {
                     margin-right: 4px;
                 }
             `}</style>
-            <div className="mb-4 print:mb-1 print:mt-4">
+            <div className="mb-4 print:mb-1 print:mt-4 ">
               <h1 className="text-lg font-semibold mb-4 print:text-[12px] print:mb-1 print:py-0">
-                Inventory Overstock Report – Top 10 Items
+                Overstock Analysis – Top 10 Items
               </h1>
               <hr className="my-2 border-gray-300 print:border-gray-300" />
-              <div className="flex justify-end items-center space-x-4 print:space-x-4">
-                <div className="flex items-center">
-                  <span className="legend-circle-capital print:bg-[#8B7D47]"></span>
-                  <span className="text-sm print:text-xs">Capital Book</span>
+              <div className="flex justify-end items-center space-x-5 mr-2">
+                {/* Capital Book */}
+                <div className="flex items-center space-x-2">
+                  <div className="w-5 h-5 print:w-4 print:h-4 rounded-full bg-[#c8bda3] border border-black"></div>
+                  <span className="text-md print:text-[10px] font-medium">Capital Book</span>
                 </div>
-                <div className="flex items-center">
-                  <span className="legend-circle-stock print:bg-[#8B7D47]"></span>
-                  <span className="text-sm print:text-xs">Current Stock</span>
+
+                {/* Current Stock */}
+                <div className="flex items-center space-x-2">
+                  <div className="w-5 h-5 print:w-4 print:h-4 rounded-full bg-[#dedace] border border-[#a5a39f]"></div>
+                  <span className="text-md print:text-[10px] font-medium">Current Stock</span>
                 </div>
               </div>
+
             </div>
             <div className="overflow-x-auto print:overflow-x-visible">
               <table className="overstock-table print:border-separate">
@@ -2753,7 +2766,7 @@ const AllContent = () => {
                   {itemss.map((item, rowIdx) => (
                     <tr key={rowIdx}>
                       <td
-                        className="p-2 text-xs text-end font-semibold bg-white w-[150px] mx-0 my-0 
+                        className="p-2  text-xs text-end font-semibold bg-white w-[150px] mx-0 my-0 
                                     print:text-[10px] print:font-semibold print:bg-white print:w-[150px] print:text-left print:mx-2 print:my-1"
                       >
                         {item.name}
@@ -2777,7 +2790,7 @@ const AllContent = () => {
                     {sitesk.map((site, idx) => (
                       <th
                         key={idx}
-                        className="p-2 text-[10px] font-medium text-center bg-white w-20 mx-0 my-0 
+                        className="p-2   text-[10px] font-medium text-center bg-white w-20 mx-0 my-0 
                                     print:text-[8px] print:font-medium print:text-center print:bg-white print:w-20 print:mx-1 print:my-1"
                       >
                         {site}
@@ -2786,6 +2799,10 @@ const AllContent = () => {
                   </tr>
                 </tfoot>
               </table>
+              <div className="text-sm mt-4 px-4 py-2 italic text-gray-700 print:text-[8px] print:mt-2 print:px-2 print:py-1 print:text-black">
+                <strong>Note :</strong> The table displays the top 10 most overdue checklists, with a center-wise
+                breakdown of their contribution to the overall overdue count, helping identify key areas of concern.
+              </div>
             </div>
           </div>
 
@@ -2802,12 +2819,12 @@ const AllContent = () => {
 
 
           {/* Top Consumables – Centre-wise Overview */}
-          <div className="border border-gray-300 rounded comment p-4 mt-0 print:border-gray-300 print:rounded print:p-4 print:mt-0">
-            <div className="p-4 text-lg font-semibold border-b border-gray-300 print:p-3 print:text-[14px] print:border-gray-300">
+          <div className="border border-gray-300  comment p-4 mt-0 print:border-gray-300  print:p-4 print:mt-0">
+            <div className=" py-4 text-lg font-semibold border-b border-gray-300 print:p-3 print:text-[14px] print:border-gray-300">
               Top Consumables – Centre-wise Overview
             </div>
             <div className="overflow-auto print:overflow-visible">
-              <table className="w-full border text-sm print:table-fixed print:w-full print:text-[13px] print:leading-relaxed">
+              <table className="w-full border text-sm print:table-fixed print:w-full print:text-[10px] print:leading-relaxed">
                 <thead>
                   <tr className="bg-[#DAD6C9] text-[#C72030] text-left print:bg-[#DAD6C9] print:text-[#C72030]">
                     <th className="py-1 px-4 print:py-1 print:px-2 print:w-[17%]">Inventory</th>
@@ -2849,7 +2866,7 @@ const AllContent = () => {
 
           {/* Consumable Inventory Value – Quarterly Comparison */}
           {/* Consumable Inventory Value – Quarterly Comparison */}
-          <div className="p-8 bg-white border border-gray-300 rounded shadow print-page-break print:p-3 print:border-gray-300 print:rounded print:shadow-none print:mt-2">
+          <div className="p-8 bg-white border border-gray-300   print-page-break print:p-3 print:border-gray-300   print:mt-2">
             <h2 className="text-lg font-bold mb-4 text-gray-900 border-b pb-2 print:text-[14px] print:mb-1 print:pb-1 print:border-gray-300">
               Consumable Inventory Value – Quarterly Comparison
             </h2>
@@ -2956,13 +2973,16 @@ const AllContent = () => {
               <Tooltip />
               <Legend verticalAlign="top" align="right" />
               <Bar dataKey="Free" fill="#a0b5c1" name="Free">
-                <LabelList dataKey="Free" position="right" />
+                <LabelList dataKey="Free" position="right" style={{ fontSize: 10 }}
+                />
               </Bar>
               <Bar dataKey="Paid" fill="#c5ae94" name="Paid">
-                <LabelList dataKey="Paid" position="right" />
+                <LabelList dataKey="Paid" position="right" style={{ fontSize: 10 }}
+                />
               </Bar>
               <Bar dataKey="Vacant" fill="#dad8cf" name="Vacant">
-                <LabelList dataKey="Vacant" position="right" />
+                <LabelList dataKey="Vacant" position="right" style={{ fontSize: 10 }}
+                />
               </Bar>
             </BarChart>
           </div>
@@ -2991,7 +3011,7 @@ const AllContent = () => {
           {/* Chart container with max height and scroll in screen if needed */}
           <div className="w-full overflow-x-auto">
             <BarChart
-              width={800} // Adjust to avoid overflow
+              width={800}
               height={700}
               data={visitorData}
               layout="vertical"
@@ -3000,14 +3020,31 @@ const AllContent = () => {
               margin={{ top: 5, right: 100, left: 0, bottom: 5 }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis type="number" label={{ value: "Counts", position: "insideBottom", offset: -5 }} fontSize={15} />
-              <YAxis type="category" dataKey="site" tick={{ fontSize: 12 }} width={140} fontSize={15} />
+              <XAxis
+                type="number"
+                label={{ value: "Counts", position: "insideBottom", offset: -5 }}
+                fontSize={15}
+              />
+              <YAxis
+                type="category"
+                dataKey="site"
+                tick={{ fontSize: 12 }}
+                width={140}
+                fontSize={15}
+              />
               <Tooltip />
-              <Legend verticalAlign="top" align="right" />
-              <Bar dataKey="last" fill="#dad8cf" name="Last Quarter" />
-              <Bar dataKey="current" fill="#c5ae94" name="Current Quarter" />
+              <Legend verticalAlign="top" align="right" style={{ fontSize: 10 }} />
+
+              <Bar dataKey="last" fill="#dad8cf" name="Last Quarter">
+                <LabelList dataKey="last" position="right" style={{ fontSize: 10 }} />
+              </Bar>
+
+              <Bar dataKey="current" fill="#c5ae94" name="Current Quarter">
+                <LabelList dataKey="current" position="right" style={{ fontSize: 10 }} />
+              </Bar>
             </BarChart>
           </div>
+
 
           {/* Note */}
           <p className="text-sm text-gray-500 p-4 mt-4 print:mt-4">
