@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+@media print {
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    html,
+    body {
+        font-size: 18px;
+        margin: 0;
+        padding: 0;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .print-page {
+        page-break-before: always;
+        break-before: page;
+      }
+
+    .page-break {
+        break-before: page;
+    }
+
+    .print-small li {
+        font-size: 0.75rem;
+        line-height: 1.25rem;
+    }
+
+    .print-removespace {
+        padding-top: 12px !important;
+    }
+
+    .print-footer-bar {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    h3 {
+        font-size: 0.85rem;
+        line-height: 1rem;
+    }
+
+    .print-avoid-break {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .print-avoid-break * {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+    .clip-triangle-tr {
+        clip-path: polygon(0 0, 100% 0, 100% 100%);
+      }
+      
+      .clip-triangle-bl {
+        clip-path: polygon(0 100%, 0 0, 100% 100%);
+      }
+      img {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    
+      .print-bg-force {
+        background-color: #bf0c0c !important;
+        color: white !important;
+      }     
+      
+      
+      
+      
+      
+}
+
+
