@@ -1319,49 +1319,49 @@ const AllContent = () => {
 
           {/* Chart Grid */}
           <div className="border border-gray-400 no-break">
-  {/* Data Grid */}
-  {sites.map((site, siteIndex) => (
-    <div key={siteIndex} className="grid grid-cols-9 border-b border-gray-400">
-      {/* Site Label (NO left border) */}
-      <div className="p-3 font-medium text-base text-right print:p-2 print:text-sm border-b border-gray-400">
-        {site}
-      </div>
+            {/* Data Grid */}
+            {sites.map((site, siteIndex) => (
+              <div key={siteIndex} className="grid grid-cols-9 border-b border-gray-400">
+                {/* Site Label (NO left border) */}
+                <div className="p-3 font-medium text-base text-right print:p-2 print:text-sm border-b border-gray-400">
+                  {site}
+                </div>
 
-      {/* Utilization Range Cells */}
-      {utilizationRanges.slice(0, 8).map((range, rangeIndex) => {
-        const roomName = getRoomName(site, range);
-        const cellColor = getCellColor(range);
-        return (
-          <div
-            key={rangeIndex}
-            className={`border-l border-t border-gray-400 p-2 text-sm font-semibold text-center ${cellColor} min-h-[120px] flex items-center justify-center print:p-1 print:text-xs print:min-h-[80px]`}
-          >
-            {roomName && (
-              <div className="leading-tight">
-                {roomName.includes(",")
-                  ? roomName.split(",").map((name, i) => <div key={i}>{name.trim()}</div>)
-                  : roomName}
+                {/* Utilization Range Cells */}
+                {utilizationRanges.slice(0, 8).map((range, rangeIndex) => {
+                  const roomName = getRoomName(site, range);
+                  const cellColor = getCellColor(range);
+                  return (
+                    <div
+                      key={rangeIndex}
+                      className={`border-l border-t border-gray-400 p-2 text-sm font-semibold text-center ${cellColor} min-h-[120px] flex items-center justify-center print:p-1 print:text-xs print:min-h-[80px]`}
+                    >
+                      {roomName && (
+                        <div className="leading-tight">
+                          {roomName.includes(",")
+                            ? roomName.split(",").map((name, i) => <div key={i}>{name.trim()}</div>)
+                            : roomName}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
-            )}
-          </div>
-        );
-      })}
-    </div>
-  ))}
+            ))}
 
-  {/* Bottom Header Row: Utilization Rate */}
-  <div className="grid grid-cols-9">
-    <div className="p-3 font-semibold text-center print:p-2 print:text-sm text-base"></div>
-    {utilizationRanges.slice(0, 8).map((range, index) => (
-      <div
-        key={index}
-        className="border-t border-l border-gray-400 p-2 text-sm font-semibold text-center min-h-[60px] flex items-center justify-center print:p-1 print:text-xs print:min-h-[40px]"
-      >
-        {range}
-      </div>
-    ))}
-  </div>
-</div>
+            {/* Bottom Header Row: Utilization Rate */}
+            <div className="grid grid-cols-9">
+              <div className="p-3 font-semibold text-center print:p-2 print:text-sm text-base"></div>
+              {utilizationRanges.slice(0, 8).map((range, index) => (
+                <div
+                  key={index}
+                  className="border-t border-l border-gray-400 p-2 text-sm font-semibold text-center min-h-[60px] flex items-center justify-center print:p-1 print:text-xs print:min-h-[40px]"
+                >
+                  {range}
+                </div>
+              ))}
+            </div>
+          </div>
 
 
           {/* Bottom Label */}
@@ -1393,7 +1393,7 @@ const AllContent = () => {
             {walletOverviewData.map((item, index) => (
               <div
                 key={index}
-                className={`overview-box rounded-md p-6 flex flex-col justify-center items-center h-[120px] print:p-2 print:h-[80px] ${item.bg} print:${item.bg}`}
+                className={`overview-box  p-6 flex flex-col justify-center items-center h-[120px] print:p-2 print:h-[80px] ${item.bg} print:${item.bg}`}
               >
                 <div className="text-[28px] font-bold text-[#ba1f2f] print:text-[18px]">
                   {item.value}
@@ -1518,7 +1518,7 @@ const AllContent = () => {
         <div className="bg-white p-8 border print:border print:border-gray-300 print:p-2 print:w-[95%] print:mx-auto no-break">
           <div className="grid grid-cols-2 gap-4 mb-8 print:gap-1 print:mb-2">
             {/* Total Active Users Block */}
-            <div className="bg-[#DAD6C9] p-6 rounded shadow print:p-2 print:shadow-none">
+            <div className="bg-[#DAD6C9] p-6  shadow print:p-2 print:shadow-none">
               {/* Top section: 450 + Total Active Users */}
               <div className="flex items-center justify-center gap-4 mb-6 print:mb-2">
                 <p className="text-4xl font-bold text-[#C72030] print:text-xl">450</p>
@@ -1543,7 +1543,7 @@ const AllContent = () => {
             </div>
 
             {/* New Users Block */}
-            <div className="bg-[#DAD6C9] p-6 rounded shadow print:p-2 print:shadow-none">
+            <div className="bg-[#DAD6C9] p-6  shadow print:p-2 print:shadow-none">
               <div className="flex items-center justify-center gap-3">
                 <p className="text-4xl font-bold text-[#C72030] print:text-xl">56</p>
                 <span className="text-green-600 text-2xl print:text-base">↑</span>
@@ -1668,9 +1668,9 @@ const AllContent = () => {
         <h1 className="report-title text-3xl font-bold text-center mb-6 bg-[#F6F4EE] py-5 text-gray-800 print:text-black print:text-xl print:mb-5 print:py-2">
           Helpdesk Management
         </h1>
-        <div className="bg-white  p-8 py-0   print:p-2 print:w-[95%] print:mx-auto no-break">
+        <div className="bg-white  p-8 py-2   print:p-2 print:w-[95%] print:mx-auto no-break">
           {/* Snapshot Section */}
-          <div className="mb-10 print:mb-5 border border-gray-300  print:px-2 ">
+          <div className="mb-10 print:mb-5 border border-gray-300  print:px-2 print:py-2 ">
             <h2 className="text-lg font-semibold mb-4 border-b border-gray-300 pb-2 print:text-sm print:mb-1 print:pb-1">Snapshot</h2>
             <div className="grid grid-cols-3 gap-6 print:gap-3">
               <div className="bg-[#f9f7f2] p-6 text-center print:bg-[#f9f7f2] print:p-5">
@@ -1726,13 +1726,13 @@ const AllContent = () => {
                     key={idx}
                     className={`${idx === 5 ? "bg-[#DAD6C9] font-semibold print:bg-[#DAD6C9]" : ""}`}
                   >
-                    <td className="border border-gray-200 px-2 py-3 font-medium bg-[#F3F1EB80] print:px-1 print:py-1 print:bg-[#F3F1EB80] print:min-h-[30px]">
+                    <td className="border border-gray-200 px-2 py-3 font-medium print:text-[10px] bg-[#F3F1EB80] print:px-1 print:py-1 print:bg-[#F3F1EB80] print:min-h-[30px]">
                       {label}
                     </td>
                     {values.map((value, vIdx) => (
                       <td
                         key={vIdx}
-                        className="border border-gray-200 px-2 py-3 print:px-1 print:py-1 print:min-h-[30px]"
+                        className="border border-gray-200 print:text-[10px] px-2 py-3 print:px-1 print:py-1 print:min-h-[30px]"
                       >
                         {value}
                       </td>
@@ -2135,7 +2135,7 @@ const AllContent = () => {
         </h1>
 
         {/* Main Container */}
-        <div className="bg-white border print:w-[95%] w-[95%] m-auto p-4 print:border-black print:p-2  print:mx-auto no-break">
+        <div className="bg-white  print:w-[95%] w-[95%] m-auto p-4  print:p-2  print:mx-auto no-break">
 
           {/* Company Wise Overview */}
           <div className="bg-white border border-gray-300 p-4 mb-10 print:p-2 print:mb-2 no-break">
