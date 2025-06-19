@@ -97,6 +97,7 @@ const CreateRuleEngine = () => {
           companyId,
           activeStatus
         );
+        console.log("Reward Outcomes:", rewardOutcomes);
         setMasterRewardOutcomes(rewardOutcomes.master_reward_outcome || []);
       } catch (error) {
         console.error("Error loading data:", error);
@@ -191,197 +192,110 @@ const CreateRuleEngine = () => {
 
 
   const handleSubmit = async () => {
-    // Validate required fields
-    // if (!ruleName || conditions.some(cond =>
-    //   !cond.subAttribute ||
-    //   !cond.subOperator ||
-    //   !cond.value ||
-    //   !cond.masterAttribute ||
-    //   cond.value === previousValue // Check against previous value
-    // )) {
-    //   // setError("All fields are required.");
-    //   toast.error("All Mandatory field are required", {
-    //     position: "top-center",
-    //     autoClose: 3000,
-    //   });
-    //   return;
-    // }
-
-
-    if (!ruleName) {
-      toast.error("Rule Name is required.", {
-        position: "top-center",
-        autoClose: 3000,
-      });
-      return;
-    }
-
-
-    conditions.forEach((cond, index) => {
-      setTimeout(() => {
-        if (!cond.masterAttribute) {
-          toast.error(`Condition ${index + 1}: Master Attribute is required.`, {
-            position: "top-center",
-            autoClose: 3000,
-          });
-        } else if (!cond.subAttribute) {
-          toast.error(`Condition ${index + 1}: Sub Attribute is required.`, {
-            position: "top-center",
-            autoClose: 3000,
-          });
-        } else if (!cond.master_operator) {
-          toast.error(`Condition ${index + 1}: Master Operator is required.`, {
-            position: "top-center",
-            autoClose: 3000,
-          });
-        } else if (!cond.subOperator) {
-          toast.error(`Condition ${index + 1}: Sub Operator is required.`, {
-            position: "top-center",
-            autoClose: 3000,
-          });
-        } else if (!cond.value) {
-          toast.error(`Condition ${index + 1}: Value is required.`, {
-            position: "top-center",
-            autoClose: 3000,
-          });
-        }
-      }, index * 3500); // Add a delay of 3500ms between each toast
+  // Validate Rule Name
+  if (!ruleName) {
+    toast.error("Rule Name is required.", {
+      position: "top-center",
+      autoClose: 3000,
     });
+    return;
+  }
 
-
-    //  / / Validate Master Reward Outcome
-    // if (!selectedMasterRewardOutcomes.name) {
-    //   toast.error("Master Reward Outcome is required.", {
-    //     position: "top-center",
-    //     autoClose: 3000,
-    //   });
-    //   return;
-    // }
-    setTimeout(() => {
-      if (!selectedMasterRewardOutcomes.name) {
-        toast.error("Master Reward Outcome is required.", {
-          position: "top-center",
-          autoClose: 3000,
-        });
-      }
-    }, conditions.length * 3500); // Delay based on the number of conditions
-
-    // Validate Sub Reward Outcome
-    // if (!subRewardOutcomesnew.id) {
-    //   toast.error("Sub Reward Outcome is required.", {
-    //     position: "top-center",
-    //     autoClose: 3000,
-    //   });
-    //   return;
-    // }
-
-
-    const isInvalid = conditions.some(
-      (cond) =>
-        !cond.masterAttribute ||
-        !cond.subAttribute ||
-        !cond.master_operator ||
-        !cond.subOperator ||
-        !cond.value ||
-        cond.value === previousValue
-    );
-
-    if (isInvalid) {
+  // Validate all conditions synchronously
+  for (let i = 0; i < conditions.length; i++) {
+    const cond = conditions[i];
+    if (!cond.masterAttribute) {
+      toast.error(`Condition ${i + 1}: Master Attribute is required.`, { position: "top-center", autoClose: 3000 });
       return;
     }
-
-    // Proceed with form submission or further logic
-
-
-
-    // Check for duplicate condition values and ensure they are numbers
-    const values = conditions.map(cond => cond.value);
-    const uniqueValues = new Set();
-    for (const value of values) {
-      if (value.trim() === "") {
-        // setError(" Please enter value.");
-        return;
-      }
-      uniqueValues.add(value);
-    }
-
-    // @ts-ignore
-    if (isNaN(parameter) || parameter.trim() === "") {
-      setError("Parameter value must be a valid number.");
+    if (!cond.subAttribute) {
+      toast.error(`Condition ${i + 1}: Sub Attribute is required.`, { position: "top-center", autoClose: 3000 });
       return;
     }
-
-    if (uniqueValues.size !== values.length) {
-      setError("Each condition value must be unique.");
+    if (!cond.master_operator) {
+      toast.error(`Condition ${i + 1}: Master Operator is required.`, { position: "top-center", autoClose: 3000 });
       return;
     }
-
-    // Update previousValue to the current value before proceeding
-    const newValue = conditions.map(cond => cond.value);
-    // @ts-ignore
-    setPreviousValue(newValue); // Store the latest value(s) as the previous value]
-
-    // const storedValue = sessionStorage.getItem("selectedId")
-
-    const data = {
-      rule_engine_rule: {
-        name: ruleName, // Ensure ruleName is defined elsewhere in your code
-        description: "This is a description of the sample rule.",
-        loyalty_type_id: sessionStorage.getItem("selectedId"),//type id
-        // Mapping conditions dynamically
-        rule_engine_conditions_attributes: conditions.map((condition) => ({
-          condition_attribute: condition.subAttribute || "", // Handle blank cases if needed
-          operator: condition.subOperator || "",
-          compare_value: condition.value || "",
-          condition_selected_model: Number(condition.masterAttribute) || 1,
-          condition_type: condition.condition_type || "",
-          master_operator: condition.master_operator || ""
-        })),
-
-        rule_engine_actions_attributes: [{
-          lock_model_name: selectedMasterRewardOutcomes.name || "",
-          parameters: [Number(parameter) || ""],
-          rule_engine_available_function_id: subRewardOutcomesnew || "",
-          action_selected_model: Number(selectedMasterRewardOutcomes.id) || "",
-        }
-        ]
-      }
+    if (!cond.subOperator) {
+      toast.error(`Condition ${i + 1}: Sub Operator is required.`, { position: "top-center", autoClose: 3000 });
+      return;
     }
+    if (!cond.value) {
+      toast.error(`Condition ${i + 1}: Value is required.`, { position: "top-center", autoClose: 3000 });
+      return;
+    }
+  }
 
+  // Validate Master Reward Outcome
+  if (!selectedMasterRewardOutcomes.name) {
+    toast.error("Master Reward Outcome is required.", {
+      position: "top-center",
+      autoClose: 3000,
+    });
+    return;
+  }
 
-    console.log("Request Payload:", JSON.stringify(data, null, 2)); // Log the JSON payload for debugging
+  // Validate parameter
+  if (isNaN(parameter) || parameter.trim() === "") {
+    setError("Parameter value must be a valid number.");
+    return;
+  }
 
-    try {
-      // @ts-ignore
-      if (ruleName !== "" && parameter !== "" && selectedMasterRewardOutcomes !== "" && conditions !== null) {
-        const response = await fetch(
-          `${BASE_URL}/rule_engine/rules/loyalty_re?token=${token}`,
-          {
-            method: "POST", // Specify the request method
-            headers: {
-              "Content-Type": "application/json", // Set content type to JSON
-            },
-            body: JSON.stringify(data), // Convert the data to JSON
-          }
-        );
+  // Check for duplicate condition values
+  const values = conditions.map(cond => cond.value);
+  const uniqueValues = new Set(values);
+  if (uniqueValues.size !== values.length) {
+    setError("Each condition value must be unique.");
+    return;
+  }
 
-        if (response.ok) {
-          const responseData = await response.json(); // Parse the JSON response
-          // alert("Rule Engine created successfully!");
-          navigate("/rule-engine")
-          console.log("Data created successfully:", responseData);
-          // clearInputs(); // Clear form inputs if needed
-        } else {
-          const errorData = await response.json(); // Parse error response
-          setError(`Failed to create Rule Engine: ${errorData.message}`);
-          console.error("Submission error:", errorData);
-        }
-      }
-    } catch (error) {
-      setError("Failed to create Rule Engine. Please try again.");
-      console.error("Submission error:", error);
+  // All validations passed, proceed with submission
+  const data = {
+    rule_engine_rule: {
+      name: ruleName,
+      description: "This is a description of the sample rule.",
+      loyalty_type_id: sessionStorage.getItem("selectedId"),
+      rule_engine_conditions_attributes: conditions.map((condition) => ({
+        condition_attribute: condition.subAttribute || "",
+        operator: condition.subOperator || "",
+        compare_value: condition.value || "",
+        condition_selected_model: Number(condition.masterAttribute) || 1,
+        condition_type: condition.condition_type || "",
+        master_operator: condition.master_operator || ""
+      })),
+      rule_engine_actions_attributes: [{
+        lock_model_name: selectedMasterRewardOutcomes.name || "",
+        parameters: [Number(parameter) || ""],
+        rule_engine_available_function_id: subRewardOutcomesnew || "",
+        action_selected_model: Number(selectedMasterRewardOutcomes.id) || "",
+      }]
     }
   };
+
+  try {
+    const response = await fetch(
+      `${BASE_URL}/rule_engine/rules/loyalty_re?token=${token}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      }
+    );
+
+    if (response.ok) {
+      const responseData = await response.json();
+      navigate("/rule-engine");
+      console.log("Data created successfully:", responseData);
+    } else {
+      const errorData = await response.json();
+      setError(`Failed to create Rule Engine: ${errorData.message}`);
+      console.error("Submission error:", errorData);
+    }
+  } catch (error) {
+    setError("Failed to create Rule Engine. Please try again.");
+    console.error("Submission error:", error);
+  }
+};
 
   //cross button
   const removeCondition = (id) => {
@@ -392,7 +306,10 @@ const CreateRuleEngine = () => {
 
 
   const renderCondition = (condition, index) => (
-    <div key={condition.id} className="SetRuleCard">
+    <div key={condition.id} className="SetRuleCard mt-4">
+      <h5 className="mb-3">
+            <span className="title" style={{ fontSize: '20px', fontWeight: '600' }}>Set Rule Conditions</span>
+          </h5>
       <div>
         <h6 className="mt-3">
           <span style={{ fontSize: '18px', fontWeight: '600' }}>Condition {condition.id}
@@ -685,7 +602,7 @@ const CreateRuleEngine = () => {
                 </legend>
                 <input
                   type="text"
-                  placeholder="Enter Name"
+                  placeholder="Enter Rule Name"
                   value={ruleName}
                   onChange={(e) => setRuleName(e.target.value)}
                   className="mt-1 mb-1"
@@ -793,7 +710,7 @@ const CreateRuleEngine = () => {
                   </div> */}
                 <fieldset className="border col-md-3 m-2 col-sm-11 ">
                   <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
-                    Parameter {/* <span>*</span> */}
+                    Parameter <span>*</span>
                   </legend>
                   <input type="text" placeholder="Enter Parameter Value" value={parameter} onChange={(e) => setParameter(e.target.value)} className="mt-1 mb-1" style={{ fontSize: '12px', fontWeight: '400' }} />
                 </fieldset>
