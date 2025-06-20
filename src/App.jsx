@@ -13,6 +13,8 @@ import ViewRuleEngine from "./pages/view-rule-engine";
 import CreateRuleEngine from "./pages/create-rule-engine";
 import NewTier from "./pages/new-tier";
 import Test from "./pages/test";
+import Blogs from "./pages/blogs";
+import NewBlog from "./pages/new-blog";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
@@ -156,6 +158,8 @@ function App() {
           <Route path="/setup-member/construction-status-list" element={<ConstructionStatusList />} />
           
 
+          <Route path="/blogs" element={<Blogs />} />
+          <Route path="/new-blog" element={<NewBlog />} />
           <Route path="/project-list" element={<ProjectDetailsList />} />
           <Route path="/banner-list" element={<BannerList />} />
           <Route path="/banner-add" element={<BannerAdd />} />
