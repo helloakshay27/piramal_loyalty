@@ -1,6 +1,7 @@
 let BASE_URL = ""
 
 const hostname = window.location.hostname;
+console.log("Current hostname:", hostname);
 
 if( hostname === "https://uat-loyalty.lockated.com/") {
     BASE_URL = "https://uat-loyalty.lockated.com/"
