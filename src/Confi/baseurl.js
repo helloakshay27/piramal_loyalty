@@ -1,4 +1,4 @@
-const BASE_URL = ""
+let BASE_URL = ""
 
 const hostname = window.location.hostname;
 
