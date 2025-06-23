@@ -49,7 +49,7 @@ const ProjectDetailsCreate = () => {
       pin_code: "",
       country: "",
     },
-    brochure: [],
+    ProjectBrochure: [],
     two_d_images: [],
     videos: [],
     gallery_image: [],
@@ -286,286 +286,288 @@ const ProjectDetailsCreate = () => {
   const handleFileUpload = (name, files) => {
     const MAX_SIZES = {
       brochure: MAX_BROCHURE_SIZE,
-      two_d_images: MAX_IMAGE_SIZE,
-      videos: MAX_VIDEO_SIZE,
-      image: MAX_IMAGE_SIZE,
       gallery_image: MAX_IMAGE_SIZE,
-      project_ppt: MAX_PPT_SIZE, // ✅ Ensure project_ppt is included
-      project_creatives: MAX_IMAGE_SIZE, // Add creatives support
-      project_creative_generics: MAX_IMAGE_SIZE,
-      project_creative_offers: MAX_IMAGE_SIZE,
-      project_interiors: MAX_IMAGE_SIZE,
-      project_exteriors: MAX_IMAGE_SIZE,
-      project_emailer_templetes: MAX_BROCHURE_SIZE,
-      project_layout: MAX_IMAGE_SIZE,
+      two_d_images: MAX_IMAGE_SIZE,
+      image: MAX_IMAGE_SIZE,
+      // videos: MAX_VIDEO_SIZE,
+      // project_ppt: MAX_PPT_SIZE, // ✅ Ensure project_ppt is included
+      // project_creatives: MAX_IMAGE_SIZE, // Add creatives support
+      // project_creative_generics: MAX_IMAGE_SIZE,
+      // project_creative_offers: MAX_IMAGE_SIZE,
+      // project_interiors: MAX_IMAGE_SIZE,
+      // project_exteriors: MAX_IMAGE_SIZE,
+      // project_emailer_templetes: MAX_BROCHURE_SIZE,
+      // project_layout: MAX_IMAGE_SIZE,
     };
 
     const allowedTypes = {
       image: ["image/jpeg", "image/png", "image/gif", "image/webp"],
-      two_d_images: ["image/jpeg", "image/png", "image/gif", "image/webp"],
       gallery_image: ["image/jpeg", "image/png", "image/gif", "image/webp"],
-      videos: ["video/mp4", "video/webm", "video/quicktime", "video/x-msvideo"],
       brochure: [
         "application/pdf",
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       ],
-      project_ppt: [
-        "application/vnd.ms-powerpoint",
-        "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-      ], // ✅ PPT & PPTX support
-      project_emailer_templetes: [
-        "application/pdf",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      ],
-      project_creatives: ["image/jpeg", "image/png", "image/gif", "image/webp"],
-      project_creative_generics: [
-        "image/jpeg",
-        "image/png",
-        "image/gif",
-        "image/webp",
-      ],
-      project_creative_offers: [
-        "image/jpeg",
-        "image/png",
-        "image/gif",
-        "image/webp",
-      ],
-      project_interiors: ["image/jpeg", "image/png", "image/gif", "image/webp"],
-      project_exteriors: ["image/jpeg", "image/png", "image/gif", "image/webp"],
-      project_layout: [
-        "application/pdf",
-        "application/msword",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        "application/vnd.ms-powerpoint",
-        "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-        "application/vnd.ms-excel",
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      ],
+      // videos: ["video/mp4", "video/webm", "video/quicktime", "video/x-msvideo"],
+      // two_d_images: ["image/jpeg", "image/png", "image/gif", "image/webp"],
+      // project_ppt: [
+      //   "application/vnd.ms-powerpoint",
+      //   "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+      // ], // ✅ PPT & PPTX support
+      // project_emailer_templetes: [
+      //   "application/pdf",
+      //   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      // ],
+      // project_creatives: ["image/jpeg", "image/png", "image/gif", "image/webp"],
+      // project_creative_generics: [
+      //   "image/jpeg",
+      //   "image/png",
+      //   "image/gif",
+      //   "image/webp",
+      // ],
+      // project_creative_offers: [
+      //   "image/jpeg",
+      //   "image/png",
+      //   "image/gif",
+      //   "image/webp",
+      // ],
+      // project_interiors: ["image/jpeg", "image/png", "image/gif", "image/webp"],
+      // project_exteriors: ["image/jpeg", "image/png", "image/gif", "image/webp"],
+      // project_layout: [
+      //   "application/pdf",
+      //   "application/msword",
+      //   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      //   "application/vnd.ms-powerpoint",
+      //   "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+      //   "application/vnd.ms-excel",
+      //   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      // ],
     };
+    
 
     if (!files || !files.length) return;
 
-    if (name === "project_layout") {
-      const MAX_SIZE = 10 * 1024 * 1024; // 10MB limit
+    // if (name === "project_layout") {
+    //   const MAX_SIZE = 10 * 1024 * 1024; // 10MB limit
 
-      const newFiles = Array.from(files);
-      const validFiles = [];
+    //   const newFiles = Array.from(files);
+    //   const validFiles = [];
 
-      newFiles.forEach((file) => {
-        if (file.size > MAX_SIZE) {
-          toast.error(`❌ File too large: ${file.name}. Max size is 10MB.`);
-          return;
-        }
+    //   newFiles.forEach((file) => {
+    //     if (file.size > MAX_SIZE) {
+    //       toast.error(`❌ File too large: ${file.name}. Max size is 10MB.`);
+    //       return;
+    //     }
 
-        validFiles.push(file);
-      });
+    //     validFiles.push(file);
+    //   });
 
-      if (validFiles.length > 0) {
-        setFormData((prev) => ({
-          ...prev,
-          project_layout: [...(prev.project_layout || []), ...validFiles],
-        }));
-      }
-    } else {
-      // toast.error("⚠️ Invalid upload category.");
-    }
+    //   if (validFiles.length > 0) {
+    //     setFormData((prev) => ({
+    //       ...prev,
+    //       project_layout: [...(prev.project_layout || []), ...validFiles],
+    //     }));
+    //   }
+    // } else {
+    //   // toast.error("⚠️ Invalid upload category.");
+    // }
 
-    if (name === "project_emailer_templetes") {
-      // Handle multiple brochure files
-      const newFiles = Array.from(files);
-      const validFiles = [];
+    // if (name === "project_emailer_templetes") {
+    //   // Handle multiple brochure files
+    //   const newFiles = Array.from(files);
+    //   const validFiles = [];
 
-      newFiles.forEach((file) => {
-        if (!allowedTypes.project_emailer_templetes.includes(file.type)) {
-          toast.error(
-            "Only PDF and DOCX files are allowed for project emailer templetes."
-          );
-          return;
-        }
+    //   newFiles.forEach((file) => {
+    //     if (!allowedTypes.project_emailer_templetes.includes(file.type)) {
+    //       toast.error(
+    //         "Only PDF and DOCX files are allowed for project emailer templetes."
+    //       );
+    //       return;
+    //     }
 
-        if (!validateFile(file, MAX_SIZES[name])) return;
-        validFiles.push(file);
-      });
+    //     if (!validateFile(file, MAX_SIZES[name])) return;
+    //     validFiles.push(file);
+    //   });
 
-      if (validFiles.length > 0) {
-        setFormData((prev) => ({
-          ...prev,
-          project_emailer_templetes: [
-            ...prev.project_emailer_templetes,
-            ...validFiles,
-          ],
-        }));
-      }
-    }
+    //   if (validFiles.length > 0) {
+    //     setFormData((prev) => ({
+    //       ...prev,
+    //       project_emailer_templetes: [
+    //         ...prev.project_emailer_templetes,
+    //         ...validFiles,
+    //       ],
+    //     }));
+    //   }
+    // }
 
-    if (name === "project_exteriors") {
-      const newFiles = Array.from(files);
-      const validFiles = [];
+    // if (name === "project_exteriors") {
+    //   const newFiles = Array.from(files);
+    //   const validFiles = [];
 
-      newFiles.forEach((file) => {
-        if (!allowedTypes.project_exteriors.includes(file.type)) {
-          toast.error("Only JPG, PNG, GIF, and WebP images are allowed.");
-          return;
-        }
+    //   newFiles.forEach((file) => {
+    //     if (!allowedTypes.project_exteriors.includes(file.type)) {
+    //       toast.error("Only JPG, PNG, GIF, and WebP images are allowed.");
+    //       return;
+    //     }
 
-        if (file.size > MAX_SIZES.project_exteriors) {
-          toast.error(`File too large: ${file.name}. Max size is 10MB.`);
-          return;
-        }
+    //     if (file.size > MAX_SIZES.project_exteriors) {
+    //       toast.error(`File too large: ${file.name}. Max size is 10MB.`);
+    //       return;
+    //     }
 
-        validFiles.push(file);
-      });
+    //     validFiles.push(file);
+    //   });
 
-      if (validFiles.length > 0) {
-        setFormData((prev) => ({
-          ...prev,
-          project_exteriors: [...(prev.project_exteriors || []), ...validFiles], // ✅ Fix: Ensure existing files are kept
-        }));
-      }
-    }
+    //   if (validFiles.length > 0) {
+    //     setFormData((prev) => ({
+    //       ...prev,
+    //       project_exteriors: [...(prev.project_exteriors || []), ...validFiles], // ✅ Fix: Ensure existing files are kept
+    //     }));
+    //   }
+    // }
 
-    if (name === "project_interiors") {
-      const newFiles = Array.from(files);
-      const validFiles = [];
+    // if (name === "project_interiors") {
+    //   const newFiles = Array.from(files);
+    //   const validFiles = [];
 
-      newFiles.forEach((file) => {
-        if (!allowedTypes.project_interiors.includes(file.type)) {
-          toast.error("Only JPG, PNG, GIF, and WebP images are allowed.");
-          return;
-        }
+    //   newFiles.forEach((file) => {
+    //     if (!allowedTypes.project_interiors.includes(file.type)) {
+    //       toast.error("Only JPG, PNG, GIF, and WebP images are allowed.");
+    //       return;
+    //     }
 
-        if (file.size > MAX_SIZES.project_interiors) {
-          toast.error(`File too large: ${file.name}. Max size is 10MB.`);
-          return;
-        }
+    //     if (file.size > MAX_SIZES.project_interiors) {
+    //       toast.error(`File too large: ${file.name}. Max size is 10MB.`);
+    //       return;
+    //     }
 
-        validFiles.push(file);
-      });
+    //     validFiles.push(file);
+    //   });
 
-      if (validFiles.length > 0) {
-        setFormData((prev) => ({
-          ...prev,
-          project_interiors: [...(prev.project_interiors || []), ...validFiles], // ✅ Fix: Ensure existing files are kept
-        }));
-      }
-    }
+    //   if (validFiles.length > 0) {
+    //     setFormData((prev) => ({
+    //       ...prev,
+    //       project_interiors: [...(prev.project_interiors || []), ...validFiles], // ✅ Fix: Ensure existing files are kept
+    //     }));
+    //   }
+    // }
 
-    if (name === "project_creative_offers") {
-      const newFiles = Array.from(files);
-      const validFiles = [];
+    // if (name === "project_creative_offers") {
+    //   const newFiles = Array.from(files);
+    //   const validFiles = [];
 
-      newFiles.forEach((file) => {
-        if (!allowedTypes.project_creative_offers.includes(file.type)) {
-          toast.error("Only JPG, PNG, GIF, and WebP images are allowed.");
-          return;
-        }
+    //   newFiles.forEach((file) => {
+    //     if (!allowedTypes.project_creative_offers.includes(file.type)) {
+    //       toast.error("Only JPG, PNG, GIF, and WebP images are allowed.");
+    //       return;
+    //     }
 
-        if (file.size > MAX_SIZES.project_creative_offers) {
-          toast.error(`File too large: ${file.name}. Max size is 10MB.`);
-          return;
-        }
+    //     if (file.size > MAX_SIZES.project_creative_offers) {
+    //       toast.error(`File too large: ${file.name}. Max size is 10MB.`);
+    //       return;
+    //     }
 
-        validFiles.push(file);
-      });
+    //     validFiles.push(file);
+    //   });
 
-      if (validFiles.length > 0) {
-        setFormData((prev) => ({
-          ...prev,
-          project_creative_offers: [
-            ...(prev.project_creative_offers || []),
-            ...validFiles,
-          ], // ✅ Fix: Ensure existing files are kept
-        }));
-      }
-    }
+    //   if (validFiles.length > 0) {
+    //     setFormData((prev) => ({
+    //       ...prev,
+    //       project_creative_offers: [
+    //         ...(prev.project_creative_offers || []),
+    //         ...validFiles,
+    //       ], // ✅ Fix: Ensure existing files are kept
+    //     }));
+    //   }
+    // }
 
-    if (name === "project_creative_generics") {
-      const newFiles = Array.from(files);
-      const validFiles = [];
+    // if (name === "project_creative_generics") {
+    //   const newFiles = Array.from(files);
+    //   const validFiles = [];
 
-      newFiles.forEach((file) => {
-        if (!allowedTypes.project_creative_generics.includes(file.type)) {
-          toast.error("Only JPG, PNG, GIF, and WebP images are allowed.");
-          return;
-        }
+    //   newFiles.forEach((file) => {
+    //     if (!allowedTypes.project_creative_generics.includes(file.type)) {
+    //       toast.error("Only JPG, PNG, GIF, and WebP images are allowed.");
+    //       return;
+    //     }
 
-        if (file.size > MAX_SIZES.project_creative_generics) {
-          toast.error(`File too large: ${file.name}. Max size is 10MB.`);
-          return;
-        }
+    //     if (file.size > MAX_SIZES.project_creative_generics) {
+    //       toast.error(`File too large: ${file.name}. Max size is 10MB.`);
+    //       return;
+    //     }
 
-        validFiles.push(file);
-      });
+    //     validFiles.push(file);
+    //   });
 
-      if (validFiles.length > 0) {
-        setFormData((prev) => ({
-          ...prev,
-          project_creative_generics: [
-            ...(prev.project_creative_generics || []),
-            ...validFiles,
-          ], // ✅ Fix: Ensure existing files are kept
-        }));
-      }
-    }
+    //   if (validFiles.length > 0) {
+    //     setFormData((prev) => ({
+    //       ...prev,
+    //       project_creative_generics: [
+    //         ...(prev.project_creative_generics || []),
+    //         ...validFiles,
+    //       ], // ✅ Fix: Ensure existing files are kept
+    //     }));
+    //   }
+    // }
 
-    if (name === "project_creatives") {
-      const newFiles = Array.from(files);
-      const validFiles = [];
+    // if (name === "project_creatives") {
+    //   const newFiles = Array.from(files);
+    //   const validFiles = [];
 
-      newFiles.forEach((file) => {
-        if (!allowedTypes.project_creatives.includes(file.type)) {
-          toast.error("Only JPG, PNG, GIF, and WebP images are allowed.");
-          return;
-        }
+    //   newFiles.forEach((file) => {
+    //     if (!allowedTypes.project_creatives.includes(file.type)) {
+    //       toast.error("Only JPG, PNG, GIF, and WebP images are allowed.");
+    //       return;
+    //     }
 
-        if (file.size > MAX_SIZES.project_creatives) {
-          toast.error(`File too large: ${file.name}. Max size is 10MB.`);
-          return;
-        }
+    //     if (file.size > MAX_SIZES.project_creatives) {
+    //       toast.error(`File too large: ${file.name}. Max size is 10MB.`);
+    //       return;
+    //     }
 
-        validFiles.push(file);
-      });
+    //     validFiles.push(file);
+    //   });
 
-      if (validFiles.length > 0) {
-        setFormData((prev) => ({
-          ...prev,
-          project_creatives: [...(prev.project_creatives || []), ...validFiles], // ✅ Fix: Ensure existing files are kept
-        }));
-      }
-    }
+    //   if (validFiles.length > 0) {
+    //     setFormData((prev) => ({
+    //       ...prev,
+    //       project_creatives: [...(prev.project_creatives || []), ...validFiles], // ✅ Fix: Ensure existing files are kept
+    //     }));
+    //   }
+    // }
 
-    if (name === "project_ppt") {
-      // Handle multiple PPT files
-      const newFiles = Array.from(files);
-      const validFiles = [];
+    // if (name === "project_ppt") {
+    //   // Handle multiple PPT files
+    //   const newFiles = Array.from(files);
+    //   const validFiles = [];
 
-      newFiles.forEach((file) => {
-        if (!allowedTypes.project_ppt.includes(file.type)) {
-          toast.error("Only PPT and PPTX files are allowed for Project PPT.");
-          return;
-        }
+    //   newFiles.forEach((file) => {
+    //     if (!allowedTypes.project_ppt.includes(file.type)) {
+    //       toast.error("Only PPT and PPTX files are allowed for Project PPT.");
+    //       return;
+    //     }
 
-        if (file.size > MAX_SIZES.project_ppt) {
-          toast.error(`File too large: ${file.name}. Max size is 10MB.`);
-          return;
-        }
+    //     if (file.size > MAX_SIZES.project_ppt) {
+    //       toast.error(`File too large: ${file.name}. Max size is 10MB.`);
+    //       return;
+    //     }
 
-        validFiles.push(file);
-      });
+    //     validFiles.push(file);
+    //   });
 
-      if (validFiles.length > 0) {
-        setFormData((prev) => ({
-          ...prev,
-          project_ppt: [...prev.project_ppt, ...validFiles], // ✅ Ensure multiple files are added
-        }));
-      }
-    }
+    //   if (validFiles.length > 0) {
+    //     setFormData((prev) => ({
+    //       ...prev,
+    //       project_ppt: [...prev.project_ppt, ...validFiles], // ✅ Ensure multiple files are added
+    //     }));
+    //   }
+    // }
 
     if (name === "brochure") {
       // Handle multiple brochure files
       const newFiles = Array.from(files);
       const validFiles = [];
-
+      console.log("New files for brochure:", newFiles);
+      
       newFiles.forEach((file) => {
         if (!allowedTypes.brochure.includes(file.type)) {
           toast.error("Only PDF and DOCX files are allowed for brochure.");
@@ -579,7 +581,7 @@ const ProjectDetailsCreate = () => {
       if (validFiles.length > 0) {
         setFormData((prev) => ({
           ...prev,
-          brochure: [...prev.brochure, ...validFiles],
+          ProjectBrochure: [...prev.ProjectBrochure, ...validFiles],
         }));
       }
     } else if (
@@ -675,13 +677,17 @@ const ProjectDetailsCreate = () => {
     if (fileType === "brochure") {
       if (index !== undefined) {
         // Remove specific brochure by index
-        const updatedBrochures = [...formData.brochure];
+        const updatedBrochures = [...formData.ProjectBrochure];
         updatedBrochures.splice(index, 1);
-        setFormData({ ...formData, brochure: updatedBrochures });
+        setFormData({ ...formData, ProjectBrochure: updatedBrochures });
       } else {
         // Clear all brochures if no index specified
-        setFormData({ ...formData, brochure: [] });
+        setFormData({ ...formData, ProjectBrochure: [] });
       }
+    } else if (fileType === "gallery_image") {
+      const updatedGallery = [...formData.gallery_image];
+      updatedGallery.splice(index, 1);
+      setFormData({ ...formData, gallery_image: updatedGallery });
     } else if (fileType === "two_d_images") {
       const updatedFiles = [...formData.two_d_images];
       updatedFiles.splice(index, 1);
@@ -718,10 +724,6 @@ const ProjectDetailsCreate = () => {
       const updatedVideos = [...formData.videos];
       updatedVideos.splice(index, 1);
       setFormData({ ...formData, videos: updatedVideos });
-    } else if (fileType === "gallery_image") {
-      const updatedGallery = [...formData.gallery_image];
-      updatedGallery.splice(index, 1);
-      setFormData({ ...formData, gallery_image: updatedGallery });
     }
   };
 
@@ -846,18 +848,18 @@ const ProjectDetailsCreate = () => {
       toast.error("Map URL is required.");
       return false;
     }
-    if (!formData.brochure.length === 0) {
+    if (!formData.ProjectBrochure.length === 0) {
       toast.error("Brochure is required.");
       return false;
     }
-    if (formData.two_d_images.length === 0) {
-      toast.error("At least one 2D image is required.");
-      return false;
-    }
-    if (formData.videos.length === 0) {
-      toast.error("At least one video is required.");
-      return false;
-    }
+    // if (formData.two_d_images.length === 0) {
+    //   toast.error("At least one 2D image is required.");
+    //   return false;
+    // }
+    // if (formData.videos.length === 0) {
+    //   toast.error("At least one video is required.");
+    //   return false;
+    // }
 
     return true;
   };
@@ -891,39 +893,41 @@ const ProjectDetailsCreate = () => {
             data.append("project[brochure][]", file);
           }
         });
-      } else if (key === "project_emailer_templetes" && Array.isArray(value)) {
-        value.forEach((file) => {
-          if (file instanceof File) {
-            data.append("project[project_emailer_templetes][]", file);
-          }
-        });
-      } else if (key === "two_d_images" && Array.isArray(value)) {
-        value.forEach((file) => data.append("project[two_d_images][]", file));
-      } else if (key === "project_creatives" && Array.isArray(value)) {
-        value.forEach((file) =>
-          data.append("project[project_creatives][]", file)
-        );
-      } else if (key === "project_creative_generics" && Array.isArray(value)) {
-        value.forEach((file) =>
-          data.append("project[project_creative_generics][]", file)
-        );
-      } else if (key === "project_creative_offers" && Array.isArray(value)) {
-        value.forEach((file) =>
-          data.append("project[project_creative_offers][]", file)
-        );
-      } else if (key === "project_interiors" && Array.isArray(value)) {
-        value.forEach((file) =>
-          data.append("project[project_interiors][]", file)
-        );
-      } else if (key === "project_exteriors" && Array.isArray(value)) {
-        value.forEach((file) =>
-          data.append("project[project_exteriors][]", file)
-        );
-      } else if (key === "project_layout" && Array.isArray(value)) {
-        value.forEach((file) => data.append("project[project_layout][]", file));
-      } else if (key === "videos" && Array.isArray(value)) {
-        value.forEach((file) => data.append("project[videos][]", file));
-      } else if (key === "gallery_image" && Array.isArray(value)) {
+      } 
+      // else if (key === "project_emailer_templetes" && Array.isArray(value)) {
+      //   value.forEach((file) => {
+      //     if (file instanceof File) {
+      //       data.append("project[project_emailer_templetes][]", file);
+      //     }
+      //   });
+      // } else if (key === "two_d_images" && Array.isArray(value)) {
+      //   value.forEach((file) => data.append("project[two_d_images][]", file));
+      // } else if (key === "project_creatives" && Array.isArray(value)) {
+      //   value.forEach((file) =>
+      //     data.append("project[project_creatives][]", file)
+      //   );
+      // } else if (key === "project_creative_generics" && Array.isArray(value)) {
+      //   value.forEach((file) =>
+      //     data.append("project[project_creative_generics][]", file)
+      //   );
+      // } else if (key === "project_creative_offers" && Array.isArray(value)) {
+      //   value.forEach((file) =>
+      //     data.append("project[project_creative_offers][]", file)
+      //   );
+      // } else if (key === "project_interiors" && Array.isArray(value)) {
+      //   value.forEach((file) =>
+      //     data.append("project[project_interiors][]", file)
+      //   );
+      // } else if (key === "project_exteriors" && Array.isArray(value)) {
+      //   value.forEach((file) =>
+      //     data.append("project[project_exteriors][]", file)
+      //   );
+      // } else if (key === "project_layout" && Array.isArray(value)) {
+      //   value.forEach((file) => data.append("project[project_layout][]", file));
+      // } else if (key === "videos" && Array.isArray(value)) {
+      //   value.forEach((file) => data.append("project[videos][]", file));
+      // } 
+      else if (key === "gallery_image" && Array.isArray(value)) {
         value.forEach((fileObj, index) => {
           if (fileObj.gallery_image instanceof File) {
             // ✅ Check for actual File
@@ -966,20 +970,22 @@ const ProjectDetailsCreate = () => {
             );
           }
         });
-      } else if (key === "project_ppt" && Array.isArray(value)) {
-        value.forEach((file) => {
-          if (file instanceof File) {
-            data.append("project[project_ppt]", file);
-          }
-        });
-      } else if (key === "project_creatives" && Array.isArray(value)) {
-        value.forEach(({ file, type }) => {
-          if (file instanceof File) {
-            data.append("project[project_creatives][]", file); // Upload file
-            data.append(`project[project_creatives_types][]`, type); // Store selected type
-          }
-        });
-      } else {
+      } 
+      // else if (key === "project_ppt" && Array.isArray(value)) {
+      //   value.forEach((file) => {
+      //     if (file instanceof File) {
+      //       data.append("project[project_ppt]", file);
+      //     }
+      //   });
+      // } else if (key === "project_creatives" && Array.isArray(value)) {
+      //   value.forEach(({ file, type }) => {
+      //     if (file instanceof File) {
+      //       data.append("project[project_creatives][]", file); // Upload file
+      //       data.append(`project[project_creatives_types][]`, type); // Store selected type
+      //     }
+      //   });
+      // } 
+      else {
         data.append(`project[${key}]`, value);
       }
     });
@@ -1207,7 +1213,7 @@ const ProjectDetailsCreate = () => {
   };
 
   const statusOptions = {
-    "Office Parks": [
+    OfficeParks: [
       { value: "Completed", label: "Completed" },
       { value: "Under-Construction", label: "Under Construction" },
     ],
@@ -1372,7 +1378,7 @@ const ProjectDetailsCreate = () => {
   ];
 
   const buildingTypeOptions = {
-    "Office Parks": [
+    OfficeParks: [
       { value: "Mixed-Use-Development", label: "Mixed Use Development" },
       { value: "Special-Economic-Zone", label: "Special Economic Zone" },
       { value: "Tech-Parks", label: "Tech Parks" },
@@ -1463,7 +1469,7 @@ const ProjectDetailsCreate = () => {
                     </span>
                   </label>
                   <SelectBox
-                    options={buildingTypeOptions[formData.Property_Type] || []} // ✅ Show correct options
+                    options={buildingTypeOptions.OfficeParks || []} // ✅ Show correct options
                     value={formData.building_type}
                     onChange={(value) =>
                       setFormData((prev) => ({
@@ -1485,7 +1491,7 @@ const ProjectDetailsCreate = () => {
                     </span>
                   </label>
                   <SelectBox
-                    options={statusOptions[formData.Property_Type] || []}
+                    options={statusOptions.OfficeParks || []}
                     defaultValue={formData.Project_Construction_Status}
                     onChange={(value) =>
                       setFormData((prev) => ({
@@ -2410,8 +2416,8 @@ const ProjectDetailsCreate = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {formData.brochure.length > 0 ? (
-                        formData.brochure.map((brochure, index) => (
+                      {formData.ProjectBrochure.length > 0 ? (
+                        formData.ProjectBrochure.map((brochure, index) => (
                           <tr key={`brochures-${index}`}>
                             <td>{brochure.name}</td>
                             <td>

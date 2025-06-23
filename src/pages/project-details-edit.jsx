@@ -69,7 +69,7 @@ const ProjectDetailsEdit = () => {
     project_layout: [],
   });
 
-  console.log("formData", formData);
+  // console.log("formData", formData);
 
   const [projectsType, setProjectsType] = useState([]);
   const [configurations, setConfigurations] = useState([]);
@@ -991,14 +991,12 @@ const ProjectDetailsEdit = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
     const validationErrors = validateForm(formData);
     if (validationErrors.length > 0) {
       toast.error(validationErrors[0]);
       setLoading(false);
       return;
     }
-
     const data = new FormData();
 
     if (formData.image) {
@@ -1171,6 +1169,8 @@ const ProjectDetailsEdit = () => {
       console.log(`${key}:`, value);
     }
 
+    
+    
     try {
       const response = await axios.put(
         `${BASE_URL}/projects/${id}.json`,
@@ -3173,7 +3173,7 @@ const ProjectDetailsEdit = () => {
                 </div>
               </div>
 
-              <div className="d-flex justify-content-between align-items-end mx-1">
+              {/* <div className="d-flex justify-content-between align-items-end mx-1">
                 <h5 className="mt-3">
                   Project PPT{" "}
                   <span
@@ -3232,7 +3232,6 @@ const ProjectDetailsEdit = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {/* Project PPT Files */}
                       {formData.project_ppt &&
                         (Array.isArray(formData.project_ppt) ? (
                           // If it's an array of files
@@ -3280,10 +3279,10 @@ const ProjectDetailsEdit = () => {
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </div> */}
 
               {/* 2D Images */}
-              <div className="d-flex justify-content-between align-items-end mx-1">
+              {/* <div className="d-flex justify-content-between align-items-end mx-1">
                 <h5 className="mt-3">
                   2D Images{" "}
                   <span
@@ -3331,7 +3330,6 @@ const ProjectDetailsEdit = () => {
                 />
               </div>
 
-              {/* Table to Display Images */}
               <div className="col-md-12 mt-2">
                 <div
                   className="mt-4 tbl-container"
@@ -3346,11 +3344,9 @@ const ProjectDetailsEdit = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {/* 2D Images */}
                       {formData.two_d_images.map((file, index) => (
                         <tr key={index}>
                           <td>{file.document_file_name || file.name}</td>{" "}
-                          {/* Show name from API or uploaded file */}
                           <td>
                             <img
                               style={{ maxWidth: 100, maxHeight: 100 }}
@@ -3383,9 +3379,9 @@ const ProjectDetailsEdit = () => {
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </div> */}
 
-              <div className="d-flex justify-content-between align-items-end mx-1">
+              {/* <div className="d-flex justify-content-between align-items-end mx-1">
                 <h5 className="mt-3">
                   Project Layout{" "}
                   <span
@@ -3447,11 +3443,9 @@ const ProjectDetailsEdit = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {/* 2D Images */}
                       {formData.project_layout.map((file, index) => (
                         <tr key={index}>
                           <td>{file.document_file_name || file.name}</td>{" "}
-                          {/* Show name from API or uploaded file */}
                           <td>
                             <img
                               style={{ maxWidth: 100, maxHeight: 100 }}
@@ -3484,9 +3478,9 @@ const ProjectDetailsEdit = () => {
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </div> */}
 
-              <div className="d-flex justify-content-between align-items-end mx-1">
+              {/* <div className="d-flex justify-content-between align-items-end mx-1">
                 <h5 className="mt-3">
                   Project Creatives{" "}
                   <span
@@ -3548,11 +3542,9 @@ const ProjectDetailsEdit = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {/* 2D Images */}
                       {formData.project_creatives.map((file, index) => (
                         <tr key={index}>
                           <td>{file.document_file_name || file.name}</td>{" "}
-                          {/* Show name from API or uploaded file */}
                           <td>
                             <img
                               style={{ maxWidth: 100, maxHeight: 100 }}
@@ -3588,9 +3580,9 @@ const ProjectDetailsEdit = () => {
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </div> */}
 
-              <div className="d-flex justify-content-between align-items-end mx-1">
+              {/* <div className="d-flex justify-content-between align-items-end mx-1">
                 <h5 className="mt-3">
                   Project Creative Generics{" "}
                   <span
@@ -3655,11 +3647,9 @@ const ProjectDetailsEdit = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {/* 2D Images */}
                       {formData.project_creative_generics.map((file, index) => (
                         <tr key={index}>
                           <td>{file.document_file_name || file.name}</td>{" "}
-                          {/* Show name from API or uploaded file */}
                           <td>
                             <img
                               style={{ maxWidth: 100, maxHeight: 100 }}
@@ -3695,9 +3685,9 @@ const ProjectDetailsEdit = () => {
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </div> */}
 
-              <div className="d-flex justify-content-between align-items-end mx-1">
+              {/* <div className="d-flex justify-content-between align-items-end mx-1">
                 <h5 className="mt-3">
                   Project Creative Offers{" "}
                   <span
@@ -3759,11 +3749,9 @@ const ProjectDetailsEdit = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {/* 2D Images */}
                       {formData.project_creative_offers.map((file, index) => (
                         <tr key={index}>
                           <td>{file.document_file_name || file.name}</td>{" "}
-                          {/* Show name from API or uploaded file */}
                           <td>
                             <img
                               style={{ maxWidth: 100, maxHeight: 100 }}
@@ -3799,9 +3787,9 @@ const ProjectDetailsEdit = () => {
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </div> */}
 
-              <div className="d-flex justify-content-between align-items-end mx-1">
+              {/* <div className="d-flex justify-content-between align-items-end mx-1">
                 <h5 className="mt-3">
                   Project Interiors{" "}
                   <span
@@ -3863,11 +3851,9 @@ const ProjectDetailsEdit = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {/* 2D Images */}
                       {formData.project_interiors.map((file, index) => (
                         <tr key={index}>
                           <td>{file.document_file_name || file.name}</td>{" "}
-                          {/* Show name from API or uploaded file */}
                           <td>
                             <img
                               style={{ maxWidth: 100, maxHeight: 100 }}
@@ -3903,9 +3889,9 @@ const ProjectDetailsEdit = () => {
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </div> */}
 
-              <div className="d-flex justify-content-between align-items-end mx-1">
+              {/* <div className="d-flex justify-content-between align-items-end mx-1">
                 <h5 className="mt-3">
                   Project Exteriors{" "}
                   <span
@@ -3967,11 +3953,9 @@ const ProjectDetailsEdit = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {/* 2D Images */}
                       {formData.project_exteriors.map((file, index) => (
                         <tr key={index}>
                           <td>{file.document_file_name || file.name}</td>{" "}
-                          {/* Show name from API or uploaded file */}
                           <td>
                             <img
                               style={{ maxWidth: 100, maxHeight: 100 }}
@@ -4007,9 +3991,9 @@ const ProjectDetailsEdit = () => {
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </div> */}
 
-              <div className="d-flex justify-content-between align-items-end mx-1">
+              {/* <div className="d-flex justify-content-between align-items-end mx-1">
                 <h5 className="mt-3">
                   Project Emailer Template{" "}
                   <span
@@ -4072,7 +4056,6 @@ const ProjectDetailsEdit = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {/* Project PPT Files */}
                       {formData.project_emailer_templetes &&
                         (Array.isArray(formData.project_emailer_templetes) ? (
                           // If it's an array of files
@@ -4129,9 +4112,9 @@ const ProjectDetailsEdit = () => {
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </div> */}
 
-              <div className="d-flex justify-content-between align-items-end mx-1">
+              {/* <div className="d-flex justify-content-between align-items-end mx-1">
                 <h5 className="mt-3">
                   Videos{" "}
                   <span
@@ -4188,10 +4171,8 @@ const ProjectDetailsEdit = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {/* Videos */}
                       {formData.videos.map((file, index) => (
                         <tr key={index}>
-                          {/* Ensure filename is displayed correctly */}
                           <td>
                             {file.document_file_name || file.name || "No Name"}
                           </td>
@@ -4224,7 +4205,7 @@ const ProjectDetailsEdit = () => {
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </div> */}
               {/* <div className="d-flex justify-content-between align-items-end mx-1">
                 <h5 className="mt-3">
                   Project PPT{" "}
