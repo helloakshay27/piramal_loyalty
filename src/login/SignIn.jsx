@@ -99,7 +99,7 @@ const SignIn = () => {
       //   }
       // );
 
-      const response = await axios.post(`${BASE_URL}/api/users/sign_in`, {
+      const response = await axios.post(`${BASE_URL}api/users/sign_in`, {
         user: {
           email,
           password,
