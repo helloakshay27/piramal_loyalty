@@ -12,7 +12,7 @@ export default function SetupSidebar() {
           flexDirection: "column",
         }}
       >
-        <li className="menu-item d-flex w-100">
+        <li className="menu-item d-flex w-100 active">
           <a
             className="d-flex gap-4"
             href="#"

@@ -9,7 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import MultiSelectBox from "../components/base/MultiSelectBox";
 import SelectBox from "../components/base/SelectBox";
-import BASE_URL from "../Confi/baseurl"; 
+import BASE_URL from "../Confi/baseurl";
 
 const ProjectDetailsEdit = () => {
   const { id } = useParams();
@@ -94,14 +94,11 @@ const ProjectDetailsEdit = () => {
 
   const fetchData = async (endpoint, setter) => {
     try {
-      const response = await axios.get(
-        `${BASE_URL}/${endpoint}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          },
-        }
-      );
+      const response = await axios.get(`${BASE_URL}/${endpoint}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      });
 
       setter(response.data);
       console.log("response:---", response.data);
@@ -128,9 +125,7 @@ const ProjectDetailsEdit = () => {
   useEffect(() => {
     const fetchCategoryTypes = async () => {
       try {
-        const response = await axios.get(
-          `${BASE_URL}/category_types.json`
-        );
+        const response = await axios.get(`${BASE_URL}/category_types.json`);
 
         if (response.data) {
           // Extract only category_type from each object
@@ -154,14 +149,11 @@ const ProjectDetailsEdit = () => {
   useEffect(() => {
     const fetchProjectDetails = async () => {
       try {
-        const response = await axios.get(
-          `${BASE_URL}/projects/${id}.json`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            },
-          }
-        );
+        const response = await axios.get(`${BASE_URL}/projects/${id}.json`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        });
 
         const projectData = response.data;
 
@@ -976,29 +968,33 @@ const ProjectDetailsEdit = () => {
       errors.push("Brochure is required.");
       return errors;
     }
-    if (formData.two_d_images.length === 0) {
-      errors.push("At least one 2D image is required.");
-      return errors;
-    }
-    if (formData.videos.length === 0) {
-      errors.push("At least one video is required.");
-      return errors;
-    }
+    // if (formData.two_d_images.length === 0) {
+    //   errors.push("At least one 2D image is required.");
+    //   return errors;
+    // }
+    // if (formData.videos.length === 0) {
+    //   errors.push("At least one video is required.");
+    //   return errors;
+    // }
 
     return errors;
   };
 
   const handleSubmit = async (e) => {
+    
     e.preventDefault();
     setLoading(true);
     const validationErrors = validateForm(formData);
     if (validationErrors.length > 0) {
+      console.log("Validation errors:", validationErrors);
+      
       toast.error(validationErrors[0]);
       setLoading(false);
       return;
     }
     const data = new FormData();
-
+    
+    console.log("called");
     if (formData.image) {
       data.append("project[image]", formData.image);
     }
@@ -1013,7 +1009,7 @@ const ProjectDetailsEdit = () => {
         if (file) {
           data.append("project[brochure][]", file);
         }
-      } 
+      }
       // else if (
       //   key === "project_emailer_templetes" &&
       //   Array.isArray(value) &&
@@ -1120,7 +1116,7 @@ const ProjectDetailsEdit = () => {
       //       data.append("project[videos][]", file);
       //     }
       //   });
-      // } 
+      // }
       else if (key === "gallery_image" && Array.isArray(value)) {
         value.forEach((fileObj, index) => {
           if (fileObj.gallery_image instanceof File) {
@@ -1136,7 +1132,7 @@ const ProjectDetailsEdit = () => {
             );
           }
         });
-      } 
+      }
       // else if (key === "virtual_tour_url_multiple" && Array.isArray(value)) {
       //   value.forEach((item, index) => {
       //     if (item.virtual_tour_url && item.virtual_tour_name) {
@@ -1150,7 +1146,7 @@ const ProjectDetailsEdit = () => {
       //       );
       //     }
       //   });
-      // } 
+      // }
       else if (key === "Rera_Number_multiple" && Array.isArray(value)) {
         value.forEach((item, index) => {
           if (item.tower_name && item.rera_number) {
@@ -1173,11 +1169,9 @@ const ProjectDetailsEdit = () => {
       console.log(`${key}:`, value);
     }
 
-    
-    
     try {
       const response = await axios.put(
-        `${BASE_URL}/projects/${id}.json`,
+        `${BASE_URL}projects/${id}.json`,
         data,
         {
           headers: {
@@ -1918,7 +1912,7 @@ const ProjectDetailsEdit = () => {
                     type="file"
                     name="image"
                     accept="image/*"
-                    required
+                    required={!(formData.previewImage || formData.image)}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -2516,7 +2510,7 @@ const ProjectDetailsEdit = () => {
         </div>
         {/* RERA Number Section */}
         <div className="card mt-3 pb-4 mx-4">
-          <div className="card-header3 d-flex justify-content-between align-items-center">
+          <div className="card-header d-flex justify-content-between align-items-center ">
             <h3 className="card-title">RERA Number</h3>
           </div>
           <div className="card-body mt-0 pb-0">
@@ -2637,7 +2631,7 @@ const ProjectDetailsEdit = () => {
         </div>
 
         <div className="card mt-3 pb-4 mx-4">
-          <div className="card-header3">
+          <div className="card-header">
             <h3 className="card-title">Amenities</h3>
           </div>
           <div className="card-body mt-0 pb-0">
@@ -2702,7 +2696,7 @@ const ProjectDetailsEdit = () => {
           </div>
         </div>
         <div className="card mt-3 pb-4 mx-4">
-          <div className="card-header3">
+          <div className="card-header">
             <h3 className="card-title">Address</h3>
           </div>
           <div className="card-body">
@@ -2865,7 +2859,7 @@ const ProjectDetailsEdit = () => {
           </div>
         </div>
         <div className="card mt-3 pb-4 mx-4">
-          <div className="card-header3">
+          <div className="card-header">
             <h3 className="card-title">
               File Upload
               <span style={{ color: "#de7008", fontSize: "16px" }}> *</span>
@@ -4457,8 +4451,9 @@ const ProjectDetailsEdit = () => {
         <div className="row mt-2 justify-content-center">
           <div className="col-md-2">
             <button
-              onClick={handleSubmit}
+              type="submit"
               className="purple-btn2 w-100"
+              onClick={handleSubmit}
               disabled={loading}
             >
               Submit

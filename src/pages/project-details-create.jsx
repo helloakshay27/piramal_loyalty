@@ -1937,7 +1937,7 @@ const ProjectDetailsCreate = () => {
 
         {/* RERA Number Section */}
         <div className="card mt-3 pb-4 mx-4">
-          <div className="card-header3 d-flex justify-content-between align-items-center">
+          <div className="card-header d-flex justify-content-between align-items-center">
             <h3 className="card-title">RERA Number</h3>
           </div>
           <div className="card-body mt-0 pb-0">
@@ -2034,7 +2034,7 @@ const ProjectDetailsCreate = () => {
         </div>
 
         <div className="card mt-3 pb-4 mx-4">
-  <div className="card-header3">
+  <div className="card-header">
     <h3 className="card-title">Amenities</h3>
   </div>
   <div className="card-body mt-0 pb-0">
