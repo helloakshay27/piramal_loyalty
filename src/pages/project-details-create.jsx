@@ -994,7 +994,7 @@ const ProjectDetailsCreate = () => {
 
     try {
       const response = await axios.post(
-        `${BASE_URL}/projects.json`,
+        `${BASE_URL}projects.json`,
         data,
         {
           headers: {
