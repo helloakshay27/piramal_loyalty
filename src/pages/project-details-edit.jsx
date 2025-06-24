@@ -1013,113 +1013,115 @@ const ProjectDetailsEdit = () => {
         if (file) {
           data.append("project[brochure][]", file);
         }
-      } else if (
-        key === "project_emailer_templetes" &&
-        Array.isArray(value) &&
-        value.length
-      ) {
-        value.forEach((fileObj) => {
-          const file = fileObj instanceof File ? fileObj : fileObj.file;
-          if (file) {
-            data.append("project[project_emailer_templetes][]", file);
-          }
-        });
-      } else if (
-        key === "project_ppt" &&
-        Array.isArray(value) &&
-        value.length
-      ) {
-        value.forEach((fileObj) => {
-          const file = fileObj instanceof File ? fileObj : fileObj.file;
-          if (file) {
-            data.append("project[project_ppt][]", file);
-          }
-        });
-      } else if (
-        key === "two_d_images" &&
-        Array.isArray(value) &&
-        value.length
-      ) {
-        value.forEach((fileObj) => {
-          const file = fileObj instanceof File ? fileObj : fileObj.file;
-          if (file) {
-            data.append("project[two_d_images][]", file);
-          }
-        });
-      } else if (
-        key === "project_creatives" &&
-        Array.isArray(value) &&
-        value.length
-      ) {
-        value.forEach((fileObj) => {
-          const file = fileObj instanceof File ? fileObj : fileObj.file;
-          if (file) {
-            data.append("project[project_creatives][]", file);
-          }
-        });
-      } else if (
-        key === "project_creative_generics" &&
-        Array.isArray(value) &&
-        value.length
-      ) {
-        value.forEach((fileObj) => {
-          const file = fileObj instanceof File ? fileObj : fileObj.file;
-          if (file) {
-            data.append("project[project_creative_generics][]", file);
-          }
-        });
-      } else if (
-        key === "project_creative_offers" &&
-        Array.isArray(value) &&
-        value.length
-      ) {
-        value.forEach((fileObj) => {
-          const file = fileObj instanceof File ? fileObj : fileObj.file;
-          if (file) {
-            data.append("project[project_creative_offers][]", file);
-          }
-        });
-      } else if (
-        key === "project_interiors" &&
-        Array.isArray(value) &&
-        value.length
-      ) {
-        value.forEach((fileObj) => {
-          const file = fileObj instanceof File ? fileObj : fileObj.file;
-          if (file) {
-            data.append("project[project_interiors][]", file);
-          }
-        });
-      } else if (
-        key === "project_exteriors" &&
-        Array.isArray(value) &&
-        value.length
-      ) {
-        value.forEach((fileObj) => {
-          const file = fileObj instanceof File ? fileObj : fileObj.file;
-          if (file) {
-            data.append("project[project_exteriors][]", file);
-          }
-        });
-      } else if (
-        key === "project_layout" &&
-        Array.isArray(value) &&
-        value.length
-      ) {
-        value.forEach((fileObj) => {
-          const file = fileObj instanceof File ? fileObj : fileObj.file;
-          if (file) {
-            data.append("project[project_layout][]", file);
-          }
-        });
-      } else if (key === "videos" && Array.isArray(value) && value.length) {
-        value.forEach((fileObj) => {
-          const file = fileObj instanceof File ? fileObj : fileObj.file;
-          if (file) {
-            data.append("project[videos][]", file);
-          }
-        });
-      } else if (key === "gallery_image" && Array.isArray(value)) {
+      } 
+      // else if (
+      //   key === "project_emailer_templetes" &&
+      //   Array.isArray(value) &&
+      //   value.length
+      // ) {
+      //   value.forEach((fileObj) => {
+      //     const file = fileObj instanceof File ? fileObj : fileObj.file;
+      //     if (file) {
+      //       data.append("project[project_emailer_templetes][]", file);
+      //     }
+      //   });
+      // } else if (
+      //   key === "project_ppt" &&
+      //   Array.isArray(value) &&
+      //   value.length
+      // ) {
+      //   value.forEach((fileObj) => {
+      //     const file = fileObj instanceof File ? fileObj : fileObj.file;
+      //     if (file) {
+      //       data.append("project[project_ppt][]", file);
+      //     }
+      //   });
+      // } else if (
+      //   key === "two_d_images" &&
+      //   Array.isArray(value) &&
+      //   value.length
+      // ) {
+      //   value.forEach((fileObj) => {
+      //     const file = fileObj instanceof File ? fileObj : fileObj.file;
+      //     if (file) {
+      //       data.append("project[two_d_images][]", file);
+      //     }
+      //   });
+      // } else if (
+      //   key === "project_creatives" &&
+      //   Array.isArray(value) &&
+      //   value.length
+      // ) {
+      //   value.forEach((fileObj) => {
+      //     const file = fileObj instanceof File ? fileObj : fileObj.file;
+      //     if (file) {
+      //       data.append("project[project_creatives][]", file);
+      //     }
+      //   });
+      // } else if (
+      //   key === "project_creative_generics" &&
+      //   Array.isArray(value) &&
+      //   value.length
+      // ) {
+      //   value.forEach((fileObj) => {
+      //     const file = fileObj instanceof File ? fileObj : fileObj.file;
+      //     if (file) {
+      //       data.append("project[project_creative_generics][]", file);
+      //     }
+      //   });
+      // } else if (
+      //   key === "project_creative_offers" &&
+      //   Array.isArray(value) &&
+      //   value.length
+      // ) {
+      //   value.forEach((fileObj) => {
+      //     const file = fileObj instanceof File ? fileObj : fileObj.file;
+      //     if (file) {
+      //       data.append("project[project_creative_offers][]", file);
+      //     }
+      //   });
+      // } else if (
+      //   key === "project_interiors" &&
+      //   Array.isArray(value) &&
+      //   value.length
+      // ) {
+      //   value.forEach((fileObj) => {
+      //     const file = fileObj instanceof File ? fileObj : fileObj.file;
+      //     if (file) {
+      //       data.append("project[project_interiors][]", file);
+      //     }
+      //   });
+      // } else if (
+      //   key === "project_exteriors" &&
+      //   Array.isArray(value) &&
+      //   value.length
+      // ) {
+      //   value.forEach((fileObj) => {
+      //     const file = fileObj instanceof File ? fileObj : fileObj.file;
+      //     if (file) {
+      //       data.append("project[project_exteriors][]", file);
+      //     }
+      //   });
+      // } else if (
+      //   key === "project_layout" &&
+      //   Array.isArray(value) &&
+      //   value.length
+      // ) {
+      //   value.forEach((fileObj) => {
+      //     const file = fileObj instanceof File ? fileObj : fileObj.file;
+      //     if (file) {
+      //       data.append("project[project_layout][]", file);
+      //     }
+      //   });
+      // } else if (key === "videos" && Array.isArray(value) && value.length) {
+      //   value.forEach((fileObj) => {
+      //     const file = fileObj instanceof File ? fileObj : fileObj.file;
+      //     if (file) {
+      //       data.append("project[videos][]", file);
+      //     }
+      //   });
+      // } 
+      else if (key === "gallery_image" && Array.isArray(value)) {
         value.forEach((fileObj, index) => {
           if (fileObj.gallery_image instanceof File) {
             // ✅ Check for actual File
@@ -1134,20 +1136,22 @@ const ProjectDetailsEdit = () => {
             );
           }
         });
-      } else if (key === "virtual_tour_url_multiple" && Array.isArray(value)) {
-        value.forEach((item, index) => {
-          if (item.virtual_tour_url && item.virtual_tour_name) {
-            data.append(
-              `project[virtual_tour_url_multiple][${index}][virtual_tour_url]`,
-              item.virtual_tour_url
-            );
-            data.append(
-              `project[virtual_tour_url_multiple][${index}][virtual_tour_name]`,
-              item.virtual_tour_name
-            );
-          }
-        });
-      } else if (key === "Rera_Number_multiple" && Array.isArray(value)) {
+      } 
+      // else if (key === "virtual_tour_url_multiple" && Array.isArray(value)) {
+      //   value.forEach((item, index) => {
+      //     if (item.virtual_tour_url && item.virtual_tour_name) {
+      //       data.append(
+      //         `project[virtual_tour_url_multiple][${index}][virtual_tour_url]`,
+      //         item.virtual_tour_url
+      //       );
+      //       data.append(
+      //         `project[virtual_tour_url_multiple][${index}][virtual_tour_name]`,
+      //         item.virtual_tour_name
+      //       );
+      //     }
+      //   });
+      // } 
+      else if (key === "Rera_Number_multiple" && Array.isArray(value)) {
         value.forEach((item, index) => {
           if (item.tower_name && item.rera_number) {
             data.append(
@@ -4321,12 +4325,11 @@ const ProjectDetailsEdit = () => {
             </div>
           </div>
         </div>
-        <div className="card mt-3 pb-4 mx-4">
+        {/* <div className="card mt-3 pb-4 mx-4">
           <div className="card-header3 d-flex justify-content-between align-items-center">
             <h3 className="card-title">Virtual Tour</h3>
           </div>
           <div className="card-body mt-0 pb-0">
-            {/* Input Fields */}
             <div className="row align-items-center">
               <div className="col-md-3 mt-2">
                 <div className="form-group">
@@ -4405,7 +4408,6 @@ const ProjectDetailsEdit = () => {
                       {formData.virtual_tour_url_multiple.map((tour, index) => (
                         <tr key={index}>
                           <td>{index + 1}</td>
-                          {/* Editable Tour Name */}
                           <td>
                             <input
                               type="text"
@@ -4420,7 +4422,6 @@ const ProjectDetailsEdit = () => {
                               }
                             />
                           </td>
-                          {/* Editable Tour URL */}
                           <td>
                             <input
                               type="url"
@@ -4435,7 +4436,6 @@ const ProjectDetailsEdit = () => {
                               }
                             />
                           </td>
-                          {/* Delete Button */}
                           <td>
                             <button
                               type="button"
@@ -4453,7 +4453,7 @@ const ProjectDetailsEdit = () => {
               </div>
             )}
           </div>
-        </div>
+        </div> */}
         <div className="row mt-2 justify-content-center">
           <div className="col-md-2">
             <button

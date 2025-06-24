@@ -944,20 +944,22 @@ const ProjectDetailsCreate = () => {
         });
       } else if (key === "image" && value instanceof File) {
         data.append("project[image]", value);
-      } else if (key === "virtual_tour_url_multiple" && Array.isArray(value)) {
-        value.forEach((item, index) => {
-          if (item.virtual_tour_url && item.virtual_tour_name) {
-            data.append(
-              `project[virtual_tour_url_multiple][${index}][virtual_tour_url]`,
-              item.virtual_tour_url
-            );
-            data.append(
-              `project[virtual_tour_url_multiple][${index}][virtual_tour_name]`,
-              item.virtual_tour_name
-            );
-          }
-        });
-      } else if (key === "Rera_Number_multiple" && Array.isArray(value)) {
+      } 
+      // else if (key === "virtual_tour_url_multiple" && Array.isArray(value)) {
+      //   value.forEach((item, index) => {
+      //     if (item.virtual_tour_url && item.virtual_tour_name) {
+      //       data.append(
+      //         `project[virtual_tour_url_multiple][${index}][virtual_tour_url]`,
+      //         item.virtual_tour_url
+      //       );
+      //       data.append(
+      //         `project[virtual_tour_url_multiple][${index}][virtual_tour_name]`,
+      //         item.virtual_tour_name
+      //       );
+      //     }
+      //   });
+      // } 
+      else if (key === "Rera_Number_multiple" && Array.isArray(value)) {
         value.forEach((item, index) => {
           if (item.tower_name && item.rera_number) {
             data.append(
@@ -2443,7 +2445,7 @@ const ProjectDetailsCreate = () => {
                 </div>
               </div>
 
-              <div className="d-flex justify-content-between align-items-end mx-1">
+              {/* <div className="d-flex justify-content-between align-items-end mx-1">
                 <h5 className="mt-3">
                   Project PPT{" "}
                   <span
@@ -2521,10 +2523,9 @@ const ProjectDetailsCreate = () => {
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </div> */}
 
-              {/* 2D Images */}
-              <div className="d-flex justify-content-between align-items-end mx-1">
+              {/* <div className="d-flex justify-content-between align-items-end mx-1">
                 <h5 className="mt-3">
                   2D Images{" "}
                   <span
@@ -2586,7 +2587,6 @@ const ProjectDetailsCreate = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {/* 2D Images */}
                       {formData.two_d_images.map((file, index) => (
                         <tr key={index}>
                           <td> {file.name}</td>
@@ -2619,9 +2619,9 @@ const ProjectDetailsCreate = () => {
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </div> */}
 
-              <div className="d-flex justify-content-between align-items-end mx-1">
+              {/* <div className="d-flex justify-content-between align-items-end mx-1">
                 <h5 className="mt-3">
                   Project Layout{" "}
                   <span
@@ -2683,7 +2683,6 @@ const ProjectDetailsCreate = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {/* 2D Images */}
                       {formData.project_layout.map((file, index) => (
                         <tr key={index}>
                           <td> {file.name}</td>
@@ -2716,9 +2715,9 @@ const ProjectDetailsCreate = () => {
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </div> */}
 
-              <div className="d-flex justify-content-between align-items-end mx-1">
+              {/* <div className="d-flex justify-content-between align-items-end mx-1">
                 <h5 className="mt-3">
                   Project Creatives{" "}
                   <span
@@ -2780,7 +2779,6 @@ const ProjectDetailsCreate = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {/* 2D Images */}
                       {formData.project_creatives.map((file, index) => (
                         <tr key={index}>
                           <td> {file.name}</td>
@@ -2813,9 +2811,9 @@ const ProjectDetailsCreate = () => {
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </div> */}
 
-              <div className="d-flex justify-content-between align-items-end mx-1">
+              {/* <div className="d-flex justify-content-between align-items-end mx-1">
                 <h5 className="mt-3">
                   Project Creative Generics{" "}
                   <span
@@ -2880,7 +2878,6 @@ const ProjectDetailsCreate = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {/* 2D Images */}
                       {formData.project_creative_generics.map((file, index) => (
                         <tr key={index}>
                           <td> {file.name}</td>
@@ -2916,9 +2913,9 @@ const ProjectDetailsCreate = () => {
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </div> */}
 
-              <div className="d-flex justify-content-between align-items-end mx-1">
+              {/* <div className="d-flex justify-content-between align-items-end mx-1">
                 <h5 className="mt-3">
                   Project Creative Offers{" "}
                   <span
@@ -2980,7 +2977,6 @@ const ProjectDetailsCreate = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {/* 2D Images */}
                       {formData.project_creative_offers.map((file, index) => (
                         <tr key={index}>
                           <td> {file.name}</td>
@@ -3016,9 +3012,9 @@ const ProjectDetailsCreate = () => {
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </div> */}
 
-              <div className="d-flex justify-content-between align-items-end mx-1">
+              {/* <div className="d-flex justify-content-between align-items-end mx-1">
                 <h5 className="mt-3">
                   Project Interiors{" "}
                   <span
@@ -3080,7 +3076,6 @@ const ProjectDetailsCreate = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {/* 2D Images */}
                       {formData.project_interiors.map((file, index) => (
                         <tr key={index}>
                           <td> {file.name}</td>
@@ -3113,9 +3108,9 @@ const ProjectDetailsCreate = () => {
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </div> */}
 
-              <div className="d-flex justify-content-between align-items-end mx-1">
+              {/* <div className="d-flex justify-content-between align-items-end mx-1">
                 <h5 className="mt-3">
                   Project Exteriors{" "}
                   <span
@@ -3177,7 +3172,6 @@ const ProjectDetailsCreate = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {/* 2D Images */}
                       {formData.project_exteriors.map((file, index) => (
                         <tr key={index}>
                           <td> {file.name}</td>
@@ -3210,9 +3204,9 @@ const ProjectDetailsCreate = () => {
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </div> */}
 
-              <div className="d-flex justify-content-between align-items-end mx-1">
+              {/* <div className="d-flex justify-content-between align-items-end mx-1">
                 <h5 className="mt-3">
                   Project Emailer Template{" "}
                   <span
@@ -3300,15 +3294,14 @@ const ProjectDetailsCreate = () => {
                         )
                       ) : (
                         <tr>
-                          {/* <td colSpan="2" className="text-center">No brochures uploaded</td> */}
                         </tr>
                       )}
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </div> */}
 
-              <div className="d-flex justify-content-between align-items-end mx-1">
+              {/* <div className="d-flex justify-content-between align-items-end mx-1">
                 <h5 className="mt-3">
                   Videos{" "}
                   <span
@@ -3392,7 +3385,7 @@ const ProjectDetailsCreate = () => {
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </div> */}
 
               {/* <div className="d-flex justify-content-between align-items-end mx-1">
     <h5 className="mt-3">Project Creatives</h5>
@@ -3516,14 +3509,12 @@ const ProjectDetailsCreate = () => {
           </div>
         </div>
 
-        <div className="card mt-3 pb-4 mx-4">
+        {/* <div className="card mt-3 pb-4 mx-4">
           <div className="card-header3 d-flex justify-content-between align-items-center">
             <h3 className="card-title">Virtual Tour</h3>
           </div>
           <div className="card-body mt-0 pb-0">
-            {/* Input Fields */}
             <div className="row align-items-center">
-              {/* Virtual Tour Name */}
               <div className="col-md-3 mt-2">
                 <div className="form-group">
                   <label>
@@ -3544,7 +3535,6 @@ const ProjectDetailsCreate = () => {
                 </div>
               </div>
 
-              {/* Virtual Tour URL */}
               <div className="col-md-3 mt-2">
                 <div className="form-group">
                   <label>
@@ -3565,7 +3555,6 @@ const ProjectDetailsCreate = () => {
                 </div>
               </div>
 
-              {/* Add Button */}
               <div className="col-md-3 mt-2">
                 <button
                   className="purple-btn2 rounded-3"
@@ -3587,7 +3576,6 @@ const ProjectDetailsCreate = () => {
               </div>
             </div>
 
-            {/* Virtual Tour List Table */}
             {formData.virtual_tour_url_multiple.length > 0 && (
               <div className="col-md-12 mt-2">
                 <div className="mt-4 tbl-container w-100">
@@ -3623,7 +3611,7 @@ const ProjectDetailsCreate = () => {
               </div>
             )}
           </div>
-        </div>
+        </div> */}
 
         <div className="card-body mt-0 pb-0"></div>
         <div className="row mt-2 justify-content-center">
