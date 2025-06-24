@@ -43,7 +43,7 @@ const EventEdit = () => {
     const fetchEvent = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/events/${id}.json`,
+          `${BASE_URL}events/${id}.json`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -122,7 +122,7 @@ const EventEdit = () => {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,
               "Content-Type": "application/json",
-            },
+            },data
           }
         );
         setEventUserID(response.data.users || []);
@@ -164,32 +164,55 @@ const EventEdit = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-  
+
     const data = new FormData();
-    
-    // Append all form data fields
+
+    // List of keys to exclude from payload
+    const excludeKeys = [
+      "event_images",
+      "reminders",
+      "id",
+      "is_delete",
+      "canceled_by",
+      "canceler_id",
+      "resource_id",
+      "resource_type",
+      "active",
+      "created_at",
+      "updated_at",
+      "project_name",
+      "url",
+      "interested",
+      "current_user_interested",
+      "previewImage"
+    ];
+
+    // Append only allowed fields
     Object.keys(formData).forEach((key) => {
-      if (key === "attachfile" && formData.attachfile) {
-        data.append("event[event_image]", formData.attachfile); // Ensure file is appended
+      if (excludeKeys.includes(key)) return;
+      if (key === "attachfile") {
+        if (formData.attachfile) {
+          data.append("event[event_image]", formData.attachfile);
+        }
       } else {
         data.append(`event[${key}]`, formData[key]);
       }
     });
-  
+
     // Append RSVP fields if RSVP action is "yes"
     if (formData.rsvp_action === "yes") {
       data.append("event[rsvp_name]", formData.rsvp_name || "");
       data.append("event[rsvp_number]", formData.rsvp_number || "");
     }
-  
+
     try {
       await axios.put(
-        `${BASE_URL}/events/${id}.json`,
+        `${BASE_URL}events/${id}.json`,
         data,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "multipart/form-data", // Important for file uploads
+            "Content-Type": "multipart/form-data",
           },
         }
       );
@@ -261,13 +284,17 @@ const EventEdit = () => {
                             *
                           </span>
                         </label>
-                        <input
+                        <select
                           className="form-control"
-                          type="text"
                           name="event_type"
                           value={formData.event_type || ""}
                           onChange={handleChange}
-                        />
+                          required
+                        >
+                          <option value="">Select Event Type</option>
+                          <option value="entertainment">Entertainment</option>
+                          <option value="lifestyle">Lifestyle</option>
+                        </select>
                       </div>
                     </div>
 
