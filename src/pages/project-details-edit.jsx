@@ -53,7 +53,7 @@ const ProjectDetailsEdit = () => {
       pin_code: "",
       country: "",
     },
-    brochure: [],
+    ProjectBrochure: [],
     two_d_images: [],
     videos: [],
     gallery_image: [],
@@ -279,7 +279,7 @@ const ProjectDetailsEdit = () => {
 
         setFormData((prev) => ({
           ...prev,
-          brochure: file,
+          ProjectBrochure: file,
         }));
       } else if (name === "two_d_images") {
         const newImages = Array.from(files);
@@ -505,12 +505,12 @@ const ProjectDetailsEdit = () => {
     if (fileType === "brochure") {
       if (index !== undefined) {
         // Remove specific brochure by index
-        const updatedBrochures = [...formData.brochure];
+        const updatedBrochures = [...formData.ProjectBrochure];
         updatedBrochures.splice(index, 1);
-        setFormData({ ...formData, brochure: updatedBrochures });
+        setFormData({ ...formData, ProjectBrochure: updatedBrochures });
       } else {
         // Clear all brochures if no index specified
-        setFormData({ ...formData, brochure: [] });
+        setFormData({ ...formData, ProjectBrochure: [] });
       }
     } else if (fileType === "two_d_images") {
       const updatedFiles = [...formData.two_d_images];
@@ -964,7 +964,7 @@ const ProjectDetailsEdit = () => {
       return errors;
     }
 
-    if (!formData.brochure) {
+    if (!formData.ProjectBrochure) {
       errors.push("Brochure is required.");
       return errors;
     }
@@ -3145,11 +3145,11 @@ const ProjectDetailsEdit = () => {
 
                     <tbody>
                       {/* Brochure */}
-                      {formData.brochure && (
+                      {formData.ProjectBrochure && (
                         <tr>
                           <td>
-                            {formData.brochure?.name ||
-                              formData.brochure?.document_file_name ||
+                            {formData.ProjectBrochure?.name ||
+                              formData.ProjectBrochure?.document_file_name ||
                               "No File"}
                           </td>
 

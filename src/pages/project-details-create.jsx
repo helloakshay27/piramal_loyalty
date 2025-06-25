@@ -579,6 +579,8 @@ const ProjectDetailsCreate = () => {
       });
 
       if (validFiles.length > 0) {
+        console.log("Valid files for brochure:", validFiles);
+        
         setFormData((prev) => ({
           ...prev,
           ProjectBrochure: [...prev.ProjectBrochure, ...validFiles],
@@ -991,8 +993,10 @@ const ProjectDetailsCreate = () => {
         data.append(`project[${key}]`, value);
       }
     });
-
+    
+    
     try {
+      console.log("dta from payload",formData);
       const response = await axios.post(
         `${BASE_URL}projects.json`,
         data,
