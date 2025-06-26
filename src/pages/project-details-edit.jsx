@@ -904,72 +904,131 @@ const ProjectDetailsEdit = () => {
       return;
     }
     const data = new FormData();
-  
-    if (formData.image) {
-      data.append("project[image]", formData.image);
+
+    // Append text fields
+    data.append("project[Property_Type]", formData.Property_Type || "");
+    data.append("project[building_type]", formData.building_type || "");
+    data.append("project[SFDC_Project_Id]", formData.SFDC_Project_Id || "");
+    data.append(
+      "project[Project_Construction_Status]",
+      formData.Project_Construction_Status || ""
+    );
+    data.append("project[Project_Name]", formData.Project_Name || "");
+    data.append("project[project_address]", formData.project_address || "");
+    data.append(
+      "project[Project_Description]",
+      formData.Project_Description || ""
+    );
+    data.append("project[Price_Onward]", formData.Price_Onward || "");
+    data.append(
+      "project[Project_Size_Sq_Mtr]",
+      formData.Project_Size_Sq_Mtr || ""
+    );
+    data.append(
+      "project[Project_Size_Sq_Ft]",
+      formData.Project_Size_Sq_Ft || ""
+    );
+    data.append(
+      "project[development_area_sqft]",
+      formData.development_area_sqft || ""
+    );
+    data.append(
+      "project[development_area_sqmt]",
+      formData.development_area_sqmt || ""
+    );
+    data.append(
+      "project[Rera_Carpet_Area_Sq_M]",
+      formData.Rera_Carpet_Area_Sq_M || ""
+    );
+    data.append(
+      "project[Rera_Carpet_Area_sqft]",
+      formData.Rera_Carpet_Area_sqft || ""
+    );
+    data.append(
+      "project[Rera_Sellable_Area]",
+      formData.Rera_Sellable_Area || ""
+    );
+    data.append("project[Number_Of_Towers]", formData.Number_Of_Towers || "");
+    data.append("project[Number_Of_Units]", formData.Number_Of_Units || "");
+    data.append("project[no_of_floors]", formData.no_of_floors || "");
+    data.append("project[Land_Area]", formData.Land_Area || "");
+    data.append("project[land_uom]", formData.land_uom || "");
+    data.append("project[project_tag]", formData.project_tag || "");
+    data.append("project[map_url]", formData.map_url || "");
+
+    // Append array fields (as comma-separated strings)
+    data.append(
+      "project[Configuration_Type]",
+      (formData.Configuration_Type || []).join(",")
+    );
+    data.append("project[Amenities]", (formData.Amenities || []).join(","));
+    data.append(
+      "project[Specifications]",
+      (formData.Specifications || []).join(",")
+    );
+
+    // Append Address fields
+    if (formData.Address) {
+      Object.entries(formData.Address).forEach(
+        ([addressKey, addressValue]) => {
+          data.append(`project[Address][${addressKey}]`, addressValue || "");
+        }
+      );
     }
 
-    Object.entries(formData).forEach(([key, value]) => {
-      console.log("key:-", key, "value:-", value);
-      
-      if (key === "Address") {
-        Object.entries(value).forEach(([addressKey, addressValue]) => {
-          data.append(`project[Address][${addressKey}]`, addressValue);
-        });
-      } else if (Array.isArray(formData.ProjectBrochure)) {
-        formData.ProjectBrochure.forEach((file) => {
-          if (file instanceof File) {
-            data.append("project[ProjectBrochure]", file, file.name);
-          }
-        });
-      } else if (key === "gallery_image" && Array.isArray(value)) {
-        value.forEach((fileObj, index) => {
-          if (fileObj.gallery_image instanceof File) {
-            // ✅ Check for actual File
-            data.append("project[gallery_image][]", fileObj.gallery_image); // ✅ Send actual File
-            data.append(
-              `project[gallery_image_file_name]`,
-              fileObj.gallery_image_file_name
-            );
-            data.append(
-              `project[gallery_type]`,
-              fileObj.gallery_image_file_type
-            );
-          }
-        });
-      } else if (key === "Rera_Number_multiple" && Array.isArray(value)) {
-    
-        value.forEach((item, index) => {
-      
-      if (item.tower_name && item.rera_number) {
-        data.append(
-          `project[Rera_Number_multiple][${index}][tower_name]`,
-          item.tower_name
-        );
-        data.append(
-          `project[Rera_Number_multiple][${index}][rera_number]`,
-          item.rera_number
-        );
-      }
-    });
-  } else {
-        data.append(`project[${key}]`, value);
-      }
-    });
+    // Append RERA numbers
+    if (Array.isArray(formData.Rera_Number_multiple)) {
+      formData.Rera_Number_multiple.forEach((item, index) => {
+        if (item.tower_name && item.rera_number) {
+          data.append(
+            `project[Rera_Number_multiple][${index}][tower_name]`,
+            item.tower_name
+          );
+          data.append(
+            `project[Rera_Number_multiple][${index}][rera_number]`,
+            item.rera_number
+          );
+        }
+      });
+    }
 
+    // Append main image if it's a new file
+    if (formData.image instanceof File) {
+      data.append("project[image]", formData.image, formData.image.name);
+    }
+
+    // Append new gallery images
+    if (Array.isArray(formData.gallery_image)) {
+      formData.gallery_image.forEach((fileObj) => {
+        if (fileObj.gallery_image instanceof File) {
+          data.append(
+            "project[gallery_image][]",
+            fileObj.gallery_image,
+            fileObj.gallery_image_file_name
+          );
+        }
+      });
+    }
+
+    // Append new brochures
+    if (Array.isArray(formData.ProjectBrochure)) {
+      formData.ProjectBrochure.forEach((file) => {
+        if (file instanceof File) {
+          data.append("project[ProjectBrochure][]", file, file.name);
+        }
+      });
+    }
+
+    console.log("Submitting FormData:");
     for (let [key, value] of data.entries()) {
       console.log(`${key}:`, value);
     }
-    console.log("FormData entries:", formData);
-    
-//     for (let pair of data.entries()) {
-//   console.log(pair[0], pair[1]);
-// }
 
     try {
       const response = await axios.put(`${BASE_URL}projects/${id}.json`, data, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          // 'Content-Type': 'multipart/form-data' is automatically set by the browser for FormData
         },
       });
 
@@ -978,7 +1037,20 @@ const ProjectDetailsEdit = () => {
       navigate("/project-list");
     } catch (error) {
       console.error("Error updating the project:", error);
-      toast.error("Failed to update the project. Please try again.");
+      if (error.response) {
+        console.error("Error data:", error.response.data);
+        console.error("Error status:", error.response.status);
+        const messages = Object.values(error.response.data)
+          .flat()
+          .join("\n");
+        toast.error(
+          `Failed to update project: ${
+            messages || "Please check your input."
+          }`
+        );
+      } else {
+        toast.error("Failed to update the project. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
