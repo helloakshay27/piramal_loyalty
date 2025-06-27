@@ -103,6 +103,8 @@ import TagAdd from "./pages/tag-add";
 import ReferralCreate from "./pages/referral-create";
 import DemandNotes from "./pages/demand-notes";
 import HomeLoanRequest from "./pages/home-loan-request";
+import LockPayments from "./pages/lock-payments";
+import RuleLogs from "./pages/rule-logs";
 
 
 function App() {
@@ -133,6 +135,8 @@ function App() {
             <Route path="/edit-rule-engine/:id" element={<EditRuleEngine />} />
             <Route path="/tier-setting" element={<TierSetting />} />
             <Route path="/tiers" element={<Tiers />} />
+            <Route path="/lock-payments" element={<LockPayments />} />
+            <Route path="/rule-logs" element={<RuleLogs />} />
             <Route path="/new-tier" element={<NewTier />} />
             <Route path="/tier-details/:id" element={<TierDetails />} />
             <Route path="/test" element={<Test />} />

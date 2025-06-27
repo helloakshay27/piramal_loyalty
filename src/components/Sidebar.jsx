@@ -132,6 +132,30 @@ const Sidebar = () => {
         </li>
         <li className="nav-item">
           <NavLink
+            to="/lock-payments"
+            // className="menu-link d-flex gap-4"
+            className={`nav-link d-flex justify-content-between ${activeItem === "/lock-payments" ? "active" : ""}`}
+            onClick={() => handleNavLinkClick("/lock-payments")}
+            data-section="security"
+          >
+            <span className="text">Lock Payments</span>
+            
+          </NavLink>
+        </li>
+        <li className="nav-item">
+          <NavLink
+            to="/rule-logs"
+            // className="menu-link d-flex gap-4"
+            className={`nav-link d-flex justify-content-between ${activeItem === "/rule-logs" ? "active" : ""}`}
+            onClick={() => handleNavLinkClick("/rule-logs")}
+            data-section="security"
+          >
+            <span className="text">Rule Logs</span>
+            
+          </NavLink>
+        </li>
+        <li className="nav-item">
+          <NavLink
             to="/demand-notes"
             // className="menu-link d-flex gap-4"
             className={`nav-link d-flex justify-content-between ${activeItem === "/demand-notes" ? "active" : ""}`}
