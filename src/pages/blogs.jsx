@@ -245,7 +245,7 @@ export default function Blogs() {
                         <th style={{ width: "15%" }}>Author</th>
                         <th style={{ width: "15%" }}>Status</th>
                         <th style={{ width: "20%" }}>Publish Date</th>
-                        <th style={{ width: "15%" }}>View</th>
+                        {/* <th style={{ width: "15%" }}>View</th> */}
                       </tr>
                     </thead>
                     <tbody>
@@ -263,7 +263,7 @@ export default function Blogs() {
                             <td>{post.author}</td>
                             <td>{post.status}</td>
                             <td>{post.publish_date ? new Date(post.publish_date).toLocaleString() : ""}</td>
-                            <td>
+                            {/* <td>
                               <button
                                 className="btn btn-link"
                                 style={{ padding: 0 }}
@@ -290,7 +290,7 @@ export default function Blogs() {
                                   />
                                 </svg>
                               </button>
-                            </td>
+                            </td> */}
                           </tr>
                         ))
                       )}

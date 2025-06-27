@@ -284,7 +284,7 @@ const NewBlog = () => {
       </div>
       <Footer />
 
-      <div className="container mt-5">
+      {/* <div className="container mt-5">
         <h5>Blog Posts</h5>
         {loadingPosts ? (
           <div>Loading...</div>
@@ -344,7 +344,7 @@ const NewBlog = () => {
             </div>
           </>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };

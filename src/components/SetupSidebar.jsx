@@ -60,7 +60,7 @@ export default function SetupSidebar() {
             <p className="menu-link-text">Project</p>
           </a>
         </li>
-        <li
+        {/* <li
           className={`menu-item d-flex w-100 ${
             pathname === "/banner-list" ? "active" : ""
           }`}
@@ -132,7 +132,6 @@ export default function SetupSidebar() {
             <p className="menu-link-text">Testimonial</p>
           </a>
         </li>
-        {/* Enquiry */}
         <li
           className={`menu-item d-flex w-100 ${
             pathname === "/enquiry-list" ? "active" : ""
@@ -172,8 +171,7 @@ export default function SetupSidebar() {
             </svg>
             <p className="menu-link-text">Enquiry</p>
           </a>
-        </li>
-        {/* Event */}
+        </li> */}
         <li
           className={`menu-item d-flex w-100 ${
             pathname === "/event-list" ? "active" : ""
@@ -250,7 +248,7 @@ export default function SetupSidebar() {
           </a>
         </li>
         {/* Specification */}
-        <li
+        {/* <li
           className={`menu-item d-flex w-100 ${
             pathname === "/specification-list" ? "active" : ""
           }`}
@@ -278,9 +276,9 @@ export default function SetupSidebar() {
             </svg>
             <p className="menu-link-text">Specification</p>
           </a>
-        </li>
+        </li> */}
         {/* Site visit */}
-        <li
+        {/* <li
           className={`menu-item d-flex w-100 ${
             pathname === "/sitevisit-list" ? "active" : ""
           }`}
@@ -316,9 +314,9 @@ export default function SetupSidebar() {
             </svg>
             <p className="menu-link-text">Site visit</p>
           </a>
-        </li>
+        </li> */}
         {/* Organization */}
-        <li
+        {/* <li
           className={`menu-item d-flex w-100 ${
             pathname === "/organization-list" ? "active" : ""
           }`}
@@ -347,7 +345,6 @@ export default function SetupSidebar() {
             <p className="menu-link-text">Organization</p>
           </a>
         </li>
-        {/* Company */}
         <li
           className={`menu-item d-flex w-100 ${
             pathname === "/company-list" ? "active" : ""
@@ -377,7 +374,6 @@ export default function SetupSidebar() {
             <p className="menu-link-text">Company</p>
           </a>
         </li>
-        {/* Support Service */}
         <li
           className={`menu-item d-flex w-100 ${
             pathname === "/support-service-list" ? "active" : ""
@@ -426,7 +422,6 @@ export default function SetupSidebar() {
             <p className="menu-link-text">Support Service</p>
           </a>
         </li>
-        {/* Press Releases */}
         <li
           className={`menu-item d-flex w-100 ${
             pathname === "/pressreleases-list" ? "active" : ""
@@ -455,7 +450,7 @@ export default function SetupSidebar() {
             </svg>
             <span className="menu-link-text text-center">Press Releases</span>
           </a>
-        </li>
+        </li> */}
         <li
           className={`menu-item d-flex w-100 ${
             pathname === "/blogs" ? "active" : ""
