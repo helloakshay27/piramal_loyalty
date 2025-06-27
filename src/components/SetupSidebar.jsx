@@ -1,8 +1,27 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function SetupSidebar() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { pathname } = location;
+
+  const sidebarPaths = [
+    "/project-list",
+    "/banner-list",
+    "/testimonial-list",
+    "/enquiry-list",
+    "/event-list",
+    "/specification-list",
+    "/sitevisit-list",
+    "/organization-list",
+    "/company-list",
+    "/support-service-list",
+    "/pressreleases-list",
+    "/blogs",
+  ];
+
+  const isProjectActive = sidebarPaths.includes(pathname);
 
   return (
     <aside className="sidebar setup-sidebar">
@@ -12,9 +31,13 @@ export default function SetupSidebar() {
           flexDirection: "column",
         }}
       >
-        <li className="menu-item d-flex w-100 active">
+        <li
+          className={`menu-item d-flex w-100 ${
+            pathname === "/project-list" ? "active" : ""
+          }`}
+        >
           <a
-            className="d-flex gap-4"
+            className="d-flex gap-4 w-100"
             href="#"
             onClick={(e) => {
               e.preventDefault();
@@ -37,9 +60,13 @@ export default function SetupSidebar() {
             <p className="menu-link-text">Project</p>
           </a>
         </li>
-        <li className="menu-item d-flex w-100">
+        <li
+          className={`menu-item d-flex w-100 ${
+            pathname === "/banner-list" ? "active" : ""
+          }`}
+        >
           <a
-            className="d-flex gap-4"
+            className="d-flex gap-4 w-100"
             href="#"
             onClick={(e) => {
               e.preventDefault();
@@ -72,9 +99,13 @@ export default function SetupSidebar() {
             <p className="menu-link-text">Banner</p>
           </a>
         </li>
-        <li className="menu-item d-flex w-100">
+        <li
+          className={`menu-item d-flex w-100 ${
+            pathname === "/testimonial-list" ? "active" : ""
+          }`}
+        >
           <a
-            className="menu-link d-flex gap-4"
+            className="menu-link d-flex gap-4 w-100"
             href="#"
             onClick={(e) => {
               e.preventDefault();
@@ -102,9 +133,13 @@ export default function SetupSidebar() {
           </a>
         </li>
         {/* Enquiry */}
-        <li className="menu-item d-flex w-100">
+        <li
+          className={`menu-item d-flex w-100 ${
+            pathname === "/enquiry-list" ? "active" : ""
+          }`}
+        >
           <a
-            className="menu-link d-flex gap-4"
+            className="menu-link d-flex gap-4 w-100"
             href="#"
             onClick={(e) => {
               e.preventDefault();
@@ -139,9 +174,13 @@ export default function SetupSidebar() {
           </a>
         </li>
         {/* Event */}
-        <li className="menu-item d-flex w-100">
+        <li
+          className={`menu-item d-flex w-100 ${
+            pathname === "/event-list" ? "active" : ""
+          }`}
+        >
           <a
-            className="menu-link d-flex gap-4"
+            className="menu-link d-flex gap-4 w-100"
             href="#"
             onClick={(e) => {
               e.preventDefault();
@@ -211,9 +250,13 @@ export default function SetupSidebar() {
           </a>
         </li>
         {/* Specification */}
-        <li className="menu-item d-flex w-100">
+        <li
+          className={`menu-item d-flex w-100 ${
+            pathname === "/specification-list" ? "active" : ""
+          }`}
+        >
           <a
-            className="menu-link d-flex gap-4"
+            className="menu-link d-flex gap-4 w-100"
             href="#"
             onClick={(e) => {
               e.preventDefault();
@@ -237,9 +280,13 @@ export default function SetupSidebar() {
           </a>
         </li>
         {/* Site visit */}
-        <li className="menu-item d-flex w-100">
+        <li
+          className={`menu-item d-flex w-100 ${
+            pathname === "/sitevisit-list" ? "active" : ""
+          }`}
+        >
           <a
-            className="menu-link d-flex gap-4"
+            className="menu-link d-flex gap-4 w-100"
             href="#"
             onClick={(e) => {
               e.preventDefault();
@@ -271,9 +318,13 @@ export default function SetupSidebar() {
           </a>
         </li>
         {/* Organization */}
-        <li className="menu-item d-flex w-100">
+        <li
+          className={`menu-item d-flex w-100 ${
+            pathname === "/organization-list" ? "active" : ""
+          }`}
+        >
           <a
-            className="menu-link d-flex gap-4"
+            className="menu-link d-flex gap-4 w-100"
             href="#"
             onClick={(e) => {
               e.preventDefault();
@@ -297,9 +348,13 @@ export default function SetupSidebar() {
           </a>
         </li>
         {/* Company */}
-        <li className="menu-item d-flex w-100">
+        <li
+          className={`menu-item d-flex w-100 ${
+            pathname === "/company-list" ? "active" : ""
+          }`}
+        >
           <a
-            className="menu-link d-flex gap-4"
+            className="menu-link d-flex gap-4 w-100"
             href="#"
             onClick={(e) => {
               e.preventDefault();
@@ -323,9 +378,13 @@ export default function SetupSidebar() {
           </a>
         </li>
         {/* Support Service */}
-        <li className="menu-item d-flex w-100">
+        <li
+          className={`menu-item d-flex w-100 ${
+            pathname === "/support-service-list" ? "active" : ""
+          }`}
+        >
           <a
-            className="menu-link d-flex gap-4"
+            className="menu-link d-flex gap-4 w-100"
             href="#"
             onClick={(e) => {
               e.preventDefault();
@@ -368,13 +427,13 @@ export default function SetupSidebar() {
           </a>
         </li>
         {/* Press Releases */}
-        <li className="menu-item d-flex w-100">
+        <li
+          className={`menu-item d-flex w-100 ${
+            pathname === "/pressreleases-list" ? "active" : ""
+          }`}
+        >
           <a
-            className="menu-link d-flex gap-4"
-            style={{
-              alignItems: "center",
-              justifyContent: "center",
-            }}
+            className="menu-link d-flex gap-4 w-100"
             href="#"
             onClick={(e) => {
               e.preventDefault();
@@ -397,13 +456,13 @@ export default function SetupSidebar() {
             <span className="menu-link-text text-center">Press Releases</span>
           </a>
         </li>
-        <li className="menu-item d-flex w-100">
+        <li
+          className={`menu-item d-flex w-100 ${
+            pathname === "/blogs" ? "active" : ""
+          }`}
+        >
           <a
-            className="menu-link d-flex gap-4"
-            style={{
-              alignItems: "center",
-              justifyContent: "center",
-            }}
+            className="menu-link d-flex gap-4 w-100"
             href="#"
             onClick={(e) => {
               e.preventDefault();

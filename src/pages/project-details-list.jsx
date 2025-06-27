@@ -5,24 +5,25 @@ import Footer from "../components/Footer";
 
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
-import BASE_URL from "../Confi/baseurl"; 
+import BASE_URL from "../Confi/baseurl";
 
 const ProjectDetailsList = () => {
   const [projects, setProjects] = useState([]);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const getPageFromStorage = () => {
     return (
       parseInt(localStorage.getItem("project_details_list_currentPage")) || 1
     );
   };
+
   const [pagination, setPagination] = useState({
     current_page: getPageFromStorage(),
-    total_pages: 5,
-    total_count: 50, // total number of entries
   });
 
   const [expandedConfigs, setExpandedConfigs] = useState({});
@@ -30,54 +31,50 @@ const ProjectDetailsList = () => {
   const toggleExpand = (index) => {
     setExpandedConfigs((prev) => ({
       ...prev,
-      [index]: !prev[index], // Toggle the specific configuration's expansion
+      [index]: !prev[index],
     }));
   };
 
   const [loading, setLoading] = useState(false);
-
-  const pageSize = 10; // Items per page
-
-  const navigate = useNavigate();
-
-  const fetchProjects = async () => {
-    setLoading(true);
-    const url = `${BASE_URL}/get_projects_all.json`;
-
-    try {
-      const response = await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-      });
-      const projectsData = response.data?.projects || [];
-      setProjects(projectsData);
-
-      setPagination({
-        current_page: getPageFromStorage(),
-        total_count: projectsData.length,
-        total_pages: Math.ceil(projectsData.length / pageSize),
-      });
-    } catch (error) {
-      console.error("Error fetching projects:", error);
-      setError("Unable to fetch project data");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const pageSize = 10;
 
   useEffect(() => {
+    const fetchProjects = async () => {
+      setLoading(true);
+      const url = `${BASE_URL}/get_projects_all.json`;
+      try {
+        const response = await axios.get(url, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        });
+        setProjects(response.data?.projects || []);
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+        setError("Unable to fetch project data");
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchProjects();
   }, []);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const queryFromUrl = params.get("s[name_cont]") || "";
+    setSearchQuery(queryFromUrl);
+    setPagination((prev) => ({ ...prev, current_page: 1 }));
+    localStorage.setItem("project_details_list_currentPage", "1");
+  }, [location.search]);
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
     setPagination((prevState) => ({ ...prevState, current_page: 1 }));
+    localStorage.setItem("project_details_list_currentPage", "1");
   };
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    // Instead of fetching new data, we'll update the URL params like BannerList
     const params = new URLSearchParams();
     if (searchQuery) {
       params.set("s[name_cont]", searchQuery);
@@ -85,8 +82,14 @@ const ProjectDetailsList = () => {
     navigate(`${location.pathname}?${params.toString()}`, { replace: true });
   };
 
+  const filteredProjects = projects.filter((project) =>
+    (project.project_name || "").toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const totalFilteredPages = Math.ceil(filteredProjects.length / pageSize) || 1;
+
   const handlePageChange = (pageNumber) => {
-    if (pageNumber >= 1 && pageNumber <= pagination.total_pages) {
+    if (pageNumber >= 1 && pageNumber <= totalFilteredPages) {
       setPagination({
         ...pagination,
         current_page: pageNumber,
@@ -95,22 +98,11 @@ const ProjectDetailsList = () => {
     }
   };
 
-  // Filter projects based on search query (client-side filtering like BannerList)
-  const filteredProjects = searchQuery
-    ? projects.filter((project) =>
-        (project.project_name?.toLowerCase() || "").includes(
-          searchQuery.toLowerCase()
-        )
-      )
-    : projects;
+  const safeCurrentPage = Math.min(pagination.current_page, totalFilteredPages);
 
-  // Update pagination based on filtered results
-  const totalFilteredPages = Math.ceil(filteredProjects.length / pageSize);
-
-  // Get the current page of projects to display
   const displayedProjects = filteredProjects.slice(
-    (pagination.current_page - 1) * pageSize,
-    pagination.current_page * pageSize
+    (safeCurrentPage - 1) * pageSize,
+    safeCurrentPage * pageSize
   );
 
   return (
@@ -134,7 +126,7 @@ const ProjectDetailsList = () => {
                       name="s[name_cont]"
                       id="s_name_cont"
                       className="form-control tbl-search table_search"
-                      placeholder="Search"
+                      placeholder="Search by Project Name"
                       fdprocessedid="u38fp"
                     />
                     <div className="input-group-append">
@@ -220,34 +212,30 @@ const ProjectDetailsList = () => {
                             <th>Number Of Units</th>
                             <th>Rera Number</th>
                             <th>Amenities</th>
-                            {/* <th>Specifications</th> */}
                             <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
                           {displayedProjects?.map((project, index) => (
-                            <tr key={index}>
+                            <tr key={project.id || index}>
                               <td>
-                                {(pagination.current_page - 1) * pageSize +
-                                  index +
-                                  1}
+                                {(safeCurrentPage - 1) * pageSize + index + 1}
                               </td>
                               <td>{project?.project_name || "N/A"}</td>
                               <td>{project?.property_type || "N/A"}</td>
-                              <td>{project?.SFDC_Project_Id || "N/As"}</td>
+                              <td>{project?.SFDC_Project_Id || "N/A"}</td>
                               <td>
                                 {project?.Project_Construction_Status || "N/A"}
                               </td>
-
                               <td style={{ width: "200px" }}>
                                 {project?.configurations?.length > 0
-                                  ? project?.configurations.map(
-                                      (configurations, idx) => (
+                                  ? project.configurations.map(
+                                      (config, idx) => (
                                         <div key={idx}>
-                                          {configurations.name}{" "}
+                                          {config.name}{" "}
                                           <img
-                                            src={configurations.icon_url}
-                                            alt={configurations.name}
+                                            src={config.icon_url}
+                                            alt={config.name}
                                             style={{
                                               width: "20px",
                                               marginLeft: "5px",
@@ -258,7 +246,6 @@ const ProjectDetailsList = () => {
                                     )
                                   : "No Configuration Type"}
                               </td>
-
                               <td>{project?.price || "N/A"}</td>
                               <td>{project?.project_size_sq_mtr || "N/A"}</td>
                               <td>{project?.project_size_sq_ft || "N/A"}</td>
@@ -280,10 +267,9 @@ const ProjectDetailsList = () => {
                                     )
                                   : "N/A"}
                               </td>
-
                               <td style={{ width: "200px" }}>
                                 {project?.amenities?.length > 0
-                                  ? project?.amenities.map((amenity, idx) => (
+                                  ? project.amenities.map((amenity, idx) => (
                                       <div key={idx}>
                                         {amenity.name}{" "}
                                         <img
@@ -298,17 +284,8 @@ const ProjectDetailsList = () => {
                                     ))
                                   : "No amenities"}
                               </td>
-                              {/* <td>
-                                {project?.specifications?.length > 0
-                                  ? project?.specifications.map((spec, idx) => (
-                                      <div key={idx}>{spec.name}</div>
-                                    ))
-                                  : "No specifications"}
-                              </td> */}
                               <td>
-                                <a
-                                  href={`/project-edit/${project?.id || "N/A"}`}
-                                >
+                                <Link to={`/project-edit/${project?.id}`}>
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="24"
@@ -325,12 +302,8 @@ const ProjectDetailsList = () => {
                                       fill="#667085"
                                     />
                                   </svg>
-                                </a>
-                                <a
-                                  href={`/project-details/${
-                                    project?.id || "N/A"
-                                  }`}
-                                >
+                                </Link>
+                                <Link to={`/project-details/${project?.id}`}>
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="16"
@@ -342,7 +315,7 @@ const ProjectDetailsList = () => {
                                     <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"></path>
                                     <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"></path>
                                   </svg>
-                                </a>
+                                </Link>
                               </td>
                             </tr>
                           ))}
@@ -358,49 +331,40 @@ const ProjectDetailsList = () => {
                       role="navigation"
                       aria-label="pager"
                     >
-                      {/* First Page Button */}
                       <li
                         className={`page-item ${
-                          pagination.current_page === 1 ? "disabled" : ""
+                          safeCurrentPage === 1 ? "disabled" : ""
                         }`}
                       >
                         <button
                           className="page-link"
                           onClick={() => handlePageChange(1)}
-                          disabled={pagination.current_page === 1}
+                          disabled={safeCurrentPage === 1}
                         >
                           First
                         </button>
                       </li>
-
-                      {/* Previous Page Button */}
                       <li
                         className={`page-item ${
-                          pagination.current_page === 1 ? "disabled" : ""
+                          safeCurrentPage === 1 ? "disabled" : ""
                         }`}
                       >
                         <button
                           className="page-link"
-                          onClick={() =>
-                            handlePageChange(pagination.current_page - 1)
-                          }
-                          disabled={pagination.current_page === 1}
+                          onClick={() => handlePageChange(safeCurrentPage - 1)}
+                          disabled={safeCurrentPage === 1}
                         >
                           Prev
                         </button>
                       </li>
-
-                      {/* Page Number Buttons */}
                       {Array.from(
-                        {
-                          length: Math.ceil(filteredProjects.length / pageSize),
-                        },
-                        (_, index) => index + 1
+                        { length: totalFilteredPages },
+                        (_, i) => i + 1
                       ).map((page) => (
                         <li
                           key={page}
                           className={`page-item ${
-                            pagination.current_page === page ? "active" : ""
+                            safeCurrentPage === page ? "active" : ""
                           }`}
                         >
                           <button
@@ -411,61 +375,42 @@ const ProjectDetailsList = () => {
                           </button>
                         </li>
                       ))}
-
-                      {/* Next Page Button */}
                       <li
                         className={`page-item ${
-                          pagination.current_page === totalFilteredPages
-                            ? "disabled"
-                            : ""
+                          safeCurrentPage >= totalFilteredPages ? "disabled" : ""
                         }`}
                       >
                         <button
                           className="page-link"
-                          onClick={() =>
-                            handlePageChange(pagination.current_page + 1)
-                          }
-                          disabled={
-                            pagination.current_page === totalFilteredPages
-                          }
+                          onClick={() => handlePageChange(safeCurrentPage + 1)}
+                          disabled={safeCurrentPage >= totalFilteredPages}
                         >
                           Next
                         </button>
                       </li>
-
-                      {/* Last Page Button */}
                       <li
                         className={`page-item ${
-                          pagination.current_page === totalFilteredPages
-                            ? "disabled"
-                            : ""
+                          safeCurrentPage >= totalFilteredPages ? "disabled" : ""
                         }`}
                       >
                         <button
                           className="page-link"
                           onClick={() => handlePageChange(totalFilteredPages)}
-                          disabled={
-                            pagination.current_page === totalFilteredPages
-                          }
+                          disabled={safeCurrentPage >= totalFilteredPages}
                         >
                           Last
                         </button>
                       </li>
                     </ul>
-
-                    {/* Showing Entries Information */}
                     <div>
                       <p>
                         Showing{" "}
                         {filteredProjects.length > 0
-                          ? Math.min(
-                              (pagination.current_page - 1) * pageSize + 1,
-                              filteredProjects.length
-                            )
+                          ? (safeCurrentPage - 1) * pageSize + 1
                           : 0}{" "}
                         to{" "}
                         {Math.min(
-                          pagination.current_page * pageSize,
+                          safeCurrentPage * pageSize,
                           filteredProjects.length
                         )}{" "}
                         of {filteredProjects.length} entries
