@@ -83,34 +83,122 @@ const CreateRuleEngine = () => {
   };
 
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const companyId = 44; // Set this according to your needs
-        const activeStatus = true; // Set this according to your needs
-        const masterAttrs = await fetchMasterAttributes(
-          companyId,
-          activeStatus
-        );
-        setMasterAttributes(masterAttrs.master_attributes || []);
+    const hostname = window.location.hostname;
+    if (hostname === "uat-loyalty.lockated.com") {
+      const staticMasterAttributes = [
+        { id: 1, display_name: 'User Actions', sub_attributes: [
+            { id: 101, attribute_name: 'Referral', display_name: 'Referral' },
+            { id: 102, attribute_name: 'App Download', display_name: 'App Download' },
+            { id: 103, attribute_name: 'Social Media Interactions', display_name: 'Social Media Interactions' },
+            { id: 104, attribute_name: 'Purchases made', display_name: 'Purchases made' },
+            { id: 105, attribute_name: 'Reviews or feedback submission', display_name: 'Reviews or feedback submission' },
+            { id: 106, attribute_name: 'Adding members', display_name: 'Adding members' },
+        ]},
+        { id: 2, display_name: 'Transaction events', sub_attributes: [
+            { id: 201, attribute_name: 'Total purchase value', display_name: 'Total purchase value' },
+            { id: 202, attribute_name: 'Transaction frequency', display_name: 'Transaction frequency' },
+            { id: 203, attribute_name: 'First-time purchase', display_name: 'First-time purchase' },
+            { id: 204, attribute_name: 'Predefined product/category purchase', display_name: 'Predefined product/category purchase' },
+        ]},
+        { id: 3, display_name: 'Time based events', sub_attributes: [
+            { id: 301, attribute_name: 'Event completion before/after a date', display_name: 'Event completion before/after a date' },
+            { id: 302, attribute_name: 'Inactivity for a specified period', display_name: 'Inactivity for a specified period' },
+            { id: 303, attribute_name: 'Anniversary/birthday triggers', display_name: 'Anniversary/birthday triggers' },
+            { id: 304, attribute_name: 'Time-limited offers', display_name: 'Time-limited offers' },
+        ]},
+        { id: 4, display_name: 'User demographics/segments', sub_attributes: [
+            { id: 401, attribute_name: 'Membership tier (Bronze, Silver, Gold)', display_name: 'Membership tier (Bronze, Silver, Gold)' },
+            { id: 402, attribute_name: 'Customer location/region', display_name: 'Customer location/region' },
+            { id: 403, attribute_name: 'Targeted offers for specific user segments', display_name: 'Targeted offers for specific user segments' },
+            { id: 404, attribute_name: 'Customer age/gender', display_name: 'Customer age/gender' },
+        ]},
+        { id: 5, display_name: 'Engagement/Behaviour', sub_attributes: [
+            { id: 501, attribute_name: 'Login frequency', display_name: 'Login frequency' },
+            { id: 502, attribute_name: 'App usage frequency', display_name: 'App usage frequency' },
+            { id: 503, attribute_name: 'Cart abandonment', display_name: 'Cart abandonment' },
+        ]},
+        { id: 6, display_name: 'Milestones', sub_attributes: [
+            { id: 601, attribute_name: 'X transactions in a month', display_name: 'X transactions in a month' },
+            { id: 602, attribute_name: 'Y referrals completed', display_name: 'Y referrals completed' },
+            { id: 603, attribute_name: 'Z amount spent in a specific category', display_name: 'Z amount spent in a specific category' },
+        ]},
+        { id: 7, display_name: 'Tier-based', sub_attributes: [
+            { id: 701, attribute_name: 'Points required for upgrading tier', display_name: 'Points required for upgrading tier' },
+            { id: 702, attribute_name: 'Minimum conditions for downgrading tier', display_name: 'Minimum conditions for downgrading tier' },
+        ]},
+      ];
+      setMasterAttributes(staticMasterAttributes);
 
-        const rewardOutcomes = await fetchMasterRewardOutcomes(
-          companyId,
-          activeStatus
-        );
-        console.log("Reward Outcomes:", rewardOutcomes);
-        setMasterRewardOutcomes(rewardOutcomes.master_reward_outcome || []);
-      } catch (error) {
-        console.error("Error loading data:", error);
-      }
-    };
-
-    getData();
+      const staticRewardOutcomes = [
+        { id: 1, display_name: 'Points-Based Rewards', lock_model_name: 'Points-Based Rewards', sub_reward_outcome: [
+            { id: 101, display_name: 'Fixed points' },
+            { id: 102, display_name: 'Variable points' },
+            { id: 103, display_name: 'Multiplier' },
+        ]},
+        { id: 2, display_name: 'Discounts/Coupon', lock_model_name: 'Discounts/Coupon', sub_reward_outcome: [
+            { id: 201, display_name: 'Fixed Discount' },
+            { id: 202, display_name: 'Percentage Discount' },
+            { id: 203, display_name: 'Coupon Code' },
+        ]},
+        { id: 3, display_name: 'Tier Promotion', lock_model_name: 'Tier Promotion', sub_reward_outcome: [
+            { id: 301, display_name: 'Tier Upgrade' },
+            { id: 302, display_name: 'Tier Downgrade' },
+        ]},
+        { id: 4, display_name: 'Product/Service Offers', lock_model_name: 'Product/Service Offers', sub_reward_outcome: [
+            { id: 401, display_name: 'Exclusive Access' },
+            { id: 402, display_name: 'Free Shipping' },
+        ]},
+        { id: 5, display_name: 'Milestone-Based Rewards', lock_model_name: 'Milestone-Based Rewards', sub_reward_outcome: [
+            { id: 501, display_name: 'Achievement Badge' },
+            { id: 502, display_name: 'Bonus Reward' },
+        ]},
+        { id: 6, display_name: 'Cashback', lock_model_name: 'Cashback', sub_reward_outcome: [
+            { id: 601, display_name: 'Fixed Cashback' },
+            { id: 602, display_name: 'Percentage Cashback' },
+        ]},
+      ];
+      setMasterRewardOutcomes(staticRewardOutcomes);
+    } else {
+      const getData = async () => {
+        try {
+          const companyId = 44; // Set this according to your needs
+          const activeStatus = true; // Set this according to your needs
+          const masterAttrs = await fetchMasterAttributes(
+            companyId,
+            activeStatus
+          );
+          setMasterAttributes(masterAttrs.master_attributes || []);
+  
+          const rewardOutcomes = await fetchMasterRewardOutcomes(
+            companyId,
+            activeStatus
+          );
+          console.log("Reward Outcomes:", rewardOutcomes);
+          setMasterRewardOutcomes(rewardOutcomes.master_reward_outcome || []);
+        } catch (error) {
+          console.error("Error loading data:", error);
+        }
+      };
+  
+      getData();
+    }
   }, []);
 
   //selected master attribute
   const handleMasterAttributeChange = async (e) => {
     const selectedId = e.target.value;
     setSelectedMasterAttribute(selectedId);
+
+    const hostname = window.location.hostname;
+    if (hostname === "uat-loyalty.lockated.com") {
+      const selectedMaster = masterAttributes.find(attr => attr.id === parseInt(selectedId));
+      if (selectedMaster) {
+        setSubAttributes(selectedMaster.sub_attributes || []);
+      } else {
+        setSubAttributes([]);
+      }
+      return;
+    }
 
     // Find the index of the selected master attribute
     const selectedIndex = masterAttributes.findIndex(
@@ -145,6 +233,17 @@ const CreateRuleEngine = () => {
       id: selectedId,
       name: selectedName,
     });
+
+    const hostname = window.location.hostname;
+    if (hostname === "uat-loyalty.lockated.com") {
+      const selectedMaster = masterRewardOutcomes.find(reward => reward.id === parseInt(selectedId));
+      if (selectedMaster) {
+        setSubRewardOutcomes(selectedMaster.sub_reward_outcome || []);
+      } else {
+        setSubRewardOutcomes([]);
+      }
+      return;
+    }
 
     // Find the index of the selected master attribute
     const selectedIndex = masterRewardOutcomes.findIndex(
