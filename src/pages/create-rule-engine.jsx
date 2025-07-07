@@ -32,8 +32,8 @@ const CreateRuleEngine = () => {
     },
   ]);
 
-  const token 
-=localStorage.getItem("access_token")
+  const token
+    = localStorage.getItem("access_token")
 
   const [ruleName, setRuleName] = useState("");
   const [masterAttributes, setMasterAttributes] = useState([]);
@@ -77,7 +77,7 @@ const CreateRuleEngine = () => {
     // Set subOperators based on the selected master operator
     // @ts-ignore
     setSubOperators(selectedMaster ? selectedMaster.subOptions : []);
-    
+
     // Reset the sub operator selection
     setSelectedSubOperator("");
   };
@@ -86,76 +86,102 @@ const CreateRuleEngine = () => {
     const hostname = window.location.hostname;
     if (hostname === "uat-loyalty.lockated.com") {
       const staticMasterAttributes = [
-        { id: 1, display_name: 'User Actions', sub_attributes: [
+        {
+          id: 1, display_name: 'User Actions', sub_attributes: [
             { id: 101, attribute_name: 'Referral', display_name: 'Referral' },
             { id: 102, attribute_name: 'App Download', display_name: 'App Download' },
             { id: 103, attribute_name: 'Social Media Interactions', display_name: 'Social Media Interactions' },
             { id: 104, attribute_name: 'Purchases made', display_name: 'Purchases made' },
             { id: 105, attribute_name: 'Reviews or feedback submission', display_name: 'Reviews or feedback submission' },
             { id: 106, attribute_name: 'Adding members', display_name: 'Adding members' },
-        ]},
-        { id: 2, display_name: 'Transaction events', sub_attributes: [
+          ]
+        },
+        {
+          id: 2, display_name: 'Transaction events', sub_attributes: [
             { id: 201, attribute_name: 'Total purchase value', display_name: 'Total purchase value' },
             { id: 202, attribute_name: 'Transaction frequency', display_name: 'Transaction frequency' },
             { id: 203, attribute_name: 'First-time purchase', display_name: 'First-time purchase' },
             { id: 204, attribute_name: 'Predefined product/category purchase', display_name: 'Predefined product/category purchase' },
-        ]},
-        { id: 3, display_name: 'Time based events', sub_attributes: [
+          ]
+        },
+        {
+          id: 3, display_name: 'Time based events', sub_attributes: [
             { id: 301, attribute_name: 'Event completion before/after a date', display_name: 'Event completion before/after a date' },
             { id: 302, attribute_name: 'Inactivity for a specified period', display_name: 'Inactivity for a specified period' },
             { id: 303, attribute_name: 'Anniversary/birthday triggers', display_name: 'Anniversary/birthday triggers' },
             { id: 304, attribute_name: 'Time-limited offers', display_name: 'Time-limited offers' },
-        ]},
-        { id: 4, display_name: 'User demographics/segments', sub_attributes: [
+          ]
+        },
+        {
+          id: 4, display_name: 'User demographics/segments', sub_attributes: [
             { id: 401, attribute_name: 'Membership tier (Bronze, Silver, Gold)', display_name: 'Membership tier (Bronze, Silver, Gold)' },
             { id: 402, attribute_name: 'Customer location/region', display_name: 'Customer location/region' },
             { id: 403, attribute_name: 'Targeted offers for specific user segments', display_name: 'Targeted offers for specific user segments' },
             { id: 404, attribute_name: 'Customer age/gender', display_name: 'Customer age/gender' },
-        ]},
-        { id: 5, display_name: 'Engagement/Behaviour', sub_attributes: [
+          ]
+        },
+        {
+          id: 5, display_name: 'Engagement/Behaviour', sub_attributes: [
             { id: 501, attribute_name: 'Login frequency', display_name: 'Login frequency' },
             { id: 502, attribute_name: 'App usage frequency', display_name: 'App usage frequency' },
             { id: 503, attribute_name: 'Cart abandonment', display_name: 'Cart abandonment' },
-        ]},
-        { id: 6, display_name: 'Milestones', sub_attributes: [
+          ]
+        },
+        {
+          id: 6, display_name: 'Milestones', sub_attributes: [
             { id: 601, attribute_name: 'X transactions in a month', display_name: 'X transactions in a month' },
             { id: 602, attribute_name: 'Y referrals completed', display_name: 'Y referrals completed' },
             { id: 603, attribute_name: 'Z amount spent in a specific category', display_name: 'Z amount spent in a specific category' },
-        ]},
-        { id: 7, display_name: 'Tier-based', sub_attributes: [
+          ]
+        },
+        {
+          id: 7, display_name: 'Tier-based', sub_attributes: [
             { id: 701, attribute_name: 'Points required for upgrading tier', display_name: 'Points required for upgrading tier' },
             { id: 702, attribute_name: 'Minimum conditions for downgrading tier', display_name: 'Minimum conditions for downgrading tier' },
-        ]},
+          ]
+        },
       ];
       setMasterAttributes(staticMasterAttributes);
 
       const staticRewardOutcomes = [
-        { id: 1, display_name: 'Points-Based Rewards', lock_model_name: 'Points-Based Rewards', sub_reward_outcome: [
+        {
+          id: 1, display_name: 'Points-Based Rewards', lock_model_name: 'Points-Based Rewards', sub_reward_outcome: [
             { id: 101, display_name: 'Fixed points' },
             { id: 102, display_name: 'Variable points' },
             { id: 103, display_name: 'Multiplier' },
-        ]},
-        { id: 2, display_name: 'Discounts/Coupon', lock_model_name: 'Discounts/Coupon', sub_reward_outcome: [
+          ]
+        },
+        {
+          id: 2, display_name: 'Discounts/Coupon', lock_model_name: 'Discounts/Coupon', sub_reward_outcome: [
             { id: 201, display_name: 'Fixed Discount' },
             { id: 202, display_name: 'Percentage Discount' },
             { id: 203, display_name: 'Coupon Code' },
-        ]},
-        { id: 3, display_name: 'Tier Promotion', lock_model_name: 'Tier Promotion', sub_reward_outcome: [
+          ]
+        },
+        {
+          id: 3, display_name: 'Tier Promotion', lock_model_name: 'Tier Promotion', sub_reward_outcome: [
             { id: 301, display_name: 'Tier Upgrade' },
             { id: 302, display_name: 'Tier Downgrade' },
-        ]},
-        { id: 4, display_name: 'Product/Service Offers', lock_model_name: 'Product/Service Offers', sub_reward_outcome: [
+          ]
+        },
+        {
+          id: 4, display_name: 'Product/Service Offers', lock_model_name: 'Product/Service Offers', sub_reward_outcome: [
             { id: 401, display_name: 'Exclusive Access' },
             { id: 402, display_name: 'Free Shipping' },
-        ]},
-        { id: 5, display_name: 'Milestone-Based Rewards', lock_model_name: 'Milestone-Based Rewards', sub_reward_outcome: [
+          ]
+        },
+        {
+          id: 5, display_name: 'Milestone-Based Rewards', lock_model_name: 'Milestone-Based Rewards', sub_reward_outcome: [
             { id: 501, display_name: 'Achievement Badge' },
             { id: 502, display_name: 'Bonus Reward' },
-        ]},
-        { id: 6, display_name: 'Cashback', lock_model_name: 'Cashback', sub_reward_outcome: [
+          ]
+        },
+        {
+          id: 6, display_name: 'Cashback', lock_model_name: 'Cashback', sub_reward_outcome: [
             { id: 601, display_name: 'Fixed Cashback' },
             { id: 602, display_name: 'Percentage Cashback' },
-        ]},
+          ]
+        },
       ];
       setMasterRewardOutcomes(staticRewardOutcomes);
     } else {
@@ -168,7 +194,7 @@ const CreateRuleEngine = () => {
             activeStatus
           );
           setMasterAttributes(masterAttrs.master_attributes || []);
-  
+
           const rewardOutcomes = await fetchMasterRewardOutcomes(
             companyId,
             activeStatus
@@ -179,7 +205,7 @@ const CreateRuleEngine = () => {
           console.error("Error loading data:", error);
         }
       };
-  
+
       getData();
     }
   }, []);
@@ -291,110 +317,121 @@ const CreateRuleEngine = () => {
 
 
   const handleSubmit = async () => {
-  // Validate Rule Name
-  if (!ruleName) {
-    toast.error("Rule Name is required.", {
-      position: "top-center",
-      autoClose: 3000,
-    });
-    return;
-  }
-
-  // Validate all conditions synchronously
-  for (let i = 0; i < conditions.length; i++) {
-    const cond = conditions[i];
-    if (!cond.masterAttribute) {
-      toast.error(`Condition ${i + 1}: Master Attribute is required.`, { position: "top-center", autoClose: 3000 });
+    // Validate Rule Name
+    if (!ruleName) {
+      toast.error("Rule Name is required.", {
+        position: "top-center",
+        autoClose: 3000,
+      });
       return;
     }
-    if (!cond.subAttribute) {
-      toast.error(`Condition ${i + 1}: Sub Attribute is required.`, { position: "top-center", autoClose: 3000 });
+
+    // Validate all conditions synchronously
+    for (let i = 0; i < conditions.length; i++) {
+      const cond = conditions[i];
+      if (!cond.masterAttribute) {
+        toast.error(`Condition ${i + 1}: Master Attribute is required.`, { position: "top-center", autoClose: 3000 });
+        return;
+      }
+      if (!cond.subAttribute) {
+        toast.error(`Condition ${i + 1}: Sub Attribute is required.`, { position: "top-center", autoClose: 3000 });
+        return;
+      }
+      if (!cond.master_operator) {
+        toast.error(`Condition ${i + 1}: Master Operator is required.`, { position: "top-center", autoClose: 3000 });
+        return;
+      }
+      if (!cond.subOperator) {
+        toast.error(`Condition ${i + 1}: Sub Operator is required.`, { position: "top-center", autoClose: 3000 });
+        return;
+      }
+      if (!cond.value) {
+        toast.error(`Condition ${i + 1}: Value is required.`, { position: "top-center", autoClose: 3000 });
+        return;
+      }
+    }
+
+    // Validate Master Reward Outcome
+    if (!selectedMasterRewardOutcomes.name) {
+      toast.error("Master Reward Outcome is required.", {
+        position: "top-center",
+        autoClose: 3000,
+      });
       return;
     }
-    if (!cond.master_operator) {
-      toast.error(`Condition ${i + 1}: Master Operator is required.`, { position: "top-center", autoClose: 3000 });
+
+    // Validate parameter
+    if (isNaN(parameter) || parameter.trim() === "") {
+      setError("Parameter value must be a valid number.");
       return;
     }
-    if (!cond.subOperator) {
-      toast.error(`Condition ${i + 1}: Sub Operator is required.`, { position: "top-center", autoClose: 3000 });
+
+    // ✅ Check for duplicate full conditions (excluding condition_type)
+    const conditionKeys = conditions.map(cond =>
+      `${cond.subAttribute || ""}|${cond.subOperator || ""}|${cond.value || ""}|${cond.masterAttribute || ""}|${cond.master_operator || ""}`
+    );
+
+    const uniqueConditionKeys = new Set(conditionKeys);
+
+    if (uniqueConditionKeys.size !== conditions.length) {
+      const duplicates = conditionKeys.filter((key, index) => conditionKeys.indexOf(key) !== index);
+      setError("Duplicate condition(s) found based on 5-field combination.");
+      console.warn("❌ Duplicate condition keys:", [...new Set(duplicates)]);
+      console.log("All condition keys:", conditionKeys);
       return;
+    } else {
+      console.log("✅ All condition combinations are unique.");
     }
-    if (!cond.value) {
-      toast.error(`Condition ${i + 1}: Value is required.`, { position: "top-center", autoClose: 3000 });
-      return;
-    }
-  }
 
-  // Validate Master Reward Outcome
-  if (!selectedMasterRewardOutcomes.name) {
-    toast.error("Master Reward Outcome is required.", {
-      position: "top-center",
-      autoClose: 3000,
-    });
-    return;
-  }
 
-  // Validate parameter
-  if (isNaN(parameter) || parameter.trim() === "") {
-    setError("Parameter value must be a valid number.");
-    return;
-  }
+    // Proceed with submission
+    const data = {
+      rule_engine_rule: {
+        name: ruleName,
+        description: "This is a description of the sample rule.",
+        loyalty_type_id: sessionStorage.getItem("selectedId"),
+        rule_engine_conditions_attributes: conditions.map((condition) => ({
+          condition_attribute: condition.subAttribute || "",
+          operator: condition.subOperator || "",
+          compare_value: condition.value || "",
+          condition_selected_model: Number(condition.masterAttribute) || 1,
+          condition_type: condition.condition_type || "",
+          master_operator: condition.master_operator || ""
+        })),
+        rule_engine_actions_attributes: [{
+          lock_model_name: selectedMasterRewardOutcomes.name || "",
+          parameters: [Number(parameter) || ""],
+          rule_engine_available_function_id: subRewardOutcomesnew || "",
+          action_selected_model: Number(selectedMasterRewardOutcomes.id) || "",
+        }]
+      }
+    };
 
-  // Check for duplicate condition values
-  const values = conditions.map(cond => cond.value);
-  const uniqueValues = new Set(values);
-  if (uniqueValues.size !== values.length) {
-    setError("Each condition value must be unique.");
-    return;
-  }
+    try {
+      const response = await fetch(
+        `${BASE_URL}/rule_engine/rules/loyalty_re?token=${token}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        }
+      );
 
-  // All validations passed, proceed with submission
-  const data = {
-    rule_engine_rule: {
-      name: ruleName,
-      description: "This is a description of the sample rule.",
-      loyalty_type_id: sessionStorage.getItem("selectedId"),
-      rule_engine_conditions_attributes: conditions.map((condition) => ({
-        condition_attribute: condition.subAttribute || "",
-        operator: condition.subOperator || "",
-        compare_value: condition.value || "",
-        condition_selected_model: Number(condition.masterAttribute) || 1,
-        condition_type: condition.condition_type || "",
-        master_operator: condition.master_operator || ""
-      })),
-      rule_engine_actions_attributes: [{
-        lock_model_name: selectedMasterRewardOutcomes.name || "",
-        parameters: [Number(parameter) || ""],
-        rule_engine_available_function_id: subRewardOutcomesnew || "",
-        action_selected_model: Number(selectedMasterRewardOutcomes.id) || "",
-      }]
+      if (response.ok) {
+        const responseData = await response.json();
+        navigate("/rule-engine");
+        console.log("Data created successfully:", responseData);
+      } else {
+        const errorData = await response.json();
+        setError(`Failed to create Rule Engine: ${errorData.message}`);
+        console.error("Submission error:", errorData);
+      }
+    } catch (error) {
+      setError("Failed to create Rule Engine. Please try again.");
+      console.error("Submission error:", error);
     }
   };
 
-  try {
-    const response = await fetch(
-      `${BASE_URL}/rule_engine/rules/loyalty_re?token=${token}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      }
-    );
-
-    if (response.ok) {
-      const responseData = await response.json();
-      navigate("/rule-engine");
-      console.log("Data created successfully:", responseData);
-    } else {
-      const errorData = await response.json();
-      setError(`Failed to create Rule Engine: ${errorData.message}`);
-      console.error("Submission error:", errorData);
-    }
-  } catch (error) {
-    setError("Failed to create Rule Engine. Please try again.");
-    console.error("Submission error:", error);
-  }
-};
 
   //cross button
   const removeCondition = (id) => {
@@ -407,8 +444,8 @@ const CreateRuleEngine = () => {
   const renderCondition = (condition, index) => (
     <div key={condition.id} className="SetRuleCard mt-4">
       <h5 className="mb-3">
-            <span className="title" style={{ fontSize: '20px', fontWeight: '600' }}>Set Rule Conditions</span>
-          </h5>
+        <span className="title" style={{ fontSize: '20px', fontWeight: '600' }}>Set Rule Conditions</span>
+      </h5>
       <div>
         <h6 className="mt-3">
           <span style={{ fontSize: '18px', fontWeight: '600' }}>Condition {condition.id}
@@ -528,11 +565,11 @@ const CreateRuleEngine = () => {
                 <option value="">Select Master Attribute </option>
                 {masterAttributes.map((attr) => (
                   <option key={attr.
-// @ts-ignore
-                  id} value={attr.id}>
+                    // @ts-ignore
+                    id} value={attr.id}>
                     {attr.
-// @ts-ignore
-                    display_name}
+                      // @ts-ignore
+                      display_name}
                   </option>
                 ))}
               </select>
@@ -563,11 +600,11 @@ const CreateRuleEngine = () => {
                 <option value="">Select Sub Attribute</option>
                 {subAttributes.map((subAttr) => (
                   <option key={subAttr.
-// @ts-ignore
-                  id} value={subAttr.attribute_name}>
+                    // @ts-ignore
+                    id} value={subAttr.attribute_name}>
                     {subAttr.
-// @ts-ignore
-                    display_name}
+                      // @ts-ignore
+                      display_name}
                   </option>
                 ))}
               </select>
@@ -635,11 +672,11 @@ const CreateRuleEngine = () => {
                 <option value="">Select Sub Operator </option>
                 {subOperators.map((subOp) => (
                   <option key={subOp.
-// @ts-ignore
-                  id} value={subOp.value}>
+                    // @ts-ignore
+                    id} value={subOp.value}>
                     {subOp.
-// @ts-ignore
-                    name}
+                      // @ts-ignore
+                      name}
                   </option>
                 ))}
               </select>
@@ -755,11 +792,11 @@ const CreateRuleEngine = () => {
                     <option value="" disabled>Select Master Reward Outcome</option>
                     {masterRewardOutcomes.map((reward) => (
                       <option key={reward.
-// @ts-ignore
-                      id} value={reward.id} data-name={reward.lock_model_name}>
+                        // @ts-ignore
+                        id} value={reward.id} data-name={reward.lock_model_name}>
                         {reward.
-// @ts-ignore
-                        display_name}
+                          // @ts-ignore
+                          display_name}
                       </option>
                     ))}
                   </select>
@@ -798,8 +835,8 @@ const CreateRuleEngine = () => {
                         value={reward.id}
                       >
                         {reward.
-// @ts-ignore
-                        display_name}
+                          // @ts-ignore
+                          display_name}
                       </option>
                     ))}
                   </select>
