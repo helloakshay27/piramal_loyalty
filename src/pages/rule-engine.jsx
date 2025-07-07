@@ -688,7 +688,7 @@ const RuleEngine = () => {
                         />
                       </div>
                     </td>
-                    <td>
+                    {/* <td>
                       <Link to={`/edit-rule-engine/${id}`}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -705,7 +705,7 @@ const RuleEngine = () => {
                           />
                         </svg>
                       </Link>
-                    </td>
+                    </td> */}
                     <td>
                       <Link to={`/view-rule-engine/${id}`}>
                         <svg
