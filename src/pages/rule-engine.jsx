@@ -611,13 +611,12 @@ const RuleEngine = () => {
             color: "#000",
             fontWeight: "400",
             fontSize: "13px",
-            minWidth: "1000px", // Ensures horizontal scroll if content overflows
             tableLayout: "fixed",
           }}
         >
           <colgroup>
             <col style={{ minWidth: "400px", width: "400px" }} /> {/* Rule Name */}
-            <col style={{ width: "calc((100% - 400px) / 8)" }} />
+            <col style={{ width: "150px" }}  />
             <col style={{ width: "150px" }} />
             <col style={{ width: "150px" }} />
             <col style={{ width: "100px" }} />
