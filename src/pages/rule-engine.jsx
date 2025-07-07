@@ -635,7 +635,7 @@ const RuleEngine = () => {
               <th style={{textAlign:'center'}}>Outcome</th>
               <th style={{textAlign:'center'}}>Reward</th>
               <th style={{textAlign:'center'}}>Toggle</th>
-              <th style={{textAlign:'center'}}>Edit</th>
+              {/* <th style={{textAlign:'center'}}>Edit</th> */}
               <th style={{textAlign:'center'}}>View</th>
             </tr>
           </thead>
@@ -774,7 +774,7 @@ const RuleEngine = () => {
                       />
                     </div>
                   </td>
-                  <td>
+                  {/* <td>
                     <Link to={`/edit-rule-engine/${id}`}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -791,7 +791,7 @@ const RuleEngine = () => {
                         />
                       </svg>
                     </Link>
-                  </td>
+                  </td> */}
                   <td>
                     <Link to={`/view-rule-engine/${id}`}>
                       <svg
