@@ -563,89 +563,89 @@ const ViewRuleEngine = () => {
                   THEN
                 </span>
               </h4>
-              <div className="row ms-1 mt-2">
-                <fieldset className="border  col-md-3 m-2 col-sm-11">
-                  <legend
-                    className="float-none"
-                    style={{ fontSize: "14px", fontWeight: "400" }}
-                  >
-                    Master Reward Outcome<span>*</span>
-                  </legend>
+              <div className="ms-1 mt-2" style={{ display: 'flex', flexWrap: 'nowrap', alignItems: 'center' }}>
+  {/* Master Reward Outcome */}
+  <fieldset className="border col-md-3 m-2 col-sm-11">
+    <legend className="float-none" style={{ fontSize: "14px", fontWeight: "400" }}>
+      Master Reward Outcome<span>*</span>
+    </legend>
+    <select
+      required
+      disabled
+      className="p-1 mt-1 mb-1 w-100"
+      style={{ fontSize: "12px", fontWeight: "400", appearance: "none" }}
+    >
+      {actions.map((master, index) => (
+        <option key={`master-${index}`} value="">
+          {formatFieldName(master.lock_model_name)}
+        </option>
+      ))}
+    </select>
+  </fieldset>
 
-                  <select
-                    // @ts-ignore
-                    required=""
-                    className="p-1 mt-1 mb-1"
-                    style={{
-                      fontSize: "12px",
-                      fontWeight: "400",
-                      appearance: "none",
-                    }}
-                    disabled
-                  >
-                    {actions.map((master) => (
-                      <option value="">
-                        {formatFieldName(master.lock_model_name)}
-                      </option>
-                    ))}
-                    {/* // <option value="">Select Master Reward Outcome</option> */}
-                    {/* // <option value=""></option> */}
-                  </select>
-                </fieldset>
-                <div className="col-md-1 d-flex justify-content-center align-items-center">
-                  <h4>&</h4>
-                </div>
-                <fieldset className="border  col-md-3 m-2 col-sm-11">
-                  <legend
-                    className="float-none"
-                    style={{ fontSize: "14px", fontWeight: "400" }}
-                  >
-                    Sub Reward Outcome<span>*</span>
-                  </legend>
-                  <select
-                    // @ts-ignore
-                    required=""
-                    className="p-1 mt-1 mb-1"
-                    style={{
-                      fontSize: "12px",
-                      fontWeight: "400",
-                      appearance: "none",
-                    }}
-                    disabled
-                  >
-                    {actions.map((master) => (
-                      <option value="">
-                        {formatFieldName(master.action_method)}
-                      </option>
-                    ))}
-                    {/* <option value="">Select Sub Reward Outcome</option>
+  {/* Ampersand (&) */}
+  <div className="m-2 d-flex justify-content-center align-items-center" style={{ height: '100%' }}>
+    <h4 className="m-0">&</h4>
+  </div>
 
-                    <option value=""></option> */}
-                  </select>
-                </fieldset>
-                {/* <div className="col-md-1 d-flex justify-content-center align-items-center">
-                    <h4>=</h4>
-                  </div> */}
-                <fieldset className="border col-md-3 m-2 col-sm-11 ">
-                  <legend
-                    className="float-none"
-                    style={{ fontSize: "14px", fontWeight: "400" }}
-                  >
-                    Parameter {/* <span>*</span> */}
-                  </legend>
-                  {actions.map((master) => (
-                    <input
-                      type="text"
-                      placeholder="Enter Point Value"
-                      value={master.parameters}
-                      style={{ fontSize: "12px", fontWeight: "400" }}
-                      className="mt-1 mb-1"
-                      disabled
-                    />
-                  ))}
-                  {/* <input type="text" placeholder="Enter Point Value" value={} /> */}
-                </fieldset>
-              </div>
+  {/* Sub Reward Outcome */}
+  <fieldset className="border col-md-4">
+    <legend className="float-none" style={{ fontSize: "14px", fontWeight: "400" }}>
+      Sub Reward Outcome<span>*</span>
+    </legend>
+    <select
+      required
+      disabled
+      className="p-1 mt-1 mb-1 w-100"
+      style={{ fontSize: "12px", fontWeight: "400", appearance: "none" }}
+    >
+      {actions.map((master, index) => (
+        <option key={`sub-${index}`} value="">
+          {formatFieldName(master.action_method)}
+        </option>
+      ))}
+    </select>
+  </fieldset>
+
+  {/* Parameter input with %/Pts */}
+  <div className="position-relative m-2 col-md-4 col-sm-11" style={{ display: 'flex', alignItems: 'flex-end' }}>
+    <fieldset className="border w-100" style={{ position: 'relative' }}>
+      <legend className="float-none" style={{ fontSize: "14px", fontWeight: "400" }}>
+        Parameter
+      </legend>
+
+      {actions.map((master, index) => (
+        <div key={`param-${index}`} className="d-flex align-items-center mt-1 mb-1">
+          <input
+            type="text"
+            placeholder="Enter Point Value"
+            value={master.parameters}
+            className="w-100"
+            style={{ fontSize: "12px", fontWeight: "400" }}
+            disabled
+          />
+          <span
+            style={{
+              marginLeft: '4px',
+              fontSize: "20px",
+              fontWeight: "400",
+              color: "#000",
+              whiteSpace: 'nowrap',
+              paddingBottom: '5px'
+            }}
+          >
+            {master.action_method?.toLowerCase().includes("percentage")
+              || master.action_method?.toLowerCase() === "percent credit"
+              || master.action_method?.toLowerCase() === "percentage credit"
+              ? "%"
+              : "Pts"}
+          </span>
+        </div>
+      ))}
+    </fieldset>
+  </div>
+</div>
+
             </div>
           </div>
 

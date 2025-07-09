@@ -18,7 +18,12 @@ export default function RuleLogs() {
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = String(date.getFullYear());
-    return `${day}-${month}-${year}`;
+    const hours = date.getHours();
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const displayHours = hours % 12 || 12;
+    return `${day}-${month}-${year} ${displayHours}:${minutes}:${seconds} ${ampm}`;
   };
 
   const parseChangedAttr = (attrString) => {
@@ -282,7 +287,7 @@ export default function RuleLogs() {
                       <td>{log.about}</td>
                       <td>{log.about_id}</td>
                       <td>{parseChangedAttr(log.changed_attr)}</td>
-                      <td>{formatDate(log.created_at_from_attr)}</td>
+                      <td>{formatDate(log.created_at)}</td>
                     </tr>
                   )) : (
                     <tr>

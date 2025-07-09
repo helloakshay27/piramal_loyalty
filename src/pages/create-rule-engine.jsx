@@ -1087,8 +1087,9 @@ const CreateRuleEngine = () => {
       <span
         style={{
           marginLeft: '4px',
-          fontSize: "12px",
-          fontWeight: "600",
+          fontSize: "20px",
+          fontWeight: "400",
+          paddingBottom:'5px',
           color: "#000",
           whiteSpace: 'nowrap'
         }}
@@ -1097,7 +1098,9 @@ const CreateRuleEngine = () => {
         selectedSubRewardOutcome.display_name === "Percent Credit" ||
         selectedSubRewardOutcome.display_name.toLowerCase().includes("percentage")
           ? "%"
-          : "pts"}
+          : selectedSubRewardOutcome.display_name.toLowerCase().includes("credit") 
+          ? "Pts"
+          : ""}
       </span>
     )}
   </div>

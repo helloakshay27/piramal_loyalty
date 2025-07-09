@@ -753,7 +753,7 @@ const RuleEngine = () => {
                         </td>
                         <td>
                           {act.parameters ? act.parameters : ""}
-                          {act.parameters && act.action_method === "credit_points" && " pts"}
+                          {act.parameters && act.action_method === "credit_points" && " Pts"}
                           {act.parameters && act.action_method === "percentage_credit" && " %"}
                         </td>
                       </React.Fragment>
