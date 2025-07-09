@@ -45,6 +45,7 @@ const CreateRuleEngine = () => {
   const [selectedMasterRewardOutcomes, setSelectedMasterRewardOutcomes] = useState({ id: '', name: '' });
   const [subRewardOutcomes, setSubRewardOutcomes] = useState([]);
   const [subRewardOutcomesnew, setsubRewardOutcomesnew] = useState([]);
+  const [selectedSubRewardOutcome, setSelectedSubRewardOutcome] = useState(null);
 
 
   // @ts-ignore
@@ -816,21 +817,23 @@ const CreateRuleEngine = () => {
                     style={{ fontSize: '12px', fontWeight: '400' }}
                     disabled={!selectedMasterRewardOutcomes}
                     onChange={(e) => {
-                      const selectedId = e.target.value; // Get the selected sub-reward outcome ID
+                      const selectedId = e.target.value;
                       console.log(selectedId)
-                      // Handle the selection as needed, e.g., update the state or construct the data object
-                      // @ts-ignore
                       setsubRewardOutcomesnew(selectedId);
+                      
+                      // Find the selected sub reward outcome to get its details
+                      const selectedSubReward = subRewardOutcomes.find(reward => reward.id === parseInt(selectedId));
+                      setSelectedSubRewardOutcome(selectedSubReward);
                     }}
-                    value={subRewardOutcomesnew} // Ensure this reflects the selected sub-reward outcome
+                    value={subRewardOutcomesnew}
                   >
+                    {console.log("Sub Reward Outcomes:", subRewardOutcomes)}
                     <option value="">Select Sub Reward Outcome</option>
 
                     {subRewardOutcomes.map((reward) => (
                       <option
                         // @ts-ignore
                         key={reward.id}
-                        // value={reward.rule_engine_available_model_id}
                         // @ts-ignore
                         value={reward.id}
                       >
@@ -848,7 +851,23 @@ const CreateRuleEngine = () => {
                   <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
                     Parameter <span>*</span>
                   </legend>
-                  <input type="text" placeholder="Enter Parameter Value" value={parameter} onChange={(e) => setParameter(e.target.value)} className="mt-1 mb-1" style={{ fontSize: '12px', fontWeight: '400' }} />
+                  <div className="d-flex align-items-center">
+                    <input 
+                      type="text" 
+                      placeholder="Enter Parameter Value" 
+                      value={parameter} 
+                      onChange={(e) => setParameter(e.target.value)} 
+                      className="mt-1 mb-1 flex-grow-1" 
+                      style={{ fontSize: '12px', fontWeight: '400' }} 
+                    />
+                    <span className="mx-2" style={{ fontSize: '12px', fontWeight: 'semibold', color: '#000' }}>
+                      {selectedSubRewardOutcome ? 
+                        (selectedSubRewardOutcome.display_name === 'Percentage Credit' || 
+                         selectedSubRewardOutcome.display_name === 'Percent Credit' || 
+                         selectedSubRewardOutcome.display_name.toLowerCase().includes('percentage')) ? '%' : 'pts' 
+                        : ''}
+                    </span>
+                  </div>
                 </fieldset>
               </div>
             </div>
@@ -878,6 +897,7 @@ const CreateRuleEngine = () => {
                 setSelectedMasterRewardOutcomes({ id: '', name: '' })
                 setSubRewardOutcomes([])
                 setParameter('')
+                setSelectedSubRewardOutcome(null)
               }}>Cancel</button>
             </div>
           </div>
