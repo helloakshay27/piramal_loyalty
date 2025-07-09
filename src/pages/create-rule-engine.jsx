@@ -14,11 +14,10 @@ import {
 } from "../Confi/ruleEngineApi";
 import BASE_URL from "../Confi/baseurl";
 
-import { masterOperators } from './operatorsData'; // Import your data
+import { masterOperators } from "./operatorsData"; // Import your data
 
 const CreateRuleEngine = () => {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [conditions, setConditions] = useState([
     {
       id: 1,
@@ -27,13 +26,12 @@ const CreateRuleEngine = () => {
       masterOperator: "",
       subOperator: "",
       condition_type: "",
-      value: '',
-      master_operator: ''
+      value: "",
+      master_operator: "",
     },
   ]);
 
-  const token
-    = localStorage.getItem("access_token")
+  const token = localStorage.getItem("access_token");
 
   const [ruleName, setRuleName] = useState("");
   const [masterAttributes, setMasterAttributes] = useState([]);
@@ -42,11 +40,12 @@ const CreateRuleEngine = () => {
   const [subAttributes, setSubAttributes] = useState([]);
 
   const [masterRewardOutcomes, setMasterRewardOutcomes] = useState([]);
-  const [selectedMasterRewardOutcomes, setSelectedMasterRewardOutcomes] = useState({ id: '', name: '' });
+  const [selectedMasterRewardOutcomes, setSelectedMasterRewardOutcomes] =
+    useState({ id: "", name: "" });
   const [subRewardOutcomes, setSubRewardOutcomes] = useState([]);
   const [subRewardOutcomesnew, setsubRewardOutcomesnew] = useState([]);
-  const [selectedSubRewardOutcome, setSelectedSubRewardOutcome] = useState(null);
-
+  const [selectedSubRewardOutcome, setSelectedSubRewardOutcome] =
+    useState(null);
 
   // @ts-ignore
   const [selectedMasterOperator, setSelectedMasterOperator] = useState("");
@@ -54,10 +53,9 @@ const CreateRuleEngine = () => {
   // @ts-ignore
   const [selectedSubOperator, setSelectedSubOperator] = useState("");
 
-  const [error, setError] = useState("")
-  const [parameter, setParameter] = useState('')
-  const [previousValue, setPreviousValue] = useState('');
-
+  const [error, setError] = useState("");
+  const [parameter, setParameter] = useState("");
+  const [previousValue, setPreviousValue] = useState("");
 
   // const handleMasterOperatorChange = (e) => {
   //   const selectedName = e.target.value; //handle master operator
@@ -73,7 +71,9 @@ const CreateRuleEngine = () => {
     setSelectedMasterOperator(selectedName); // Store selected master operator name
 
     // Find the selected master operator by its name
-    const selectedMaster = masterOperators.find((op) => op.name === selectedName);
+    const selectedMaster = masterOperators.find(
+      (op) => op.name === selectedName
+    );
 
     // Set subOperators based on the selected master operator
     // @ts-ignore
@@ -88,100 +88,232 @@ const CreateRuleEngine = () => {
     if (hostname === "uat-loyalty.lockated.com") {
       const staticMasterAttributes = [
         {
-          id: 1, display_name: 'User Actions', sub_attributes: [
-            { id: 101, attribute_name: 'Referral', display_name: 'Referral' },
-            { id: 102, attribute_name: 'App Download', display_name: 'App Download' },
-            { id: 103, attribute_name: 'Social Media Interactions', display_name: 'Social Media Interactions' },
-            { id: 104, attribute_name: 'Purchases made', display_name: 'Purchases made' },
-            { id: 105, attribute_name: 'Reviews or feedback submission', display_name: 'Reviews or feedback submission' },
-            { id: 106, attribute_name: 'Adding members', display_name: 'Adding members' },
-          ]
+          id: 1,
+          display_name: "User Actions",
+          sub_attributes: [
+            { id: 101, attribute_name: "Referral", display_name: "Referral" },
+            {
+              id: 102,
+              attribute_name: "App Download",
+              display_name: "App Download",
+            },
+            {
+              id: 103,
+              attribute_name: "Social Media Interactions",
+              display_name: "Social Media Interactions",
+            },
+            {
+              id: 104,
+              attribute_name: "Purchases made",
+              display_name: "Purchases made",
+            },
+            {
+              id: 105,
+              attribute_name: "Reviews or feedback submission",
+              display_name: "Reviews or feedback submission",
+            },
+            {
+              id: 106,
+              attribute_name: "Adding members",
+              display_name: "Adding members",
+            },
+          ],
         },
         {
-          id: 2, display_name: 'Transaction events', sub_attributes: [
-            { id: 201, attribute_name: 'Total purchase value', display_name: 'Total purchase value' },
-            { id: 202, attribute_name: 'Transaction frequency', display_name: 'Transaction frequency' },
-            { id: 203, attribute_name: 'First-time purchase', display_name: 'First-time purchase' },
-            { id: 204, attribute_name: 'Predefined product/category purchase', display_name: 'Predefined product/category purchase' },
-          ]
+          id: 2,
+          display_name: "Transaction events",
+          sub_attributes: [
+            {
+              id: 201,
+              attribute_name: "Total purchase value",
+              display_name: "Total purchase value",
+            },
+            {
+              id: 202,
+              attribute_name: "Transaction frequency",
+              display_name: "Transaction frequency",
+            },
+            {
+              id: 203,
+              attribute_name: "First-time purchase",
+              display_name: "First-time purchase",
+            },
+            {
+              id: 204,
+              attribute_name: "Predefined product/category purchase",
+              display_name: "Predefined product/category purchase",
+            },
+          ],
         },
         {
-          id: 3, display_name: 'Time based events', sub_attributes: [
-            { id: 301, attribute_name: 'Event completion before/after a date', display_name: 'Event completion before/after a date' },
-            { id: 302, attribute_name: 'Inactivity for a specified period', display_name: 'Inactivity for a specified period' },
-            { id: 303, attribute_name: 'Anniversary/birthday triggers', display_name: 'Anniversary/birthday triggers' },
-            { id: 304, attribute_name: 'Time-limited offers', display_name: 'Time-limited offers' },
-          ]
+          id: 3,
+          display_name: "Time based events",
+          sub_attributes: [
+            {
+              id: 301,
+              attribute_name: "Event completion before/after a date",
+              display_name: "Event completion before/after a date",
+            },
+            {
+              id: 302,
+              attribute_name: "Inactivity for a specified period",
+              display_name: "Inactivity for a specified period",
+            },
+            {
+              id: 303,
+              attribute_name: "Anniversary/birthday triggers",
+              display_name: "Anniversary/birthday triggers",
+            },
+            {
+              id: 304,
+              attribute_name: "Time-limited offers",
+              display_name: "Time-limited offers",
+            },
+          ],
         },
         {
-          id: 4, display_name: 'User demographics/segments', sub_attributes: [
-            { id: 401, attribute_name: 'Membership tier (Bronze, Silver, Gold)', display_name: 'Membership tier (Bronze, Silver, Gold)' },
-            { id: 402, attribute_name: 'Customer location/region', display_name: 'Customer location/region' },
-            { id: 403, attribute_name: 'Targeted offers for specific user segments', display_name: 'Targeted offers for specific user segments' },
-            { id: 404, attribute_name: 'Customer age/gender', display_name: 'Customer age/gender' },
-          ]
+          id: 4,
+          display_name: "User demographics/segments",
+          sub_attributes: [
+            {
+              id: 401,
+              attribute_name: "Membership tier (Bronze, Silver, Gold)",
+              display_name: "Membership tier (Bronze, Silver, Gold)",
+            },
+            {
+              id: 402,
+              attribute_name: "Customer location/region",
+              display_name: "Customer location/region",
+            },
+            {
+              id: 403,
+              attribute_name: "Targeted offers for specific user segments",
+              display_name: "Targeted offers for specific user segments",
+            },
+            {
+              id: 404,
+              attribute_name: "Customer age/gender",
+              display_name: "Customer age/gender",
+            },
+          ],
         },
         {
-          id: 5, display_name: 'Engagement/Behaviour', sub_attributes: [
-            { id: 501, attribute_name: 'Login frequency', display_name: 'Login frequency' },
-            { id: 502, attribute_name: 'App usage frequency', display_name: 'App usage frequency' },
-            { id: 503, attribute_name: 'Cart abandonment', display_name: 'Cart abandonment' },
-          ]
+          id: 5,
+          display_name: "Engagement/Behaviour",
+          sub_attributes: [
+            {
+              id: 501,
+              attribute_name: "Login frequency",
+              display_name: "Login frequency",
+            },
+            {
+              id: 502,
+              attribute_name: "App usage frequency",
+              display_name: "App usage frequency",
+            },
+            {
+              id: 503,
+              attribute_name: "Cart abandonment",
+              display_name: "Cart abandonment",
+            },
+          ],
         },
         {
-          id: 6, display_name: 'Milestones', sub_attributes: [
-            { id: 601, attribute_name: 'X transactions in a month', display_name: 'X transactions in a month' },
-            { id: 602, attribute_name: 'Y referrals completed', display_name: 'Y referrals completed' },
-            { id: 603, attribute_name: 'Z amount spent in a specific category', display_name: 'Z amount spent in a specific category' },
-          ]
+          id: 6,
+          display_name: "Milestones",
+          sub_attributes: [
+            {
+              id: 601,
+              attribute_name: "X transactions in a month",
+              display_name: "X transactions in a month",
+            },
+            {
+              id: 602,
+              attribute_name: "Y referrals completed",
+              display_name: "Y referrals completed",
+            },
+            {
+              id: 603,
+              attribute_name: "Z amount spent in a specific category",
+              display_name: "Z amount spent in a specific category",
+            },
+          ],
         },
         {
-          id: 7, display_name: 'Tier-based', sub_attributes: [
-            { id: 701, attribute_name: 'Points required for upgrading tier', display_name: 'Points required for upgrading tier' },
-            { id: 702, attribute_name: 'Minimum conditions for downgrading tier', display_name: 'Minimum conditions for downgrading tier' },
-          ]
+          id: 7,
+          display_name: "Tier-based",
+          sub_attributes: [
+            {
+              id: 701,
+              attribute_name: "Points required for upgrading tier",
+              display_name: "Points required for upgrading tier",
+            },
+            {
+              id: 702,
+              attribute_name: "Minimum conditions for downgrading tier",
+              display_name: "Minimum conditions for downgrading tier",
+            },
+          ],
         },
       ];
       setMasterAttributes(staticMasterAttributes);
 
       const staticRewardOutcomes = [
         {
-          id: 1, display_name: 'Points-Based Rewards', lock_model_name: 'Points-Based Rewards', sub_reward_outcome: [
-            { id: 101, display_name: 'Fixed points' },
-            { id: 102, display_name: 'Variable points' },
-            { id: 103, display_name: 'Multiplier' },
-          ]
+          id: 1,
+          display_name: "Points-Based Rewards",
+          lock_model_name: "Points-Based Rewards",
+          sub_reward_outcome: [
+            { id: 101, display_name: "Fixed points" },
+            { id: 102, display_name: "Variable points" },
+            { id: 103, display_name: "Multiplier" },
+          ],
         },
         {
-          id: 2, display_name: 'Discounts/Coupon', lock_model_name: 'Discounts/Coupon', sub_reward_outcome: [
-            { id: 201, display_name: 'Fixed Discount' },
-            { id: 202, display_name: 'Percentage Discount' },
-            { id: 203, display_name: 'Coupon Code' },
-          ]
+          id: 2,
+          display_name: "Discounts/Coupon",
+          lock_model_name: "Discounts/Coupon",
+          sub_reward_outcome: [
+            { id: 201, display_name: "Fixed Discount" },
+            { id: 202, display_name: "Percentage Discount" },
+            { id: 203, display_name: "Coupon Code" },
+          ],
         },
         {
-          id: 3, display_name: 'Tier Promotion', lock_model_name: 'Tier Promotion', sub_reward_outcome: [
-            { id: 301, display_name: 'Tier Upgrade' },
-            { id: 302, display_name: 'Tier Downgrade' },
-          ]
+          id: 3,
+          display_name: "Tier Promotion",
+          lock_model_name: "Tier Promotion",
+          sub_reward_outcome: [
+            { id: 301, display_name: "Tier Upgrade" },
+            { id: 302, display_name: "Tier Downgrade" },
+          ],
         },
         {
-          id: 4, display_name: 'Product/Service Offers', lock_model_name: 'Product/Service Offers', sub_reward_outcome: [
-            { id: 401, display_name: 'Exclusive Access' },
-            { id: 402, display_name: 'Free Shipping' },
-          ]
+          id: 4,
+          display_name: "Product/Service Offers",
+          lock_model_name: "Product/Service Offers",
+          sub_reward_outcome: [
+            { id: 401, display_name: "Exclusive Access" },
+            { id: 402, display_name: "Free Shipping" },
+          ],
         },
         {
-          id: 5, display_name: 'Milestone-Based Rewards', lock_model_name: 'Milestone-Based Rewards', sub_reward_outcome: [
-            { id: 501, display_name: 'Achievement Badge' },
-            { id: 502, display_name: 'Bonus Reward' },
-          ]
+          id: 5,
+          display_name: "Milestone-Based Rewards",
+          lock_model_name: "Milestone-Based Rewards",
+          sub_reward_outcome: [
+            { id: 501, display_name: "Achievement Badge" },
+            { id: 502, display_name: "Bonus Reward" },
+          ],
         },
         {
-          id: 6, display_name: 'Cashback', lock_model_name: 'Cashback', sub_reward_outcome: [
-            { id: 601, display_name: 'Fixed Cashback' },
-            { id: 602, display_name: 'Percentage Cashback' },
-          ]
+          id: 6,
+          display_name: "Cashback",
+          lock_model_name: "Cashback",
+          sub_reward_outcome: [
+            { id: 601, display_name: "Fixed Cashback" },
+            { id: 602, display_name: "Percentage Cashback" },
+          ],
         },
       ];
       setMasterRewardOutcomes(staticRewardOutcomes);
@@ -218,7 +350,9 @@ const CreateRuleEngine = () => {
 
     const hostname = window.location.hostname;
     if (hostname === "uat-loyalty.lockated.com") {
-      const selectedMaster = masterAttributes.find(attr => attr.id === parseInt(selectedId));
+      const selectedMaster = masterAttributes.find(
+        (attr) => attr.id === parseInt(selectedId)
+      );
       if (selectedMaster) {
         setSubAttributes(selectedMaster.sub_attributes || []);
       } else {
@@ -255,7 +389,7 @@ const CreateRuleEngine = () => {
     const selectedId = e.target.value;
 
     const selectedOption = e.target.selectedOptions[0]; // Get the selected <option> element
-    const selectedName = selectedOption.getAttribute('data-name'); // Get the data-name attribute    setSelectedMasterRewardOutcomes(selectedName);
+    const selectedName = selectedOption.getAttribute("data-name"); // Get the data-name attribute    setSelectedMasterRewardOutcomes(selectedName);
     setSelectedMasterRewardOutcomes({
       id: selectedId,
       name: selectedName,
@@ -263,7 +397,9 @@ const CreateRuleEngine = () => {
 
     const hostname = window.location.hostname;
     if (hostname === "uat-loyalty.lockated.com") {
-      const selectedMaster = masterRewardOutcomes.find(reward => reward.id === parseInt(selectedId));
+      const selectedMaster = masterRewardOutcomes.find(
+        (reward) => reward.id === parseInt(selectedId)
+      );
       if (selectedMaster) {
         setSubRewardOutcomes(selectedMaster.sub_reward_outcome || []);
       } else {
@@ -299,7 +435,6 @@ const CreateRuleEngine = () => {
     }
   };
 
-
   const addCondition = () => {
     setConditions([
       ...conditions,
@@ -310,12 +445,11 @@ const CreateRuleEngine = () => {
         masterOperator: "",
         subOperator: "",
         condition_type: "",
-        value: '',
-        master_operator: ''
+        value: "",
+        master_operator: "",
       },
     ]);
   };
-
 
   const handleSubmit = async () => {
     // Validate Rule Name
@@ -331,23 +465,38 @@ const CreateRuleEngine = () => {
     for (let i = 0; i < conditions.length; i++) {
       const cond = conditions[i];
       if (!cond.masterAttribute) {
-        toast.error(`Condition ${i + 1}: Master Attribute is required.`, { position: "top-center", autoClose: 3000 });
+        toast.error(`Condition ${i + 1}: Master Attribute is required.`, {
+          position: "top-center",
+          autoClose: 3000,
+        });
         return;
       }
       if (!cond.subAttribute) {
-        toast.error(`Condition ${i + 1}: Sub Attribute is required.`, { position: "top-center", autoClose: 3000 });
+        toast.error(`Condition ${i + 1}: Sub Attribute is required.`, {
+          position: "top-center",
+          autoClose: 3000,
+        });
         return;
       }
       if (!cond.master_operator) {
-        toast.error(`Condition ${i + 1}: Master Operator is required.`, { position: "top-center", autoClose: 3000 });
+        toast.error(`Condition ${i + 1}: Master Operator is required.`, {
+          position: "top-center",
+          autoClose: 3000,
+        });
         return;
       }
       if (!cond.subOperator) {
-        toast.error(`Condition ${i + 1}: Sub Operator is required.`, { position: "top-center", autoClose: 3000 });
+        toast.error(`Condition ${i + 1}: Sub Operator is required.`, {
+          position: "top-center",
+          autoClose: 3000,
+        });
         return;
       }
       if (!cond.value) {
-        toast.error(`Condition ${i + 1}: Value is required.`, { position: "top-center", autoClose: 3000 });
+        toast.error(`Condition ${i + 1}: Value is required.`, {
+          position: "top-center",
+          autoClose: 3000,
+        });
         return;
       }
     }
@@ -368,14 +517,19 @@ const CreateRuleEngine = () => {
     }
 
     // ✅ Check for duplicate full conditions (excluding condition_type)
-    const conditionKeys = conditions.map(cond =>
-      `${cond.subAttribute || ""}|${cond.subOperator || ""}|${cond.value || ""}|${cond.masterAttribute || ""}|${cond.master_operator || ""}`
+    const conditionKeys = conditions.map(
+      (cond) =>
+        `${cond.subAttribute || ""}|${cond.subOperator || ""}|${
+          cond.value || ""
+        }|${cond.masterAttribute || ""}|${cond.master_operator || ""}`
     );
 
     const uniqueConditionKeys = new Set(conditionKeys);
 
     if (uniqueConditionKeys.size !== conditions.length) {
-      const duplicates = conditionKeys.filter((key, index) => conditionKeys.indexOf(key) !== index);
+      const duplicates = conditionKeys.filter(
+        (key, index) => conditionKeys.indexOf(key) !== index
+      );
       setError("Duplicate condition(s) found based on 5-field combination.");
       console.warn("❌ Duplicate condition keys:", [...new Set(duplicates)]);
       console.log("All condition keys:", conditionKeys);
@@ -383,7 +537,6 @@ const CreateRuleEngine = () => {
     } else {
       console.log("✅ All condition combinations are unique.");
     }
-
 
     // Proceed with submission
     const data = {
@@ -397,15 +550,18 @@ const CreateRuleEngine = () => {
           compare_value: condition.value || "",
           condition_selected_model: Number(condition.masterAttribute) || 1,
           condition_type: condition.condition_type || "",
-          master_operator: condition.master_operator || ""
+          master_operator: condition.master_operator || "",
         })),
-        rule_engine_actions_attributes: [{
-          lock_model_name: selectedMasterRewardOutcomes.name || "",
-          parameters: [Number(parameter) || ""],
-          rule_engine_available_function_id: subRewardOutcomesnew || "",
-          action_selected_model: Number(selectedMasterRewardOutcomes.id) || "",
-        }]
-      }
+        rule_engine_actions_attributes: [
+          {
+            lock_model_name: selectedMasterRewardOutcomes.name || "",
+            parameters: [Number(parameter) || ""],
+            rule_engine_available_function_id: subRewardOutcomesnew || "",
+            action_selected_model:
+              Number(selectedMasterRewardOutcomes.id) || "",
+          },
+        ],
+      },
     };
 
     try {
@@ -433,29 +589,31 @@ const CreateRuleEngine = () => {
     }
   };
 
-
   //cross button
   const removeCondition = (id) => {
-    const updatedConditions = conditions.filter(condition => condition.id !== id);
+    const updatedConditions = conditions.filter(
+      (condition) => condition.id !== id
+    );
     setConditions(updatedConditions);
   };
-
-
 
   const renderCondition = (condition, index) => (
     <div key={condition.id} className="SetRuleCard mt-4">
       <h5 className="mb-3">
-        <span className="title" style={{ fontSize: '20px', fontWeight: '600' }}>Set Rule Conditions</span>
+        <span className="title" style={{ fontSize: "20px", fontWeight: "600" }}>
+          Set Rule Conditions
+        </span>
       </h5>
       <div>
         <h6 className="mt-3">
-          <span style={{ fontSize: '18px', fontWeight: '600' }}>Condition {condition.id}
+          <span style={{ fontSize: "18px", fontWeight: "600" }}>
+            Condition {condition.id}
             {index > 0 && ( // Only show the button for conditions after the first one
               <button
                 onClick={() => removeCondition(condition.id)}
                 className="ms-3"
                 // title="Remove Condition"
-                style={{ border: 'none', backgroundColor: 'white' }}
+                style={{ border: "none", backgroundColor: "white" }}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -465,7 +623,10 @@ const CreateRuleEngine = () => {
                   className="bi bi-x"
                   viewBox="0 0 16 16"
                 >
-                  <path fillRule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 1 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 1 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                  <path
+                    fillRule="evenodd"
+                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 1 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 1 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+                  />
                 </svg>
               </button>
             )}
@@ -490,12 +651,9 @@ const CreateRuleEngine = () => {
                 // @ts-ignore
                 onChange={(e) => {
                   const updatedConditions = conditions.map((cond, idx) =>
-                    idx === index
-                      ? { ...cond, condition_type: "AND" }
-                      : cond
+                    idx === index ? { ...cond, condition_type: "AND" } : cond
                   );
                   setConditions(updatedConditions);
-
                 }}
                 checked={condition.condition_type === "AND"}
               />
@@ -517,12 +675,9 @@ const CreateRuleEngine = () => {
                 // @ts-ignore
                 onChange={(e) => {
                   const updatedConditions = conditions.map((cond, idx) =>
-                    idx === index
-                      ? { ...cond, condition_type: "OR" }
-                      : cond
+                    idx === index ? { ...cond, condition_type: "OR" } : cond
                   );
                   setConditions(updatedConditions);
-
                 }}
                 checked={condition.condition_type === "OR"}
               />
@@ -538,19 +693,32 @@ const CreateRuleEngine = () => {
         {/* ......if ..... */}
         <div>
           <h4>
-            <span className="badge setRuleCard" style={{ fontSize: '16px', fontWeight: '600', color: '#E95420', backgroundColor: '#E954202E' }}>IF</span>
+            <span
+              className="badge setRuleCard"
+              style={{
+                fontSize: "16px",
+                fontWeight: "600",
+                color: "#E95420",
+                backgroundColor: "#E954202E",
+              }}
+            >
+              IF
+            </span>
           </h4>
           <div className="row ms-1 mt-2">
             {/* Attribute section */}
             <fieldset className="border col-md-3 m-2 col-sm-11">
-              <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
+              <legend
+                className="float-none"
+                style={{ fontSize: "14px", fontWeight: "400" }}
+              >
                 Master Attribute<span>*</span>
               </legend>
               <select
                 // @ts-ignore
                 required=""
                 className="p-1  mt-1 mb-1"
-                style={{ fontSize: '12px', fontWeight: '400' }}
+                style={{ fontSize: "12px", fontWeight: "400" }}
                 onChange={(e) => {
                   const updatedConditions = conditions.map((cond, idx) =>
                     idx === index
@@ -561,16 +729,20 @@ const CreateRuleEngine = () => {
                   handleMasterAttributeChange(e); // If needed to fetch sub attributes
                 }}
                 value={condition.masterAttribute}
-
               >
                 <option value="">Select Master Attribute </option>
                 {masterAttributes.map((attr) => (
-                  <option key={attr.
-                    // @ts-ignore
-                    id} value={attr.id}>
-                    {attr.
+                  <option
+                    key={
                       // @ts-ignore
-                      display_name}
+                      attr.id
+                    }
+                    value={attr.id}
+                  >
+                    {
+                      // @ts-ignore
+                      attr.display_name
+                    }
                   </option>
                 ))}
               </select>
@@ -579,14 +751,17 @@ const CreateRuleEngine = () => {
               <h4>&</h4>
             </div>
             <fieldset className="border col-md-3 m-2 col-sm-11">
-              <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
+              <legend
+                className="float-none"
+                style={{ fontSize: "14px", fontWeight: "400" }}
+              >
                 Sub Attribute<span>*</span>
               </legend>
               <select
                 // @ts-ignore
                 required=""
                 className="p-1  mt-1 mb-1"
-                style={{ fontSize: '12px', fontWeight: '400' }}
+                style={{ fontSize: "12px", fontWeight: "400" }}
                 disabled={!condition.masterAttribute}
                 onChange={(e) => {
                   const updatedConditions = conditions.map((cond, idx) =>
@@ -600,12 +775,17 @@ const CreateRuleEngine = () => {
               >
                 <option value="">Select Sub Attribute</option>
                 {subAttributes.map((subAttr) => (
-                  <option key={subAttr.
-                    // @ts-ignore
-                    id} value={subAttr.attribute_name}>
-                    {subAttr.
+                  <option
+                    key={
                       // @ts-ignore
-                      display_name}
+                      subAttr.id
+                    }
+                    value={subAttr.attribute_name}
+                  >
+                    {
+                      // @ts-ignore
+                      subAttr.display_name
+                    }
                   </option>
                 ))}
               </select>
@@ -616,18 +796,31 @@ const CreateRuleEngine = () => {
         {/* Operator section */}
         <div className="mt-3">
           <h4>
-            <span className="badge setRuleCard" style={{ fontSize: '16px', fontWeight: '600', color: '#E95420', backgroundColor: '#E954202E' }}>Operator</span>
+            <span
+              className="badge setRuleCard"
+              style={{
+                fontSize: "16px",
+                fontWeight: "600",
+                color: "#E95420",
+                backgroundColor: "#E954202E",
+              }}
+            >
+              Operator
+            </span>
           </h4>
           <div className="row ms-1 mt-2">
             <fieldset className="border col-md-3 m-2 col-sm-11">
-              <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
+              <legend
+                className="float-none"
+                style={{ fontSize: "14px", fontWeight: "400" }}
+              >
                 Master Operator<span>*</span>
               </legend>
               <select
                 // @ts-ignore
                 required=""
                 className="p-1 mt-1 mb-1"
-                style={{ fontSize: '12px', fontWeight: '400' }}
+                style={{ fontSize: "12px", fontWeight: "400" }}
                 value={condition.master_operator}
                 onChange={(e) => {
                   const updatedConditions = conditions.map((cond, idx) =>
@@ -651,14 +844,17 @@ const CreateRuleEngine = () => {
               <h4>&</h4>
             </div>
             <fieldset className="border col-md-3 m-2 col-sm-11">
-              <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
+              <legend
+                className="float-none"
+                style={{ fontSize: "14px", fontWeight: "400" }}
+              >
                 Sub Operator<span>*</span>
               </legend>
               <select
                 // @ts-ignore
                 required=""
                 className="p-1  mt-1 mb-1"
-                style={{ fontSize: '12px', fontWeight: '400' }}
+                style={{ fontSize: "12px", fontWeight: "400" }}
                 disabled={!condition.master_operator}
                 value={condition.subOperator}
                 onChange={(e) => {
@@ -672,12 +868,17 @@ const CreateRuleEngine = () => {
               >
                 <option value="">Select Sub Operator </option>
                 {subOperators.map((subOp) => (
-                  <option key={subOp.
-                    // @ts-ignore
-                    id} value={subOp.value}>
-                    {subOp.
+                  <option
+                    key={
                       // @ts-ignore
-                      name}
+                      subOp.id
+                    }
+                    value={subOp.value}
+                  >
+                    {
+                      // @ts-ignore
+                      subOp.name
+                    }
                   </option>
                 ))}
               </select>
@@ -688,24 +889,35 @@ const CreateRuleEngine = () => {
         {/* Value section */}
         <div className="mt-3">
           <h4>
-            <span className="badge setRuleCard" style={{ fontSize: '16px', fontWeight: '600', color: '#E95420', backgroundColor: '#E954202E' }}>Value</span>
+            <span
+              className="badge setRuleCard"
+              style={{
+                fontSize: "16px",
+                fontWeight: "600",
+                color: "#E95420",
+                backgroundColor: "#E954202E",
+              }}
+            >
+              Value
+            </span>
           </h4>
           <div className="row ms-1 mt-2">
             <fieldset className="border col-md-3 m-2 col-sm-11">
-              <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
+              <legend
+                className="float-none"
+                style={{ fontSize: "14px", fontWeight: "400" }}
+              >
                 Value<span>*</span>
               </legend>
               <input
                 type="text"
                 className="p-1 mt-1 mb-1"
-                style={{ fontSize: '12px', fontWeight: '400' }}
+                style={{ fontSize: "12px", fontWeight: "400" }}
                 placeholder="Enter Point Value"
                 value={condition.value}
                 onChange={(e) => {
                   const updatedConditions = conditions.map((cond, idx) =>
-                    idx === index
-                      ? { ...cond, value: e.target.value }
-                      : cond
+                    idx === index ? { ...cond, value: e.target.value } : cond
                   );
                   setConditions(updatedConditions);
                 }}
@@ -723,18 +935,26 @@ const CreateRuleEngine = () => {
         {/* <SubHeader /> */}
         <div className="module-data-section mt-2">
           <p className="pointer">
-            <Link to='/rule-engine' >
+            <Link to="/rule-engine">
               <span>Rule Engine</span>
             </Link>{" "}
             &gt; New Rule
           </p>
           <h5 className="mb-3">
-            <span className="title" style={{ fontSize: '20px', fontWeight: '600' }}>New Rule</span>
+            <span
+              className="title"
+              style={{ fontSize: "20px", fontWeight: "600" }}
+            >
+              New Rule
+            </span>
           </h5>
           <div className="go-shadow me-3">
             <div className="row ms-1">
               <fieldset className="border col-md-11 m-2 col-sm-11">
-                <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
+                <legend
+                  className="float-none"
+                  style={{ fontSize: "14px", fontWeight: "400" }}
+                >
                   New Rule<span>*</span>
                 </legend>
                 <input
@@ -743,7 +963,7 @@ const CreateRuleEngine = () => {
                   value={ruleName}
                   onChange={(e) => setRuleName(e.target.value)}
                   className="mt-1 mb-1"
-                  style={{ fontSize: '12px', fontWeight: '400' }}
+                  style={{ fontSize: "12px", fontWeight: "400" }}
                 />
               </fieldset>
             </div>
@@ -755,7 +975,7 @@ const CreateRuleEngine = () => {
             <button
               className="setRuleCard2 mt-2"
               onClick={addCondition}
-              style={{ color: "black", fontSize: '16px', fontWeight: "500" }}
+              style={{ color: "black", fontSize: "16px", fontWeight: "500" }}
             >
               <span>
                 <svg
@@ -775,130 +995,154 @@ const CreateRuleEngine = () => {
             {/* THEN section */}
             <div className="mt-3">
               <h4>
-                <span className="badge setRuleCard" style={{ fontSize: '16px', fontWeight: '600', color: '#E95420', backgroundColor: '#E954202E' }}>THEN</span>
+                <span
+                  className="badge setRuleCard"
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: "600",
+                    color: "#E95420",
+                    backgroundColor: "#E954202E",
+                  }}
+                >
+                  THEN
+                </span>
               </h4>
-              <div className="row ms-1 mt-2">
-                <fieldset className="border  col-md-3 m-2 col-sm-11">
-                  <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
-                    Master Reward Outcome<span>*</span>
-                  </legend>
-                  <select
-                    // @ts-ignore
-                    required=""
-                    className="p-1 mt-1 mb-1"
-                    style={{ fontSize: '12px', fontWeight: '400' }}
-                    onChange={handleMasterSubRewardOutcomeChange}
-                    value={selectedMasterRewardOutcomes.id || ""} // Use the id directly from state
-                  >
-                    <option value="" disabled>Select Master Reward Outcome</option>
-                    {masterRewardOutcomes.map((reward) => (
-                      <option key={reward.
-                        // @ts-ignore
-                        id} value={reward.id} data-name={reward.lock_model_name}>
-                        {reward.
-                          // @ts-ignore
-                          display_name}
-                      </option>
-                    ))}
-                  </select>
+              <div className="ms-1 mt-2" style={{ display: 'flex', flexWrap: 'nowrap', alignItems: 'center' }}>
+  {/* Master Reward Outcome */}
+  <fieldset className="border col-md-3 m-2 col-sm-11">
+    <legend className="float-none" style={{ fontSize: "14px", fontWeight: "400" }}>
+      Master Reward Outcome<span>*</span>
+    </legend>
+    <select
+      required
+      className="p-1 mt-1 mb-1 w-100"
+      style={{ fontSize: "12px", fontWeight: "400" }}
+      onChange={handleMasterSubRewardOutcomeChange}
+      value={selectedMasterRewardOutcomes.id || ""}
+    >
+      <option value="" disabled>
+        Select Master Reward Outcome
+      </option>
+      {masterRewardOutcomes.map((reward) => (
+        <option key={reward.id} value={reward.id} data-name={reward.lock_model_name}>
+          {reward.display_name}
+        </option>
+      ))}
+    </select>
+  </fieldset>
 
-                </fieldset>
-                <div className="col-md-1 d-flex justify-content-center align-items-center">
-                  <h4>&</h4>
-                </div>
-                <fieldset className="border  col-md-3 m-2 col-sm-11">
-                  <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
-                    Sub Reward Outcome<span>*</span>
-                  </legend>
-                  <select
-                    // @ts-ignore
-                    required=""
-                    className="p-1 mt-1 mb-1"
-                    style={{ fontSize: '12px', fontWeight: '400' }}
-                    disabled={!selectedMasterRewardOutcomes}
-                    onChange={(e) => {
-                      const selectedId = e.target.value;
-                      console.log(selectedId)
-                      setsubRewardOutcomesnew(selectedId);
-                      
-                      // Find the selected sub reward outcome to get its details
-                      const selectedSubReward = subRewardOutcomes.find(reward => reward.id === parseInt(selectedId));
-                      setSelectedSubRewardOutcome(selectedSubReward);
-                    }}
-                    value={subRewardOutcomesnew}
-                  >
-                    {console.log("Sub Reward Outcomes:", subRewardOutcomes)}
-                    <option value="">Select Sub Reward Outcome</option>
+  {/* Ampersand (&) */}
+  <div className="m-2 d-flex justify-content-center align-items-center" style={{ height: '100%' }}>
+    <h4 className="m-0">&</h4>
+  </div>
 
-                    {subRewardOutcomes.map((reward) => (
-                      <option
-                        // @ts-ignore
-                        key={reward.id}
-                        // @ts-ignore
-                        value={reward.id}
-                      >
-                        {reward.
-                          // @ts-ignore
-                          display_name}
-                      </option>
-                    ))}
-                  </select>
-                </fieldset>
-                {/* <div className="col-md-1 d-flex justify-content-center align-items-center">
-                    <h4>=</h4>
-                  </div> */}
-                <fieldset className="border col-md-3 m-2 col-sm-11 ">
-                  <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
-                    Parameter <span>*</span>
-                  </legend>
-                  <div className="d-flex align-items-center">
-                    <input 
-                      type="text" 
-                      placeholder="Enter Parameter Value" 
-                      value={parameter} 
-                      onChange={(e) => setParameter(e.target.value)} 
-                      className="mt-1 mb-1 flex-grow-1" 
-                      style={{ fontSize: '12px', fontWeight: '400' }} 
-                    />
-                    <span className="mx-2" style={{ fontSize: '12px', fontWeight: 'semibold', color: '#000' }}>
-                      {selectedSubRewardOutcome ? 
-                        (selectedSubRewardOutcome.display_name === 'Percentage Credit' || 
-                         selectedSubRewardOutcome.display_name === 'Percent Credit' || 
-                         selectedSubRewardOutcome.display_name.toLowerCase().includes('percentage')) ? '%' : 'pts' 
-                        : ''}
-                    </span>
-                  </div>
-                </fieldset>
-              </div>
+  {/* Sub Reward Outcome */}
+  <fieldset className="border col-md-4">
+    <legend className="float-none" style={{ fontSize: "14px", fontWeight: "400" }}>
+      Sub Reward Outcome<span>*</span>
+    </legend>
+    <select
+      required
+      className="p-1 mt-1 mb-1 w-100"
+      style={{ fontSize: "12px", fontWeight: "400" }}
+      disabled={!selectedMasterRewardOutcomes}
+      onChange={(e) => {
+        const selectedId = e.target.value;
+        setsubRewardOutcomesnew(selectedId);
+
+        const selectedSubReward = subRewardOutcomes.find(
+          (reward) => reward.id === parseInt(selectedId)
+        );
+        setSelectedSubRewardOutcome(selectedSubReward);
+      }}
+      value={subRewardOutcomesnew}
+    >
+      <option value="">Select Sub Reward Outcome</option>
+      {subRewardOutcomes.map((reward) => (
+        <option key={reward.id} value={reward.id}>
+          {reward.display_name}
+        </option>
+      ))}
+    </select>
+  </fieldset>
+
+  {/* Parameter input with %/pts */}
+  <div className="position-relative m-2 col-md-4 col-sm-11" style={{ display: 'flex', alignItems: 'flex-end' }}>
+    <fieldset className="border w-100" style={{ position: 'relative' }}>
+      <legend className="float-none" style={{ fontSize: "14px", fontWeight: "400" }}>
+        Parameter <span>*</span>
+      </legend>
+      <input
+        type="text"
+        placeholder="Enter Parameter Value"
+        value={parameter}
+        onChange={(e) => setParameter(e.target.value)}
+        className="mt-1 mb-1 w-100"
+        style={{ fontSize: "12px", fontWeight: "400" }}
+      />
+    </fieldset>
+
+    {/* Unit Display (% or pts) */}
+    {selectedSubRewardOutcome?.display_name && (
+      <span
+        style={{
+          marginLeft: '4px',
+          fontSize: "12px",
+          fontWeight: "600",
+          color: "#000",
+          whiteSpace: 'nowrap'
+        }}
+      >
+        {selectedSubRewardOutcome.display_name === "Percentage Credit" ||
+        selectedSubRewardOutcome.display_name === "Percent Credit" ||
+        selectedSubRewardOutcome.display_name.toLowerCase().includes("percentage")
+          ? "%"
+          : "pts"}
+      </span>
+    )}
+  </div>
+</div>
+
             </div>
           </div>
 
-          {error && <div className="error" style={{ color: 'red' }}>{error}</div>}
+          {error && (
+            <div className="error" style={{ color: "red" }}>
+              {error}
+            </div>
+          )}
 
           {/* ..... */}
           <div className="row mt-2 justify-content-center">
             <div className="col-md-2">
-              <button className="purple-btn1 w-100" onClick={handleSubmit}>Submit</button>
+              <button className="purple-btn1 w-100" onClick={handleSubmit}>
+                Submit
+              </button>
             </div>
             <div className="col-md-2">
-              <button className="purple-btn2 w-100" onClick={() => {
-                setRuleName('')
-                setConditions((prevConditions) =>
-                  prevConditions.map((condition) => ({
-                    ...condition,
-                    masterAttribute: "",
-                    subAttribute: "",
-                    masterOperator: "",
-                    subOperator: "",
-                    condition_type: "",
-                    value: "",
-                  }))
-                );
-                setSelectedMasterRewardOutcomes({ id: '', name: '' })
-                setSubRewardOutcomes([])
-                setParameter('')
-                setSelectedSubRewardOutcome(null)
-              }}>Cancel</button>
+              <button
+                className="purple-btn2 w-100"
+                onClick={() => {
+                  setRuleName("");
+                  setConditions((prevConditions) =>
+                    prevConditions.map((condition) => ({
+                      ...condition,
+                      masterAttribute: "",
+                      subAttribute: "",
+                      masterOperator: "",
+                      subOperator: "",
+                      condition_type: "",
+                      value: "",
+                    }))
+                  );
+                  setSelectedMasterRewardOutcomes({ id: "", name: "" });
+                  setSubRewardOutcomes([]);
+                  setParameter("");
+                  setSelectedSubRewardOutcome(null);
+                }}
+              >
+                Cancel
+              </button>
             </div>
           </div>
         </div>
