@@ -608,42 +608,48 @@ const ViewRuleEngine = () => {
   </fieldset>
 
   {/* Parameter input with %/Pts */}
-  <div className="position-relative m-2 col-md-4 col-sm-11" style={{ display: 'flex', alignItems: 'flex-end' }}>
-    <fieldset className="border w-100" style={{ position: 'relative' }}>
-      <legend className="float-none" style={{ fontSize: "14px", fontWeight: "400" }}>
-        Parameter
-      </legend>
+  {/* Parameter input with %/Pts */}
+<div className="position-relative m-2 col-md-4 col-sm-11" style={{ display: 'flex', alignItems: 'flex-end' }}>
+  <fieldset className="border w-100" style={{ position: 'relative' }}>
+    <legend className="float-none" style={{ fontSize: "14px", fontWeight: "400" }}>
+      Parameter
+    </legend>
 
-      {actions.map((master, index) => (
-        <div key={`param-${index}`} className="d-flex align-items-center mt-1 mb-1">
-          <input
-            type="text"
-            placeholder="Enter Point Value"
-            value={master.parameters}
-            className="w-100"
-            style={{ fontSize: "12px", fontWeight: "400" }}
-            disabled
-          />
-          <span
-            style={{
-              marginLeft: '4px',
-              fontSize: "20px",
-              fontWeight: "400",
-              color: "#000",
-              whiteSpace: 'nowrap',
-              paddingBottom: '5px'
-            }}
-          >
-            {master.action_method?.toLowerCase().includes("percentage")
-              || master.action_method?.toLowerCase() === "percent credit"
-              || master.action_method?.toLowerCase() === "percentage credit"
-              ? "%"
-              : "Pts"}
-          </span>
-        </div>
-      ))}
-    </fieldset>
-  </div>
+    {actions.map((master, index) => (
+      <div key={`param-${index}`} className="d-flex align-items-center mt-1 mb-1">
+        <input
+          type="text"
+          placeholder="Enter Point Value"
+          value={master.parameters}
+          className="w-100"
+          style={{ fontSize: "12px", fontWeight: "400" }}
+          disabled
+        />
+      </div>
+    ))}
+  </fieldset>
+  
+  {/* Span moved outside fieldset */}
+  {actions.map((master, index) => (
+    <span
+      key={`unit-${index}`}
+      style={{
+        marginLeft: '8px',
+        fontSize: "20px",
+        fontWeight: "400",
+        color: "#000",
+        whiteSpace: 'nowrap',
+        paddingBottom: '5px'
+      }}
+    >
+      {master.action_method?.toLowerCase().includes("percentage")
+        || master.action_method?.toLowerCase() === "percent credit"
+        || master.action_method?.toLowerCase() === "percentage credit"
+        ? "%"
+        : "Pts"}
+    </span>
+  ))}
+</div>
 </div>
 
             </div>
