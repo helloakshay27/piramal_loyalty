@@ -9,7 +9,7 @@ export default function RuleLogs() {
   const itemsPerPage = 15;
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredItems, setFilteredItems] = useState([]);
-  const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'asc' });
+  const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'desc' });
 
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
