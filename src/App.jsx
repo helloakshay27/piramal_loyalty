@@ -105,6 +105,8 @@ import DemandNotes from "./pages/demand-notes";
 import HomeLoanRequest from "./pages/home-loan-request";
 import LockPayments from "./pages/lock-payments";
 import RuleLogs from "./pages/rule-logs";
+import Orders from "./pages/orders";
+import OrderDetails from "./pages/order-details";
 
 
 function App() {
@@ -184,6 +186,8 @@ function App() {
           <Route path="/referral-list" element={<Referrallist />} />
           <Route path="/demand-notes" element={<DemandNotes />} />
           <Route path="/home-loan-request" element={<HomeLoanRequest />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/order-details/:id" element={<OrderDetails />} />
           <Route path="/event-list" element={<Eventlist />} />
           <Route path="/event-details/:id" element={<EventDetails />} />
           <Route path="/event-details" element={<EventDetails />} />
