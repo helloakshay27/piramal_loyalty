@@ -42,7 +42,7 @@ const RuleEngine = () => {
   const token = localStorage.getItem("access_token");
 
 
-// console.log("masterAttributes", masterAttributes);
+  // console.log("masterAttributes", masterAttributes);
 
   useEffect(() => {
     const fetchRuleEngine = async () => {
@@ -244,12 +244,12 @@ const RuleEngine = () => {
   };
 
   function snakeToCapitalized(str) {
-  if (!str) return "";
-  return str
-    .split('_')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-}
+    if (!str) return "";
+    return str
+      .split('_')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  }
 
   const Pagination = ({
     currentPage,
@@ -361,9 +361,8 @@ const RuleEngine = () => {
           ))}
 
           <li
-            className={`page-item ${
-              currentPage === totalPages ? "disabled" : ""
-            }`}
+            className={`page-item ${currentPage === totalPages ? "disabled" : ""
+              }`}
           >
             <button
               className="page-link"
@@ -375,9 +374,8 @@ const RuleEngine = () => {
             </button>
           </li>
           <li
-            className={`page-item ${
-              currentPage === totalPages ? "disabled" : ""
-            }`}
+            className={`page-item ${currentPage === totalPages ? "disabled" : ""
+              }`}
           >
             <button
               className="page-link"
@@ -590,106 +588,106 @@ const RuleEngine = () => {
               </button>
             </div>
           </div>
-<div
-  className="tbl-container mt-4"
-  style={{
-    height: "100%",
-    display: "flex",
-    flexDirection: "column",
-  }}
->
-  {loading ? (
-    <p>Loading...</p>
-  ) : error ? (
-    <p className="text-danger">{error}</p>
-  ) : currentItems.length > 0 ? (
-    <>
-      <div style={{ width: "100%", overflowX: "auto" }}>
-        <table
-          className="w-100"
-          style={{
-            color: "#000",
-            fontWeight: "400",
-            fontSize: "13px",
-            tableLayout: "fixed",
-          }}
-        >
-          <colgroup>
-            <col style={{ minWidth: "400px", width: "400px" }} /> {/* Rule Name */}
-            <col style={{ width: "150px" }}  />
-            <col style={{ width: "150px" }} />
-            <col style={{ width: "150px" }} />
-            <col style={{ width: "100px" }} />
-            <col style={{ width: "100px" }} />
-            <col style={{ width: "60px" }} />
-            <col style={{ width: "50px" }} />
-            <col style={{ width: "50px" }} />
-          </colgroup>
-          <thead>
-            <tr>
-              <th style={{textAlign:'center'}}>Rule Name</th>
-              <th style={{textAlign:'center'}}>Attribute</th>
-              <th style={{textAlign:'center'}}>Condition</th>
-              <th style={{textAlign:'center'}}>Action</th>
-              <th style={{textAlign:'center'}}>Outcome</th>
-              <th style={{textAlign:'center'}}>Reward</th>
-              <th style={{textAlign:'center'}}>Toggle</th>
-              {/* <th style={{textAlign:'center'}}>Edit</th> */}
-              <th style={{textAlign:'center'}}>View</th>
-            </tr>
-          </thead>
-          <tbody
+          <div
+            className="tbl-container mt-4"
             style={{
-              color: "#000",
-              fontWeight: "400",
-              fontSize: "13px",
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
             }}
           >
-            {currentItems.map((rule) => {
-              const { id, name, conditions, active, actions } = rule;
-              // If conditions is empty, render a single row with empty condition columns
-              if (!conditions || conditions.length === 0) {
-                return (
-                  <tr key={rule.id || name}>
-                    <td style={{ minWidth: "300px", width: "300px" }}>{rule.name}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    {actions.length > 0 ? (
-                      actions.map((act, actIndex) => (
-                        <React.Fragment key={act.id || actIndex}>
-                          <td>
-                            {formatFieldName(
-                              act.action_method ? act.action_method : ""
-                            )}
-                          </td>
-                          <td>
-                            {act.parameters ? act.parameters : ""}
-                            {act.parameters && act.action_method === "credit_points" && " pts"}
-                            {act.parameters && act.action_method === "percentage_credit" && " %"}
-                          </td>
-                        </React.Fragment>
-                      ))
-                    ) : (
-                      <>
-                        <td></td>
-                        <td></td>
-                      </>
-                    )}
-                    <td>
-                      <div className="form-check form-switch mt-1">
-                        <input
-                          className="form-check-input custom-checkbox"
-                          type="checkbox"
-                          role="switch"
-                          checked={active}
-                          onChange={(e) =>
-                            handleToggle(id, e.target.checked)
-                          }
-                        />
-                      </div>
-                    </td>
-                    {/* <td>
+            {loading ? (
+              <p>Loading...</p>
+            ) : error ? (
+              <p className="text-danger">{error}</p>
+            ) : currentItems.length > 0 ? (
+              <>
+                <div style={{ width: "100%", overflowX: "auto" }}>
+                  <table
+                    className="w-100"
+                    style={{
+                      color: "#000",
+                      fontWeight: "400",
+                      fontSize: "13px",
+                      tableLayout: "fixed",
+                    }}
+                  >
+                    <colgroup>
+                      <col style={{ minWidth: "300px", width: "300px" }} /> {/* Rule Name */}
+                      <col style={{ minWidth: "300px", width: "300px" }} /> {/* Display Name */}
+                      <col style={{ width: "150px" }} /> {/* Attribute */}
+                      <col style={{ width: "150px" }} /> {/* Condition */}
+                      <col style={{ width: "100px" }} /> {/* Action */}
+                      <col style={{ width: "100px" }} /> {/* Outcome */}
+                      <col style={{ width: "60px" }} /> {/* Toggle */}
+                      <col style={{ width: "50px" }} /> {/* View */}
+                    </colgroup>
+                    <thead>
+                      <tr>
+                        <th style={{ textAlign: 'center' }}>Rule Name</th>
+                        <th style={{ textAlign: 'center' }}>Display Name</th>
+                        <th style={{ textAlign: 'center' }}>Attribute</th>
+                        <th style={{ textAlign: 'center' }}>Condition</th>
+                        <th style={{ textAlign: 'center' }}>Action</th>
+                        <th style={{ textAlign: 'center' }}>Outcome</th>
+                        <th style={{ textAlign: 'center' }}>Toggle</th>
+                        {/* <th style={{textAlign:'center'}}>Edit</th> */}
+                        <th style={{ textAlign: 'center' }}>View</th>
+                        <th style={{ textAlign: 'center' }}>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      style={{
+                        color: "#000",
+                        fontWeight: "400",
+                        fontSize: "13px",
+                      }}
+                    >
+                      {currentItems.map((rule) => {
+                        const { id, name, conditions, active, actions } = rule;
+                        // If conditions is empty, render a single row with empty condition columns
+                        if (!conditions || conditions.length === 0) {
+                          return (
+                            <tr key={rule.id || name}>
+                              <td style={{ minWidth: "300px", width: "300px" }}>{rule.name}</td>
+                              <td style={{ minWidth: "300px", width: "300px" }}>{rule.display_rule_name}</td>
+                              <td></td> {/* Attribute */}
+                              <td></td> {/* Condition */}
+                              {actions.length > 0 ? (
+                                actions.map((act, actIndex) => (
+                                  <React.Fragment key={act.id || actIndex}>
+                                    <td>
+                                      {formatFieldName(
+                                        act.action_method ? act.action_method : ""
+                                      )}
+                                    </td>
+                                    <td>
+                                      {act.parameters ? act.parameters : ""}
+                                      {act.parameters && act.action_method === "credit_points" && " pts"}
+                                      {act.parameters && act.action_method === "percentage_credit" && " %"}
+                                    </td>
+                                  </React.Fragment>
+                                ))
+                              ) : (
+                                <>
+                                  <td></td> {/* Action */}
+                                  <td></td> {/* Outcome */}
+                                </>
+                              )}
+                              <td>
+                                <div className="form-check form-switch mt-1">
+                                  <input
+                                    className="form-check-input custom-checkbox"
+                                    type="checkbox"
+                                    role="switch"
+                                    checked={active}
+                                    onChange={(e) =>
+                                      handleToggle(id, e.target.checked)
+                                    }
+                                  />
+                                </div>
+                              </td>
+                              {/* <td>
                       <Link to={`/edit-rule-engine/${id}`}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -707,77 +705,95 @@ const RuleEngine = () => {
                         </svg>
                       </Link>
                     </td> */}
-                    <td>
-                      <Link to={`/view-rule-engine/${id}`}>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          fill="black"
-                          className="bi bi-eye"
-                          viewBox="0 0 16 16"
-                        >
-                          <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
-                          <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
-                        </svg>
-                      </Link>
-                    </td>
-                  </tr>
-                );
-              }
-              // Otherwise, render as before
-              return conditions.map((condition, index) => (
-                <tr key={`${rule.id || name}-${index}`}>
-                  {index === 0 && (
-                    <td
-                      rowSpan={conditions.length}
-                      style={{ minWidth: "300px", width: "300px" }}
-                    >
-                      {rule.name}
-                    </td>
-                  )}
-                  <td>
-                    {condition.condition_attribute_display_name}
-                  </td>
-                  <td style={{ textTransform: 'none' }}>
-                    {snakeToCapitalized(condition.operator)}
-                  </td>
-                  <td>{snakeToCapitalized(condition.compare_value)}</td>
-                  {actions.length > 0 ? (
-                    actions.map((act, actIndex) => (
-                      <React.Fragment key={act.id || actIndex}>
-                        <td>
-                          {formatFieldName(
-                            act.action_method ? act.action_method : ""
-                          )}
-                        </td>
-                        <td>
-                          {act.parameters ? act.parameters : ""}
-                          {act.parameters && act.action_method === "credit_points" && " Pts"}
-                          {act.parameters && act.action_method === "percentage_credit" && " %"}
-                        </td>
-                      </React.Fragment>
-                    ))
-                  ) : (
-                    <>
-                      <td></td>
-                      <td></td>
-                    </>
-                  )}
-                  <td>
-                    <div className="form-check form-switch mt-1">
-                      <input
-                        className="form-check-input custom-checkbox"
-                        type="checkbox"
-                        role="switch"
-                        checked={active}
-                        onChange={(e) =>
-                          handleToggle(id, e.target.checked)
+                              <td>
+                                <Link to={`/view-rule-engine/${id}`}>
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    fill="black"
+                                    className="bi bi-eye"
+                                    viewBox="0 0 16 16"
+                                  >
+                                    <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
+                                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
+                                  </svg>
+                                </Link>
+                              </td>
+                            </tr>
+                          );
                         }
-                      />
-                    </div>
-                  </td>
-                  {/* <td>
+                        // Otherwise, render as before
+                        return conditions.map((condition, index) => (
+                          <tr key={`${rule.id || name}-${index}`}>
+                            {index === 0 && (
+                              <>
+                                <td
+                                  rowSpan={conditions.length}
+                                  style={{ minWidth: "300px", width: "300px" }}
+                                >
+                                  {rule.name}
+                                </td>
+                                <td
+                                  rowSpan={conditions.length}
+                                  style={{ minWidth: "300px", width: "300px" }}
+                                >
+                                  {rule.display_rule_name}
+                                </td>
+                              </>
+                            )}
+                            <td>
+                              {condition.condition_attribute_display_name}
+                            </td>
+                            <td style={{ textTransform: 'none' }}>
+                              {snakeToCapitalized(condition.operator)}
+                            </td>
+                            <td>{snakeToCapitalized(condition.compare_value)}</td>
+                            {index === 0 && actions.length > 0 ? (
+                              <>
+                                <td rowSpan={conditions.length}>
+                                  {actions.map((act, actIndex) => (
+                                    <div key={act.id || actIndex}>
+                                      {formatFieldName(
+                                        act.action_method ? act.action_method : ""
+                                      )}
+                                      {actIndex < actions.length - 1 && <br />}
+                                    </div>
+                                  ))}
+                                </td>
+                                <td rowSpan={conditions.length}>
+                                  {actions.map((act, actIndex) => (
+                                    <div key={act.id || actIndex}>
+                                      {act.parameters ? act.parameters : ""}
+                                      {act.parameters && act.action_method === "credit_points" && " Pts"}
+                                      {act.parameters && act.action_method === "percentage_credit" && " %"}
+                                      {actIndex < actions.length - 1 && <br />}
+                                    </div>
+                                  ))}
+                                </td>
+                              </>
+                            ) : index === 0 && actions.length === 0 ? (
+                              <>
+                                <td rowSpan={conditions.length}></td>
+                                <td rowSpan={conditions.length}></td>
+                              </>
+                            ) : null}
+                            {index === 0 && (
+                              <td rowSpan={conditions.length}>
+                                <div className="form-check form-switch mt-1">
+                                  <input
+                                    className="form-check-input custom-checkbox"
+                                    type="checkbox"
+                                    role="switch"
+                                    checked={active}
+                                    onChange={(e) =>
+                                      handleToggle(id, e.target.checked)
+                                    }
+                                  />
+                                </div>
+                              </td>
+                            )}
+                            {/* <td>
                     <Link to={`/edit-rule-engine/${id}`}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -795,56 +811,58 @@ const RuleEngine = () => {
                       </svg>
                     </Link>
                   </td> */}
-                  <td>
-                    <Link to={`/view-rule-engine/${id}`}>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        fill="black"
-                        className="bi bi-eye"
-                        viewBox="0 0 16 16"
-                      >
-                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
-                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
-                      </svg>
-                    </Link>
-                  </td>
-                </tr>
-              ));
-            })}
-          </tbody>
-        </table>
-      </div>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-        totalEntries={filteredItems.length}
-      />
-    </>
-  ) : (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        fontSize: "16px",
-        color: "#555",
-        fontWeight: "500",
-        backgroundColor: "#f9f9f9",
-        padding: "20px",
-        borderRadius: "8px",
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-        textAlign: "center",
-      }}
-    >
-      No matching rules found. Adjust your filters to see results.
-    </div>
-  )}
-</div>
+                            {index === 0 && (
+                              <td rowSpan={conditions.length}>
+                                <Link to={`/view-rule-engine/${id}`}>
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    fill="black"
+                                    className="bi bi-eye"
+                                    viewBox="0 0 16 16"
+                                  >
+                                    <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
+                                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
+                                  </svg>
+                                </Link>
+                              </td>
+                            )}
+                          </tr>
+                        ));
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                  totalEntries={filteredItems.length}
+                />
+              </>
+            ) : (
+              <div
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontSize: "16px",
+                  color: "#555",
+                  fontWeight: "500",
+                  backgroundColor: "#f9f9f9",
+                  padding: "20px",
+                  borderRadius: "8px",
+                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                  textAlign: "center",
+                }}
+              >
+                No matching rules found. Adjust your filters to see results.
+              </div>
+            )}
+          </div>
 
           {/* Filter Modal */}
           <Modal show={showModal} onHide={handleCloseModal}>

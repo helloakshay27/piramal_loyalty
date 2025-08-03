@@ -249,27 +249,12 @@ const Orders = () => {
 
   return (
     <div className="container-fluid">
-      <SubHeader />
       <div className="container-fluid px-0 my-4">
         <div className="row mx-0">
           <div className="col-lg-12 px-0">
             <div className="main_content_iner overly_inner">
               <div className="container-fluid p-0">
-                <div className="row">
-                  <div className="col-12">
-                    <div className="page_title_box d-flex align-items-center justify-content-between">
-                      <div className="page_title_left">
-                        <h3 className="f_s_30 f_w_700 text_white">Orders Management</h3>
-                        <ol className="breadcrumb page_bradcam mb-0">
-                          <li className="breadcrumb-item">
-                            <Link to="/">Dashboard</Link>
-                          </li>
-                          <li className="breadcrumb-item active">Orders</li>
-                        </ol>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+         
 
                 {/* Filters */}
                 <div className="row mt-4">
