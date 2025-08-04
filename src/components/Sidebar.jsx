@@ -65,7 +65,7 @@ const Sidebar = () => {
         </span>
       </p>
       <ul className="px-2 collapse left-1" style={{ display: "block" }} id="sidebarCollapse">
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <NavLink
             to="/"
             className={`nav-link d-flex justify-content-between ${activeItem === "/" ? "active" : ""}`}
@@ -74,7 +74,7 @@ const Sidebar = () => {
             <span className="text">Dashboard</span>
             
           </NavLink>
-        </li>
+        </li> */}
         <li className="nav-item">
           <NavLink
             to="/members"

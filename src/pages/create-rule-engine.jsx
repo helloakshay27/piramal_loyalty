@@ -34,6 +34,7 @@ const CreateRuleEngine = () => {
   const token = localStorage.getItem("access_token");
 
   const [ruleName, setRuleName] = useState("");
+  const [displayRuleName, setDisplayRuleName] = useState("");
   const [masterAttributes, setMasterAttributes] = useState([]);
   // @ts-ignore
   const [selectedMasterAttribute, setSelectedMasterAttribute] = useState("");
@@ -451,10 +452,19 @@ const CreateRuleEngine = () => {
     ]);
   };
 
+
   const handleSubmit = async () => {
     // Validate Rule Name
     if (!ruleName) {
       toast.error("Rule Name is required.", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+      return;
+    }
+    // Validate Display Rule Name
+    if (!displayRuleName) {
+      toast.error("Display Rule Name is required.", {
         position: "top-center",
         autoClose: 3000,
       });
@@ -542,6 +552,7 @@ const CreateRuleEngine = () => {
     const data = {
       rule_engine_rule: {
         name: ruleName,
+        display_rule_name: displayRuleName,
         description: "This is a description of the sample rule.",
         loyalty_type_id: sessionStorage.getItem("selectedId"),
         rule_engine_conditions_attributes: conditions.map((condition) => ({
@@ -940,14 +951,15 @@ const CreateRuleEngine = () => {
             </Link>{" "}
             &gt; New Rule
           </p>
-          <h5 className="mb-3">
+
+          <div className="d-flex align-items-center mb-3" style={{gap: '16px'}}>
             <span
               className="title"
               style={{ fontSize: "20px", fontWeight: "600" }}
             >
               New Rule
             </span>
-          </h5>
+          </div>
           <div className="go-shadow me-3">
             <div className="row ms-1">
               <fieldset className="border col-md-11 m-2 col-sm-11">
@@ -962,6 +974,22 @@ const CreateRuleEngine = () => {
                   placeholder="Enter Rule Name"
                   value={ruleName}
                   onChange={(e) => setRuleName(e.target.value)}
+                  className="mt-1 mb-1"
+                  style={{ fontSize: "12px", fontWeight: "400" }}
+                />
+              </fieldset>
+              <fieldset className="border col-md-11 m-2 col-sm-11">
+                <legend
+                  className="float-none"
+                  style={{ fontSize: "14px", fontWeight: "400" }}
+                >
+                  Display Rule Name<span>*</span>
+                </legend>
+                <input
+                  type="text"
+                  placeholder="Enter Display Rule Name"
+                  value={displayRuleName}
+                  onChange={(e) => setDisplayRuleName(e.target.value)}
                   className="mt-1 mb-1"
                   style={{ fontSize: "12px", fontWeight: "400" }}
                 />

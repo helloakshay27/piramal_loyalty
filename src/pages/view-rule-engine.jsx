@@ -517,6 +517,23 @@ const ViewRuleEngine = () => {
                   className="mt-1 mb-1"
                 />
               </fieldset>
+              <fieldset className="border col-md-11 m-2 col-sm-11">
+                <legend
+                  className="float-none"
+                  style={{ fontSize: "14px", fontWeight: "400" }}
+                >
+                  Display Rule Name<span>*</span>
+                </legend>
+                <input
+                  type="text"
+                  disabled
+                  placeholder="Enter Name"
+                  name={rule?.display_rule_name}
+                  value={rule.display_rule_name}
+                  style={{ fontSize: "12px", fontWeight: "400" }}
+                  className="mt-1 mb-1"
+                />
+              </fieldset>
             </div>
           </div>
           <div className="SetRuleCard">
