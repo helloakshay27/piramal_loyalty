@@ -623,7 +623,6 @@ const RuleEngine = () => {
             <col style={{ width: "100px" }} />
             <col style={{ width: "60px" }} />
             <col style={{ width: "50px" }} />
-            {/* <col style={{ width: "50px" }} /> */}
           </colgroup>
           <thead>
             <tr>

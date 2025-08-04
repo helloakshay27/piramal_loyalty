@@ -178,6 +178,17 @@ const Sidebar = () => {
             
           </NavLink>
         </li>
+        <li className="nav-item">
+          <NavLink
+            to="/orders"
+            className={`nav-link d-flex justify-content-between ${activeItem === "/orders" ? "active" : ""}`}
+            onClick={() => handleNavLinkClick("/orders")}
+            data-section="security"
+          >
+            <span className="text">Orders</span>
+            
+          </NavLink>
+        </li>
         {/* <li className="nav-item">
           <a
             className="text nav-link d-flex justify-content-between"
