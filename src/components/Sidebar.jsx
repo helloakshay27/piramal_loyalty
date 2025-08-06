@@ -189,6 +189,17 @@ const Sidebar = () => {
             
           </NavLink>
         </li>
+        <li className="nav-item">
+          <NavLink
+            to="/encash-list"
+            className={`nav-link d-flex justify-content-between ${activeItem === "/encash-list" ? "active" : ""}`}
+            onClick={() => handleNavLinkClick("/encash-list")}
+            data-section="security"
+          >
+            <span className="text">Encash</span>
+            
+          </NavLink>
+        </li>
         {/* <li className="nav-item">
           <a
             className="text nav-link d-flex justify-content-between"

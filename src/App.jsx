@@ -105,6 +105,7 @@ import DemandNotes from "./pages/demand-notes";
 import HomeLoanRequest from "./pages/home-loan-request";
 import LockPayments from "./pages/lock-payments";
 import RuleLogs from "./pages/rule-logs";
+import EncashList from "./pages/encash-list";
 import Orders from "./pages/orders";
 import OrderDetails from "./pages/order-details";
 
@@ -139,6 +140,7 @@ function App() {
             <Route path="/tiers" element={<Tiers />} />
             <Route path="/lock-payments" element={<LockPayments />} />
             <Route path="/rule-logs" element={<RuleLogs />} />
+            <Route path="/encash-list" element={<EncashList />} />
             <Route path="/new-tier" element={<NewTier />} />
             <Route path="/tier-details/:id" element={<TierDetails />} />
             <Route path="/test" element={<Test />} />
