@@ -87,34 +87,26 @@ const EventCreate = () => {
   const validateForm = (formData) => {
     const errors = [];
 
-    // Required fields (text fields)
-    // if (!formData.property_type) {
-    //   errors.push("Project Type is required.");
-    //   return errors; // Return the first error immediately
-    // }
-    // if (!formData.event_type) {
-    //   errors.push("Event Type is Reqired.");
-    //   return errors; // Return the first error immediately
-    // }
+    // Only validate fields that are visible/active in the form
     if (!formData.event_name) {
       errors.push("Event Name is required.");
-      return errors; // Return the first error immediately
+      return errors;
     }
     if (!formData.event_at) {
       errors.push("Event At is required.");
-      return errors; // Return the first error immediately
+      return errors;
     }
     if (!formData.from_time) {
       errors.push("Event from time is required.");
-      return errors; // Return the first error immediately
+      return errors;
     }
     if (!formData.to_time) {
       errors.push("Event to Time is required.");
-      return errors; // Return the first error immediately
+      return errors;
     }
     if (!formData.rsvp_action) {
       errors.push("RSVP action is required.");
-      return errors; // Return the first error immediately
+      return errors;
     }
     if (formData.rsvp_action === "yes") {
       if (!formData.rsvp_name) {
@@ -124,50 +116,16 @@ const EventCreate = () => {
         errors.push("RSVP Number is required.");
       }
     }
-
-    // Continue with other form validation checks...
-
-    return errors;
     if (!formData.description) {
       errors.push("Event description is required.");
-      return errors; // Return the first error immediately
+      return errors;
     }
-    if (!formData.publish) {
-      errors.push("Event Publish is required.");
-      return errors; // Return the first error immediately
+    // File validation (images must be present)
+    if (!formData.event_images || formData.event_images.length === 0) {
+      errors.push("At least one image is required.");
+      return errors;
     }
-    if (!formData.user_id) {
-      errors.push("Event User ID is required.");
-      return errors; // Return the first error immediately
-    }
-    if (!formData.comment) {
-      errors.push("Event Comment is required.");
-      return errors; // Return the first error immediately
-    }
-    if (!formData.shared) {
-      errors.push("Event Shared is required.");
-      return errors; // Return the first error immediately
-    }
-    if (!formData.share_groups) {
-      errors.push("Event Shared Group is required.");
-      return errors; // Return the first error immediately
-    }
-    // if (!formData.attachment) {
-    //   errors.push("Attachment is required.");
-    //   return errors; // Return the first error immediately
-    // }
-
-    // File validation (files must be present)
-    if (!formData.attachfile) {
-      errors.push("attachment is required.");
-      return errors; // Return the first error immediately
-    }
-    // if (formData.two_d_images.length === 0) {
-    //   errors.push("At least one 2D image is required.");
-    //   return errors; // Return the first error immediately
-    // }
-
-    return errors; // Return the first error message if any
+    return errors;
   };
 
   const handleSubmit = async (e) => {
@@ -176,12 +134,12 @@ const EventCreate = () => {
     toast.dismiss();
 
     // Validate form data
-    const validationErrors = validateForm(formData);
-    if (validationErrors.length > 0) {
-      validationErrors.forEach((error) => toast.error(error));
-      setLoading(false);
-      return;
-    }
+    // const validationErrors = validateForm(formData);
+    // if (validationErrors.length > 0) {
+    //   validationErrors.forEach((error) => toast.error(error));
+    //   setLoading(false);
+    //   return;
+    // }
 
     // Create FormData to send with the request
     const data = new FormData();
@@ -190,15 +148,15 @@ const EventCreate = () => {
     data.append("event[event_at]", formData.event_at);
     data.append("event[from_time]", formData.from_time);
     data.append("event[to_time]", formData.to_time);
-    data.append("event[rsvp_action]", formData.rsvp_action);
+    // data.append("event[rsvp_action]", formData.rsvp_action);
     data.append("event[description]", formData.description);
-    data.append("event[publish]", formData.publish);
-    data.append("event[user_id]", formData.user_id);
-    data.append("event[comment]", formData.comment);
-    data.append("event[shared]", formData.shared);
-    data.append("event[share_groups]", formData.share_groups);
-    data.append("event[is_important]", formData.is_important);
-    data.append("event[email_trigger_enabled]", formData.email_trigger_enabled);
+    // data.append("event[publish]", formData.publish);
+    // data.append("event[user_id]", formData.user_id);
+    // data.append("event[comment]", formData.comment);
+    // data.append("event[shared]", formData.shared);
+    // data.append("event[share_groups]", formData.share_groups);
+    // data.append("event[is_important]", formData.is_important);
+    // data.append("event[email_trigger_enabled]", formData.email_trigger_enabled);
     data.append("event[project_id]", selectedProjectId);
 
     // Append RSVP details if RSVP action is "yes"
@@ -531,7 +489,7 @@ const EventCreate = () => {
                         </div>
                       </div>
                     </div> */}
-                    <div className="col-md-3">
+                    {/* <div className="col-md-3">
                       <div className="form-group">
                         <label>
                           RSVP Action
@@ -567,7 +525,7 @@ const EventCreate = () => {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
 
                     {/* Conditionally render fields when 'Yes' is selected */}
                     {formData.rsvp_action === "yes" && (
@@ -636,7 +594,7 @@ const EventCreate = () => {
                       </div>
                     </div>
                     <div className="col-md-3">
-                      <div className="form-group">
+                      {/* <div className="form-group">
                         <label>
                           Event Publish
                           <span style={{ color: "#de7008", fontSize: "16px" }}>
@@ -680,11 +638,11 @@ const EventCreate = () => {
                             <label className="form-check-label">No</label>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
 
                     <div className="col-md-3">
-                      <div className="form-group">
+                      {/* <div className="form-group">
                         <label>
                           Event User ID
                           <span style={{ color: "#de7008", fontSize: "16px" }}>
@@ -705,11 +663,11 @@ const EventCreate = () => {
                             }))
                           }
                         />
-                      </div>
+                      </div> */}
                     </div>
 
                     <div className="col-md-3">
-                      <div className="form-group">
+                      {/* <div className="form-group">
                         <label>
                           Event Comment
                           <span style={{ color: "#de7008", fontSize: "16px" }}>
@@ -726,10 +684,10 @@ const EventCreate = () => {
                           onChange={handleChange}
                           required
                         />
-                      </div>
+                      </div> */}
                     </div>
                     <div className="col-md-3">
-                      <div className="form-group">
+                      {/* <div className="form-group">
                         <label>
                           Event Shared
                           <span style={{ color: "#de7008", fontSize: "16px" }}>
@@ -746,10 +704,10 @@ const EventCreate = () => {
                           value={formData.shared}
                           onChange={handleChange}
                         />
-                      </div>
+                      </div> */}
                     </div>
                     <div className="col-md-3">
-                      <div className="form-group">
+                      {/* <div className="form-group">
                         <label>
                           Event Share Groups
                           <span style={{ color: "#de7008", fontSize: "16px" }}>
@@ -766,7 +724,7 @@ const EventCreate = () => {
                           value={formData.share_groups}
                           onChange={handleChange}
                         />
-                      </div>
+                      </div> */}
                     </div>
 
                     <div className="col-md-3">
@@ -823,7 +781,7 @@ const EventCreate = () => {
                     </div>
 
                     <div className="col-md-3">
-                      <div className="form-group">
+                      {/* <div className="form-group">
                         <label>Event is Important</label>
                         <div className="d-flex">
                           <div className="form-check me-3">
@@ -859,11 +817,11 @@ const EventCreate = () => {
                             <label className="form-check-label">No</label>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
 
                     <div className="col-md-3">
-                      <div className="form-group">
+                      {/* <div className="form-group">
                         <label>Event Email Trigger Enabled</label>
                         <div className="d-flex">
                           <div className="form-check me-3">
@@ -905,7 +863,7 @@ const EventCreate = () => {
                             <label className="form-check-label">No</label>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
