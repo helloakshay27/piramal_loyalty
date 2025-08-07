@@ -20,12 +20,12 @@ const EventCreate = () => {
     comment: "",
     shared: "",
     share_groups: "",
-    attachfile: [],
+    event_images: [], // renamed for clarity and matches API
     is_important: "",
     email_trigger_enabled: "",
   });
 
-  console.log("formData", formData);
+  // console.log("formData", formData);
   const [eventType, setEventType] = useState([]);
   const [eventUserID, setEventUserID] = useState([]);
   const [files, setFiles] = useState([]);
@@ -35,8 +35,6 @@ const EventCreate = () => {
   const [selectedProjectId, setSelectedProjectId] = useState("");
   const [showTooltip, setShowTooltip] = useState(false);
 
-  console.log("AA", eventType);
-  console.log("bb", eventUserID);
 
   // Handle input change for form fields
   const handleChange = (e) => {
@@ -47,31 +45,25 @@ const EventCreate = () => {
     });
   };
 
-  //for files into array
-  const handleFileChange = (e) => {
-    const selectedFiles = Array.from(e.target.files); // Convert FileList to array
+  // for multiple image files
+  const handleImageChange = (e) => {
+    const selectedFiles = Array.from(e.target.files);
     const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
-
-    // ✅ Filter only valid image files
-    const validFiles = selectedFiles.filter((file) =>
-      allowedTypes.includes(file.type)
-    );
-
+    const validFiles = selectedFiles.filter((file) => allowedTypes.includes(file.type));
     if (validFiles.length !== selectedFiles.length) {
       toast.error("Only image files (JPG, PNG, GIF, WebP) are allowed.");
-      e.target.value = ""; // Reset input field
+      e.target.value = "";
       return;
     }
-
     setFormData((prevFormData) => ({
       ...prevFormData,
-      attachfile: [...prevFormData.attachfile, ...validFiles], // Append files
+      event_images: [...prevFormData.event_images, ...validFiles],
     }));
   };
 
   useEffect(() => {
-    console.log("Updated attachfile:", formData.attachfile);
-  }, [formData.attachfile]);
+    // console.log("Updated event_images:", formData.event_images);
+  }, [formData.event_images]);
 
   const handleRadioChange = (event) => {
     const { name, value } = event.target;
@@ -215,11 +207,11 @@ const EventCreate = () => {
       data.append("event[rsvp_number]", formData.rsvp_number);
     }
 
-    // Handling Attachments
-    if (formData.attachfile && formData.attachfile.length > 0) {
-      formData.attachfile.forEach((file) => {
+    // Handling Attachments (multiple images)
+    if (formData.event_images && formData.event_images.length > 0) {
+      formData.event_images.forEach((file) => {
         if (file instanceof File) {
-          data.append("event[event_image]", file);
+          data.append("event[event_images][]", file);
         } else {
           console.warn("Invalid file detected:", file);
         }
@@ -242,7 +234,8 @@ const EventCreate = () => {
           },
         }
       );
-
+      console.log("Response from server:",data, response.data);
+      
       toast.success("Event created successfully!");
       setFormData({
         event_type: "",
@@ -295,7 +288,7 @@ const EventCreate = () => {
         );
 
         setEventType(response?.data?.events);
-        console.log("eventType", eventType);
+        // console.log("eventType", eventType);
       } catch (error) {
         console.error("Error fetching Event:", error);
       }
@@ -320,7 +313,7 @@ const EventCreate = () => {
 
         setEventUserID(response?.data.users || []);
         // console.log("User", response)
-        console.log("eventUserID", eventUserID);
+        // console.log("eventUserID", eventUserID);
       } catch (error) {
         console.error("Error fetching Event:", error);
       }
@@ -460,7 +453,7 @@ const EventCreate = () => {
                           placeholder="Enter Event From "
                           value={formData.from_time}
                           required
-                          min={new Date().toISOString().slice(0, 16)}
+                          // min={new Date().toISOString().slice(0, 16)}
                           onChange={handleChange}
                         />
                       </div>
@@ -799,14 +792,33 @@ const EventCreate = () => {
                           <span />
                         </label>
                         <input
-                          className="form-control"
+                          className="form-control mb-2"
                           type="file"
-                          name="attachfile"
-                          accept="image/*" // Ensures only image files can be selected
-                          multiple
-                          required
-                          onChange={(e) => handleFileChange(e, "attachfile")}
+                          name="event_images"
+                          accept="image/*"
+                          multiple={false}
+                          onChange={handleImageChange}
+                          id="event-image-input"
                         />
+                        <button
+                          type="button"
+                          className="btn btn-secondary btn-sm mb-2"
+                          onClick={() => document.getElementById('event-image-input').click()}
+                        >
+                          Add Image
+                        </button>
+                        {formData.event_images && formData.event_images.length > 0 && (
+                          <div className="mt-2">
+                            <strong>Selected Images:</strong>
+                            <ul style={{listStyle: 'none', paddingLeft: 0}}>
+                              {formData.event_images.map((file, idx) => (
+                                <li key={idx} style={{marginBottom: '4px'}}>
+                                  {file.name}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
                       </div>
                     </div>
 
