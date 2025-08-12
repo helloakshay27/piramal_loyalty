@@ -27,7 +27,7 @@ const EventEdit = () => {
     comment: "",
     shared: "",
     share_groups: "",
-    attachfile: [],
+    event_images: [], // changed from attachfile to event_images for consistency
     previewImage: "",
     is_important: "false",
     email_trigger_enabled: "false",
@@ -55,7 +55,7 @@ const EventEdit = () => {
         setFormData((prev) => ({
           ...prev,
           ...response.data,
-          attachfile: null, // Reset file input
+          event_images: [], // Reset file input
           previewImage: response?.data?.attachfile?.document_url || "", // Set existing image preview
         }));
       } catch (error) {
@@ -142,15 +142,20 @@ const EventEdit = () => {
   };
   
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setFormData((prev) => ({
-        ...prev,
-        attachfile: file, // Store actual file
-        previewImage: URL.createObjectURL(file), // Generate preview
-      }));
+  // for multiple image files
+  const handleImageChange = (e) => {
+    const selectedFiles = Array.from(e.target.files);
+    const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+    const validFiles = selectedFiles.filter((file) => allowedTypes.includes(file.type));
+    if (validFiles.length !== selectedFiles.length) {
+      toast.error("Only image files (JPG, PNG, GIF, WebP) are allowed.");
+      e.target.value = "";
+      return;
     }
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      event_images: [...prevFormData.event_images, ...validFiles],
+    }));
   };
 
   const handleRadioChange = (e) => {
@@ -190,9 +195,13 @@ const EventEdit = () => {
     // Append only allowed fields
     Object.keys(formData).forEach((key) => {
       if (excludeKeys.includes(key)) return;
-      if (key === "attachfile") {
-        if (formData.attachfile) {
-          data.append("event[event_image]", formData.attachfile);
+      if (key === "event_images") {
+        if (formData.event_images && formData.event_images.length > 0) {
+          formData.event_images.forEach((file) => {
+            if (file instanceof File) {
+              data.append("event[event_images][]", file);
+            }
+          });
         }
       } else {
         data.append(`event[${key}]`, formData[key]);
@@ -200,10 +209,10 @@ const EventEdit = () => {
     });
 
     // Append RSVP fields if RSVP action is "yes"
-    if (formData.rsvp_action === "yes") {
-      data.append("event[rsvp_name]", formData.rsvp_name || "");
-      data.append("event[rsvp_number]", formData.rsvp_number || "");
-    }
+    // if (formData.rsvp_action === "yes") {
+    //   data.append("event[rsvp_name]", formData.rsvp_name || "");
+    //   data.append("event[rsvp_number]", formData.rsvp_number || "");
+    // }
 
     try {
       await axios.put(
@@ -375,7 +384,7 @@ const EventEdit = () => {
                       </div>
                     </div>
 
-                    <div className="col-md-3">
+                    {/* <div className="col-md-3">
                       <div className="form-group">
                         <label>
                           RSVP Action
@@ -411,10 +420,10 @@ const EventEdit = () => {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
 
                     {/* Show RSVP Name and RSVP Number only if RSVP Action is "yes" */}
-                    {formData.rsvp_action === "yes" && (
+                    {/* {formData.rsvp_action === "yes" && (
                       <>
                         <div className="col-md-3">
                           <div className="form-group">
@@ -443,7 +452,7 @@ const EventEdit = () => {
                           </div>
                         </div>
                       </>
-                    )}
+                    )} */}
 
                     <div className="col-md-3">
                       <div className="form-group">
@@ -465,7 +474,7 @@ const EventEdit = () => {
                       </div>
                     </div>
                     <div className="col-md-3">
-                      <div className="form-group">
+                      {/* <div className="form-group">
                         <label>
                           Event Publish
                           <span style={{ color: "#de7008", fontSize: "16px" }}>
@@ -509,11 +518,11 @@ const EventEdit = () => {
                             <label className="form-check-label">No</label>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
 
                     <div className="col-md-3">
-                      <div className="form-group">
+                      {/* <div className="form-group">
                         <label>
                           Event User ID
                           <span style={{ color: "#de7008", fontSize: "16px" }}>
@@ -534,11 +543,11 @@ const EventEdit = () => {
                             }))
                           }
                         />
-                      </div>
+                      </div> */}
                     </div>
 
                     <div className="col-md-3">
-                      <div className="form-group">
+                      {/* <div className="form-group">
                         <label>
                           Event Comment
                           <span style={{ color: "#de7008", fontSize: "16px" }}>
@@ -554,10 +563,10 @@ const EventEdit = () => {
                           value={formData.comment || "NA"}
                           onChange={handleChange}
                         />
-                      </div>
+                      </div> */}
                     </div>
                     <div className="col-md-3">
-                      <div className="form-group">
+                      {/* <div className="form-group">
                         <label>
                           Event Shared
                           <span style={{ color: "#de7008", fontSize: "16px" }}>
@@ -573,10 +582,10 @@ const EventEdit = () => {
                           value={formData.shared || "NA"}
                           onChange={handleChange}
                         />
-                      </div>
+                      </div> */}
                     </div>
                     <div className="col-md-3">
-                      <div className="form-group">
+                      {/* <div className="form-group">
                         <label>
                           Event Share Groups
                           <span style={{ color: "#de7008", fontSize: "16px" }}>
@@ -592,7 +601,7 @@ const EventEdit = () => {
                           value={formData.share_groups || "NA"}
                           onChange={handleChange}
                         />
-                      </div>
+                      </div> */}
                     </div>
                     <div className="col-md-3">
                       <div className="form-group">
@@ -604,12 +613,33 @@ const EventEdit = () => {
                           </span>
                         </label>
                         <input
-                          className="form-control"
+                          className="form-control mb-2"
                           type="file"
-                          name="attachfile"
+                          name="event_images"
                           accept="image/*"
-                          onChange={handleFileChange} // Handle file selection
+                          multiple={false}
+                          onChange={handleImageChange}
+                          id="event-image-input"
                         />
+                        <button
+                          type="button"
+                          className="btn btn-secondary btn-sm mb-2"
+                          onClick={() => document.getElementById('event-image-input').click()}
+                        >
+                          Add Image
+                        </button>
+                        {formData.event_images && formData.event_images.length > 0 && (
+                          <div className="mt-2">
+                            <strong>Selected Images:</strong>
+                            <ul style={{listStyle: 'none', paddingLeft: 0}}>
+                              {formData.event_images.map((file, idx) => (
+                                <li key={idx} style={{marginBottom: '4px'}}>
+                                  {file.name}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
                       </div>
 
                       {/* Image Preview */}
@@ -628,7 +658,7 @@ const EventEdit = () => {
                     </div>
 
                     <div className="col-md-3">
-                      <div className="form-group">
+                      {/* <div className="form-group">
                         <label>Event is Important</label>
                         <div className="d-flex">
                           <div className="form-check me-3">
@@ -654,15 +684,15 @@ const EventEdit = () => {
                             <label className="form-check-label">No</label>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
 
                     <div className="col-md-3">
-                      <div className="form-group">
+                      {/* <div className="form-group">
                         <label>Event Email Trigger Enabled</label>
                         <div className="d-flex">
                           {/* Yes Option */}
-                          <div className="form-check me-3">
+                          {/* <div className="form-check me-3">
                             <input
                               className="form-check-input"
                               type="radio"
@@ -679,10 +709,10 @@ const EventEdit = () => {
                               required
                             />
                             <label className="form-check-label">Yes</label>
-                          </div>
+                          </div> */}
 
                           {/* No Option */}
-                          <div className="form-check">
+                          {/* <div className="form-check">
                             <input
                               className="form-check-input"
                               type="radio"
@@ -701,7 +731,7 @@ const EventEdit = () => {
                             <label className="form-check-label">No</label>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
