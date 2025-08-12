@@ -61,6 +61,14 @@ const EventCreate = () => {
     }));
   };
 
+  // Remove individual image
+  const removeImage = (indexToRemove) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      event_images: prevFormData.event_images.filter((_, index) => index !== indexToRemove),
+    }));
+  };
+
   useEffect(() => {
     // console.log("Updated event_images:", formData.event_images);
   }, [formData.event_images]);
@@ -770,8 +778,17 @@ const EventCreate = () => {
                             <strong>Selected Images:</strong>
                             <ul style={{listStyle: 'none', paddingLeft: 0}}>
                               {formData.event_images.map((file, idx) => (
-                                <li key={idx} style={{marginBottom: '4px'}}>
-                                  {file.name}
+                                <li key={idx} style={{marginBottom: '4px', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                                  <span>{file.name}</span>
+                                  <button
+                                    type="button"
+                                    className="btn btn-danger btn-sm"
+                                    style={{fontSize: '12px', padding: '2px 6px', marginLeft: '8px'}}
+                                    onClick={() => removeImage(idx)}
+                                    title="Remove image"
+                                  >
+                                    ×
+                                  </button>
                                 </li>
                               ))}
                             </ul>

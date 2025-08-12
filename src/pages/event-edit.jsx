@@ -158,6 +158,22 @@ const EventEdit = () => {
     }));
   };
 
+  // Remove individual image
+  const removeImage = (indexToRemove) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      event_images: prevFormData.event_images.filter((_, index) => index !== indexToRemove),
+    }));
+  };
+
+  // Remove preview image
+  const removePreviewImage = () => {
+    setFormData((prev) => ({
+      ...prev,
+      previewImage: "",
+    }));
+  };
+
   const handleRadioChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -633,8 +649,17 @@ const EventEdit = () => {
                             <strong>Selected Images:</strong>
                             <ul style={{listStyle: 'none', paddingLeft: 0}}>
                               {formData.event_images.map((file, idx) => (
-                                <li key={idx} style={{marginBottom: '4px'}}>
-                                  {file.name}
+                                <li key={idx} style={{marginBottom: '4px', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                                  <span>{file.name}</span>
+                                  <button
+                                    type="button"
+                                    className="btn btn-danger btn-sm"
+                                    style={{fontSize: '12px', padding: '2px 6px', marginLeft: '8px'}}
+                                    onClick={() => removeImage(idx)}
+                                    title="Remove image"
+                                  >
+                                    ×
+                                  </button>
                                 </li>
                               ))}
                             </ul>
@@ -644,16 +669,39 @@ const EventEdit = () => {
 
                       {/* Image Preview */}
                       {formData.previewImage && (
-                        <img
-                          src={formData.previewImage}
-                          alt="Uploaded Preview"
-                          className="img-fluid rounded mt-2"
-                          style={{
-                            maxWidth: "100px",
-                            maxHeight: "100px",
-                            objectFit: "cover",
-                          }}
-                        />
+                        <div style={{ position: 'relative', display: 'inline-block' }}>
+                          <img
+                            src={formData.previewImage}
+                            alt="Uploaded Preview"
+                            className="img-fluid rounded mt-2"
+                            style={{
+                              maxWidth: "100px",
+                              maxHeight: "100px",
+                              objectFit: "cover",
+                            }}
+                          />
+                          <button
+                            type="button"
+                            className="btn btn-danger btn-sm"
+                            style={{
+                              position: 'absolute',
+                              top: '5px',
+                              right: '5px',
+                              fontSize: '12px',
+                              padding: '2px 6px',
+                              borderRadius: '50%',
+                              width: '20px',
+                              height: '20px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center'
+                            }}
+                            onClick={removePreviewImage}
+                            title="Remove preview image"
+                          >
+                            ×
+                          </button>
+                        </div>
                       )}
                     </div>
 
