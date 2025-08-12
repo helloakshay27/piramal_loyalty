@@ -3,7 +3,8 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import SelectBox from "../components/base/SelectBox";
-import BASE_URL from "../Confi/baseurl"; 
+import BASE_URL from "../Confi/baseurl";
+import ProjectImageVideoUpload from "../components/ProjectImageVideoUpload"; 
 
 const EventCreate = () => {
   const navigate = useNavigate();
@@ -21,6 +22,10 @@ const EventCreate = () => {
     shared: "",
     share_groups: "",
     event_images: [], // renamed for clarity and matches API
+    event_image_1_by_1: [],
+    event_image_16_by_9: [],
+    event_image_9_by_16: [],
+    event_image_3_by_2: [],
     is_important: "",
     email_trigger_enabled: "",
   });
@@ -34,6 +39,7 @@ const EventCreate = () => {
   const [projects, setProjects] = useState([]);
   const [selectedProjectId, setSelectedProjectId] = useState("");
   const [showTooltip, setShowTooltip] = useState(false);
+  const [showUploader, setShowUploader] = useState(false);
 
 
   // Handle input change for form fields
@@ -67,6 +73,93 @@ const EventCreate = () => {
       ...prevFormData,
       event_images: prevFormData.event_images.filter((_, index) => index !== indexToRemove),
     }));
+  };
+
+  // Event image ratios configuration
+  const event_images = [
+    { key: "event_image_1_by_1", label: "1:1" },
+    { key: "event_image_16_by_9", label: "16:9" },
+    { key: "event_image_9_by_16", label: "9:16" },
+    { key: "event_image_3_by_2", label: "3:2" },
+  ];
+
+  const eventUploadConfig = {
+    "Event Images": ["1:1", "9:16", "16:9", "3:2"],
+  };
+
+  const currentUploadType = "Event Images";
+  const selectedRatios = eventUploadConfig[currentUploadType] || [];
+  const dynamicLabel = currentUploadType.replace(/(^\w|\s\w)/g, (m) =>
+    m.toUpperCase()
+  );
+  const dynamicDescription = `Supports ${selectedRatios.join(", ")} aspect ratios`;
+
+  const updateFormData = (key, files) => {
+    setFormData((prev) => ({
+      ...prev,
+      [key]: files, // Replace existing files instead of appending
+    }));
+  };
+
+  const handleCropComplete = (validImages, videoFiles = []) => {
+    // Handle video files first
+    if (videoFiles && videoFiles.length > 0) {
+      videoFiles.forEach((video) => {
+        const formattedRatio = video.ratio.replace(":", "_by_");
+        const key = `event_image_${formattedRatio}`;
+        
+        // Ensure proper video object structure
+        const videoObject = {
+          ...video,
+          name: video.name || video.file?.name || `Video_${Date.now()}`,
+          preview: video.preview || video.base64 || (video.file && URL.createObjectURL(video.file))
+        };
+        
+        updateFormData(key, [videoObject]);
+      });
+      setShowUploader(false);
+      return;
+    }
+
+    // Handle images
+    if (!validImages || validImages.length === 0) {
+      toast.error("No valid files selected.");
+      setShowUploader(false);
+      return;
+    }
+
+    validImages.forEach((img) => {
+      const formattedRatio = img.ratio.replace(":", "_by_");
+      const key = `event_image_${formattedRatio}`;
+      
+      // Ensure proper image object structure
+      const imageObject = {
+        ...img,
+        name: img.name || img.file?.name || `Image_${Date.now()}`,
+        preview: img.preview || img.base64 || (img.file && URL.createObjectURL(img.file))
+      };
+      
+      updateFormData(key, [imageObject]);
+    });
+
+    setShowUploader(false);
+  };
+
+  const discardEventImage = (key, imageToRemove) => {
+    setFormData((prev) => {
+      const updatedArray = (prev[key] || []).filter(
+        (img) => img.id !== imageToRemove.id
+      );
+
+      const newFormData = { ...prev };
+      if (updatedArray.length === 0) {
+        delete newFormData[key];
+      } else {
+        newFormData[key] = updatedArray;
+      }
+
+      return newFormData;
+    });
   };
 
   useEffect(() => {
@@ -173,7 +266,21 @@ const EventCreate = () => {
       data.append("event[rsvp_number]", formData.rsvp_number);
     }
 
-    // Handling Attachments (multiple images)
+    // Handling Attachments (multiple images with ratios)
+    Object.entries(formData).forEach(([key, images]) => {
+      if (
+        (key.startsWith("event_image_")) &&
+        Array.isArray(images)
+      ) {
+        images.forEach((img) => {
+          if (img.file instanceof File) {
+            data.append(`event[${key}]`, img.file);
+          }
+        });
+      }
+    });
+
+    // Legacy support for old event_images array
     if (formData.event_images && formData.event_images.length > 0) {
       formData.event_images.forEach((file) => {
         if (file instanceof File) {
@@ -182,10 +289,6 @@ const EventCreate = () => {
           console.warn("Invalid file detected:", file);
         }
       });
-    } else {
-      toast.error("Attachment is required.");
-      setLoading(false);
-      return;
     }
 
     try {
@@ -738,7 +841,7 @@ const EventCreate = () => {
                     <div className="col-md-3">
                       <div className="form-group">
                         <label>
-                          Attachment
+                          Event Images
                           <span style={{ color: "#de7008", fontSize: "16px" }}>
                             {" "}
                             *
@@ -751,12 +854,45 @@ const EventCreate = () => {
                             [i]
                             {showTooltip && (
                               <span className="tooltip-text">
-                                Max Upload Size 10 MB
+                                Supports 1:1, 9:16, 16:9, 3:2 aspect ratios
                               </span>
                             )}
                           </span>
                           <span />
                         </label>
+                        
+                        <span
+                          role="button"
+                          tabIndex={0}
+                          onClick={() => setShowUploader(true)}
+                          className="custom-upload-button input-upload-button"
+                          style={{
+                            display: 'block',
+                            padding: '8px 12px',
+                            border: '1px solid #ced4da',
+                            borderRadius: '4px',
+                            backgroundColor: '#fff',
+                            cursor: 'pointer',
+                            textAlign: 'center'
+                          }}
+                        >
+                          <span className="upload-button-label">Choose Images</span>
+                        </span>
+
+                        {showUploader && (
+                          <ProjectImageVideoUpload
+                            onClose={() => setShowUploader(false)}
+                            includeInvalidRatios={false}
+                            selectedRatioProp={selectedRatios}
+                            showAsModal={true}
+                            label={dynamicLabel}
+                            description={dynamicDescription}
+                            onContinue={handleCropComplete}
+                            allowVideos={false}
+                          />
+                        )}
+
+                        {/* Legacy file input for backward compatibility */}
                         <input
                           className="form-control mb-2"
                           type="file"
@@ -765,17 +901,19 @@ const EventCreate = () => {
                           multiple={false}
                           onChange={handleImageChange}
                           id="event-image-input"
+                          style={{ display: 'none' }}
                         />
                         <button
                           type="button"
                           className="btn btn-secondary btn-sm mb-2"
                           onClick={() => document.getElementById('event-image-input').click()}
+                          style={{ display: 'none' }}
                         >
-                          Add Image
+                          Add Image (Legacy)
                         </button>
                         {formData.event_images && formData.event_images.length > 0 && (
                           <div className="mt-2">
-                            <strong>Selected Images:</strong>
+                            <strong>Legacy Images:</strong>
                             <ul style={{listStyle: 'none', paddingLeft: 0}}>
                               {formData.event_images.map((file, idx) => (
                                 <li key={idx} style={{marginBottom: '4px', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
@@ -794,6 +932,76 @@ const EventCreate = () => {
                             </ul>
                           </div>
                         )}
+                      </div>
+                    </div>
+
+                    {/* Event Images Table */}
+                    <div className="col-md-12 mt-4">
+                      <div className="scrollable-table tbl-container">
+                        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                          <thead>
+                            <tr>
+                              <th style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'left' }}>File Name</th>
+                              <th style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'left' }}>Preview</th>
+                              <th style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'left' }}>Ratio</th>
+                              <th style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'left' }}>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {event_images.map(({ key, label }) => {
+                              const files = Array.isArray(formData[key])
+                                ? formData[key]
+                                : formData[key]
+                                ? [formData[key]]
+                                : [];
+
+                              return files.map((file, index) => {
+                                // Handle different file object structures
+                                const preview = file.preview || 
+                                              file.document_url || 
+                                              file.base64 || 
+                                              (file.file && URL.createObjectURL(file.file)) ||
+                                              (file instanceof File && URL.createObjectURL(file)) ||
+                                              "";
+                                              
+                                const name = file.name || 
+                                           file.document_file_name || 
+                                           (file.file && file.file.name) ||
+                                           `Image_${index + 1}`;
+
+                                return (
+                                  <tr key={`${key}-${index}`}>
+                                    <td style={{ padding: '8px', border: '1px solid #ddd' }}>{name}</td>
+                                    <td style={{ padding: '8px', border: '1px solid #ddd' }}>
+                                      {preview && (
+                                        <img
+                                          style={{ maxWidth: 100, maxHeight: 100 }}
+                                          className="img-fluid rounded"
+                                          src={preview}
+                                          alt={name}
+                                          onError={(e) => {
+                                            e.target.style.display = 'none';
+                                          }}
+                                        />
+                                      )}
+                                    </td>
+                                    <td style={{ padding: '8px', border: '1px solid #ddd' }}>{file.ratio || label}</td>
+                                    <td style={{ padding: '8px', border: '1px solid #ddd' }}>
+                                      <button
+                                        type="button"
+                                        className="btn btn-danger btn-sm"
+                                        onClick={() => discardEventImage(key, file)}
+                                        title="Remove image"
+                                      >
+                                        ×
+                                      </button>
+                                    </td>
+                                  </tr>
+                                );
+                              });
+                            })}
+                          </tbody>
+                        </table>
                       </div>
                     </div>
 
