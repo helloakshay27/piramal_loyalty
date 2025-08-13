@@ -455,15 +455,17 @@ const EventCreate = () => {
                             *
                           </span>
                         </label>
-                        <input
+                        <select
                           className="form-control"
-                          type="text"
                           name="event_type"
-                          placeholder="Enter Event Type"
-                          value={formData.event_type}
+                          value={formData.event_type || ""}
                           onChange={handleChange}
                           required
-                        />
+                        >
+                          <option value="">Select Event Type</option>
+                          <option value="entertainment">Entertainment</option>
+                          <option value="lifestyle">Lifestyle</option>
+                        </select>
                       </div>
                     </div>
                     <div className="col-md-3">
