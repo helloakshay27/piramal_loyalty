@@ -23,23 +23,21 @@ const Sidebar = () => {
   useEffect(() => {
     const collapseElement = document.getElementById("userRoleCollapse");
 
-    // Listen for Bootstrap collapse events
-    collapseElement.addEventListener("show.bs.collapse", () =>
-      setIsCollapsed(true)
-    );
-    collapseElement.addEventListener("hide.bs.collapse", () =>
-      setIsCollapsed(false)
-    );
+    // Only add event listeners if the element exists
+    if (collapseElement) {
+      // Listen for Bootstrap collapse events
+      const handleShow = () => setIsCollapsed(true);
+      const handleHide = () => setIsCollapsed(false);
 
-    // Cleanup listeners on unmount
-    return () => {
-      collapseElement.removeEventListener("show.bs.collapse", () =>
-        setIsCollapsed(true)
-      );
-      collapseElement.removeEventListener("hide.bs.collapse", () =>
-        setIsCollapsed(false)
-      );
-    };
+      collapseElement.addEventListener("show.bs.collapse", handleShow);
+      collapseElement.addEventListener("hide.bs.collapse", handleHide);
+
+      // Cleanup listeners on unmount
+      return () => {
+        collapseElement.removeEventListener("show.bs.collapse", handleShow);
+        collapseElement.removeEventListener("hide.bs.collapse", handleHide);
+      };
+    }
   }, []);
 
   // Function to close the sidebar
@@ -95,7 +93,7 @@ const Sidebar = () => {
             
           </NavLink>
         </li>
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <NavLink
             to="/rule-engine"
             className={`nav-link d-flex justify-content-between ${activeItem === "/rule-engine" ? "active" : ""}`}
@@ -104,7 +102,7 @@ const Sidebar = () => {
             <span className="text">Rule Engine</span>
             
           </NavLink>
-        </li>
+        </li> */}
         {/* Referral */}
         <li className="nav-item">
           <NavLink
@@ -118,7 +116,7 @@ const Sidebar = () => {
             
           </NavLink>
         </li>
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <NavLink
             to="/enquiry-list"
             // className="menu-link d-flex gap-4"
@@ -129,7 +127,7 @@ const Sidebar = () => {
             <span className="text">Enquiry List</span>
             
           </NavLink>
-        </li>
+        </li> */}
         <li className="nav-item">
           <NavLink
             to="/lock-payments"
@@ -142,7 +140,7 @@ const Sidebar = () => {
             
           </NavLink>
         </li>
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <NavLink
             to="/rule-logs"
             // className="menu-link d-flex gap-4"
@@ -153,7 +151,7 @@ const Sidebar = () => {
             <span className="text">Rule Logs</span>
             
           </NavLink>
-        </li>
+        </li> */}
         <li className="nav-item">
           <NavLink
             to="/demand-notes"
@@ -166,7 +164,7 @@ const Sidebar = () => {
             
           </NavLink>
         </li>
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <NavLink
             to="/home-loan-request"
             // className="menu-link d-flex gap-4"
@@ -177,7 +175,7 @@ const Sidebar = () => {
             <span className="text">Home Loan Request</span>
             
           </NavLink>
-        </li>
+        </li> */}
         <li className="nav-item">
           <NavLink
             to="/orders"
@@ -253,7 +251,7 @@ const Sidebar = () => {
           </ul>
         </li> */}
 
-<li className="nav-item">
+{/* <li className="nav-item">
       <a
         className="text nav-link d-flex justify-content-between"
         onClick={toggleCollapse} // Use React's state to handle collapse
@@ -314,7 +312,7 @@ const Sidebar = () => {
             <span className="text">Reports</span>
             
           </NavLink>
-        </li>
+        </li> */}
       </ul>
     </div>
   );

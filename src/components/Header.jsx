@@ -18,6 +18,21 @@ const Header = ({ noTier, onNavChange }) => {
 
   const handleClose = () => {
     setShowModal(false);
+
+    // Remove any existing modal backdrop elements
+    const modalBackdrop = document.querySelector(".modal-backdrop");
+    if (modalBackdrop) {
+      modalBackdrop.remove();
+    }
+
+    // Remove modal-open class from body and clear any inline styles
+    document.body.classList.remove("modal-open");
+    document.body.style.overflow = "";
+    document.body.style.paddingRight = "";
+
+    // Remove any additional backdrop elements that might exist
+    const allBackdrops = document.querySelectorAll(".modal-backdrop");
+    allBackdrops.forEach((backdrop) => backdrop.remove());
   };
 
   const handleOpen = () => {
@@ -36,6 +51,15 @@ const Header = ({ noTier, onNavChange }) => {
     if (modalBackdrop) {
       modalBackdrop.remove();
     }
+
+    // Remove modal-open class from body and clear any inline styles
+    document.body.classList.remove("modal-open");
+    document.body.style.overflow = "";
+    document.body.style.paddingRight = "";
+
+    // Remove any additional backdrop elements that might exist
+    const allBackdrops = document.querySelectorAll(".modal-backdrop");
+    allBackdrops.forEach((backdrop) => backdrop.remove());
 
     navigate("/login");
   };
@@ -109,7 +133,7 @@ const Header = ({ noTier, onNavChange }) => {
                   Home
                 </a>
               </li>
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <a
                   className={`nav-link${
                     activeNav === "dashboard" ? " active rounded-2" : ""
@@ -123,7 +147,7 @@ const Header = ({ noTier, onNavChange }) => {
                 >
                   Dashboard
                 </a>
-              </li>
+              </li> */}
               <li className="nav-item">
                 <a
                   className={`nav-link${

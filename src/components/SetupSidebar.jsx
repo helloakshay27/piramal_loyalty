@@ -451,7 +451,7 @@ export default function SetupSidebar() {
             <span className="menu-link-text text-center">Press Releases</span>
           </a>
         </li> */}
-        <li
+        {/* <li
           className={`menu-item d-flex w-100 ${
             pathname === "/blogs" ? "active" : ""
           }`}
@@ -479,7 +479,7 @@ export default function SetupSidebar() {
             </svg>
             <span className="menu-link-text text-center">Blog Posts</span>
           </a>
-        </li>
+        </li> */}
       </ul>
     </aside>
   );
