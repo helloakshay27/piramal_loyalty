@@ -373,7 +373,7 @@ const ProjectImageVideoUpload = ({
                 onClick={() => {
                   // Pass the images with their ratio information
                   const imagesByRatio = validUploadedImages.map(img => ({
-                    file: img,
+                    ...img, // Spread the entire image object to preserve all properties
                     ratio: img.ratio
                   }));
                   onContinue(imagesByRatio);

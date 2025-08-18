@@ -55,7 +55,7 @@ const EventEdit = () => {
           }
         );
         
-        // Exclude image arrays and null event_images fields from API response
+        // Extract image arrays from API response
         const { 
           event_images_1_by_1, 
           event_images_9_by_16, 
@@ -66,15 +66,34 @@ const EventEdit = () => {
           ...apiData 
         } = response.data;
         
+        // Process existing images into the correct format for the UI
+        const processImageArray = (imageArray, ratio) => {
+          if (!imageArray || !Array.isArray(imageArray)) return [];
+          
+          return imageArray.map(img => ({
+            id: img.id,
+            name: img.document_file_name,
+            document_file_name: img.document_file_name,
+            document_url: img.document_url,
+            preview: img.document_url,
+            ratio: ratio,
+            size: img.document_file_size / (1024 * 1024), // Convert to MB
+            type: 'image',
+            isExisting: true, // Flag to identify existing images
+            // Keep original API data for reference
+            originalData: img
+          }));
+        };
+        
         setFormData((prev) => ({
           ...prev,
           ...apiData,
-          // Keep our local image arrays intact
-          event_images: [],
-          event_image_1_by_1: [],
-          event_image_16_by_9: [],
-          event_image_9_by_16: [],
-          event_image_3_by_2: [],
+          // Populate image arrays with existing images from API
+          event_images: [], // Keep empty for new uploads
+          event_image_1_by_1: processImageArray(event_images_1_by_1, "1:1"),
+          event_image_16_by_9: processImageArray(event_images_16_by_9, "16:9"),
+          event_image_9_by_16: processImageArray(event_images_9_by_16, "9:16"),
+          event_image_3_by_2: processImageArray(event_images_3_by_2, "3:2"),
           previewImage: attachfile?.document_url || "",
         }));
       } catch (error) {
@@ -221,7 +240,8 @@ const EventEdit = () => {
         ...file,
         ratio,
         name: file.name || file.file?.name || `Image_${Date.now()}`,
-        preview: file.preview || file.base64 || (file.file && URL.createObjectURL(file.file))
+        preview: file.preview || file.base64 || (file.file && URL.createObjectURL(file.file)),
+        isExisting: false // Flag for new uploads
       };
 
       if (ratio === "1:1") {
@@ -247,7 +267,7 @@ const EventEdit = () => {
       }
     });
 
-    // Also add to event_images array for backward compatibility
+    // Also add to event_images array for backward compatibility (only new files)
     formDataCopy.event_images = [
       ...formDataCopy.event_images,
       ...fileAndRatios.map(({ file }) => file.file || file),
@@ -329,8 +349,14 @@ const EventEdit = () => {
       if (formData[formKey] && formData[formKey].length > 0) {
         console.log(`Processing ${formKey}:`, formData[formKey]);
         
-        // Only append files that are actual File objects
+        // Only append NEW files that are actual File objects (not existing images)
         const validFiles = formData[formKey].filter(fileObj => {
+          // Skip existing images that came from the API
+          if (fileObj.isExisting) {
+            console.log(`Skipping existing image: ${fileObj.name}`);
+            return false;
+          }
+          
           // Check if it's a direct File object or has a File in the file property
           const isValidFile = (fileObj instanceof File) || 
                              (fileObj && fileObj.file instanceof File) ||
@@ -352,7 +378,7 @@ const EventEdit = () => {
             }
           });
         } else {
-          console.log(`No valid files found for ${formKey}`);
+          console.log(`No new files found for ${formKey} (existing images preserved)`);
         }
       }
     });
@@ -915,13 +941,28 @@ const EventEdit = () => {
 
                               return files.map((file, index) => {
                                 // Handle different file object structures
-                                const preview = file.preview || 
-                                              file.document_url || 
-                                              file.base64 || 
-                                              (file.file && URL.createObjectURL(file.file)) ||
-                                              (file instanceof File && URL.createObjectURL(file)) ||
-                                              "";
-                                              
+                                let preview = "";
+                                
+                                if (file.preview) {
+                                  preview = file.preview;
+                                } else if (file.document_url) {
+                                  preview = file.document_url;
+                                } else if (file.base64) {
+                                  preview = file.base64;
+                                } else if (file.file instanceof File) {
+                                  try {
+                                    preview = URL.createObjectURL(file.file);
+                                  } catch (error) {
+                                    console.warn('Failed to create object URL for file.file:', file.file, error);
+                                  }
+                                } else if (file instanceof File) {
+                                  try {
+                                    preview = URL.createObjectURL(file);
+                                  } catch (error) {
+                                    console.warn('Failed to create object URL for file:', file, error);
+                                  }
+                                }
+                                                            
                                 const name = file.name || 
                                            file.document_file_name || 
                                            (file.file && file.file.name) ||

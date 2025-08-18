@@ -141,34 +141,12 @@ const EventCreate = () => {
       const formattedRatio = img.ratio.replace(":", "_by_");
       const key = `event_image_${formattedRatio}`;
       
-      // Safely create preview URL
-      let previewUrl = null;
-      if (img.preview) {
-        previewUrl = img.preview;
-      } else if (img.base64) {
-        previewUrl = img.base64;
-      } else if (img.file instanceof File) {
-        try {
-          previewUrl = URL.createObjectURL(img.file);
-        } catch (error) {
-          console.warn('Failed to create object URL for file:', img.file, error);
-        }
-      } else if (img instanceof File) {
-        try {
-          previewUrl = URL.createObjectURL(img);
-        } catch (error) {
-          console.warn('Failed to create object URL for image:', img, error);
-        }
-      }
+      console.log('Processing image for ratio:', formattedRatio, img);
+      console.log('Image has file property:', img.file instanceof File);
       
-      // Ensure proper image object structure
-      const imageObject = {
-        ...img,
-        name: img.name || img.file?.name || img?.name || `Image_${Date.now()}`,
-        preview: previewUrl
-      };
-      
-      updateFormData(key, [imageObject]);
+      // The image object from ProjectImageVideoUpload already has the correct structure
+      // Just update the formData directly with the image object as-is
+      updateFormData(key, [img]);
     });
 
     setShowUploader(false);
@@ -177,7 +155,7 @@ const EventCreate = () => {
   const discardEventImage = (key, imageToRemove) => {
     setFormData((prev) => {
       const updatedArray = (prev[key] || []).filter(
-        (img) => img.id !== imageToRemove.id
+        (img) => img !== imageToRemove // Remove the exact object reference instead of comparing by id
       );
 
       const newFormData = { ...prev };
@@ -303,16 +281,38 @@ const EventCreate = () => {
       "event_image_3_by_2": "event_images_3_by_2"
     };
 
+    console.log("Form data before payload creation:", formData);
+
+    let hasImageFiles = false;
     Object.keys(imageFieldMapping).forEach((formKey) => {
       const payloadKey = imageFieldMapping[formKey];
+      console.log(`Checking ${formKey}:`, formData[formKey]);
+      
       if (formData[formKey] && Array.isArray(formData[formKey]) && formData[formKey].length > 0) {
-        formData[formKey].forEach((img) => {
+        formData[formKey].forEach((img, index) => {
+          console.log(`Processing image ${index} in ${formKey}:`, img);
+          console.log(`Image structure:`, {
+            isFile: img instanceof File,
+            hasFileProperty: img.file instanceof File,
+            fileName: img.name || img.file?.name,
+            fileSize: img.file?.size,
+          });
+          
           if (img.file instanceof File) {
             data.append(`event[${payloadKey}][]`, img.file);
+            hasImageFiles = true;
+            console.log(`Added file to payload: ${payloadKey}`, img.file.name);
           } else if (img instanceof File) {
             data.append(`event[${payloadKey}][]`, img);
+            hasImageFiles = true;
+            console.log(`Added direct file to payload: ${payloadKey}`, img.name);
+          } else {
+            console.warn(`Invalid file object in ${formKey}:`, img);
+            console.warn(`Expected File object but got:`, typeof img, img);
           }
         });
+      } else {
+        console.log(`No files in ${formKey} or not an array`);
       }
     });
 
@@ -321,16 +321,26 @@ const EventCreate = () => {
       formData.event_images.forEach((file) => {
         if (file instanceof File) {
           data.append("event[event_images][]", file);
+          hasImageFiles = true;
+          console.log("Added legacy image:", file.name);
         } else {
           console.warn("Invalid file detected:", file);
         }
       });
     }
 
+    console.log("Has image files to upload:", hasImageFiles);
+
+    // Debug FormData contents
+    console.log("FormData entries:");
+    for (let [key, value] of data.entries()) {
+      console.log(key, value);
+    }
+
     try {
       // Make the POST request
       const response = await axios.post(
-        `${BASE_URL}/events.json`,
+        `${BASE_URL}events.json`,
         data,
         {
           headers: {
@@ -339,7 +349,7 @@ const EventCreate = () => {
           },
         }
       );
-      console.log("Response from server:",data, response.data);
+      console.log("Response from server:", response.data);
       
       toast.success("Event created successfully!");
       setFormData({
