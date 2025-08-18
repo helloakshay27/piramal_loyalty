@@ -133,7 +133,7 @@ const ProjectImageVideoUpload = ({
       const newImage = {
         id: Date.now(),
         name: file.name,
-        file,
+        file, // Ensure the actual File object is preserved
         size: file.size / (1024 * 1024), // MB
         ratio: selectedRatio?.label || detectedRatio,
         isValidRatio,
@@ -371,15 +371,12 @@ const ProjectImageVideoUpload = ({
               <button
                 className="continue-btn"
                 onClick={() => {
-                  // if (!areAllRatiosUploaded && validUploadedImages.length > 0 && missingRatios.length > 0) {
-                  //   const message =
-                  //     missingRatios.length === 1
-                  //       ? `Please upload the remaining required ratio: ${missingRatios[0]}`
-                  //       : `Please upload all required ratios. Missing: ${missingRatios.join(', ')}`;
-                  //   toast.error(message);
-                  //   return;
-                  // }
-                  onContinue(validUploadedImages);
+                  // Pass the images with their ratio information
+                  const imagesByRatio = validUploadedImages.map(img => ({
+                    file: img,
+                    ratio: img.ratio
+                  }));
+                  onContinue(imagesByRatio);
                 }}
               >
                 Continue ({mediaCount} media{pluralSuffix} uploaded)

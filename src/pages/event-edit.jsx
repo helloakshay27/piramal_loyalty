@@ -10,8 +10,6 @@ const EventEdit = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  console.log("id", id);
-
   const [formData, setFormData] = useState({
     project_id: "",
     event_type: "",
@@ -38,8 +36,6 @@ const EventEdit = () => {
     email_trigger_enabled: "false",
   });
 
-  console.log("Data", formData);
-
   const [eventType, setEventType] = useState([]);
   const [eventUserID, setEventUserID] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -58,12 +54,28 @@ const EventEdit = () => {
             },
           }
         );
-        // console.log(response?.data);
+        
+        // Exclude image arrays and null event_images fields from API response
+        const { 
+          event_images_1_by_1, 
+          event_images_9_by_16, 
+          event_images_3_by_2, 
+          event_images_16_by_9, 
+          event_images,
+          attachfile,
+          ...apiData 
+        } = response.data;
+        
         setFormData((prev) => ({
           ...prev,
-          ...response.data,
-          event_images: [], // Reset file input
-          previewImage: response?.data?.attachfile?.document_url || "", // Set existing image preview
+          ...apiData,
+          // Keep our local image arrays intact
+          event_images: [],
+          event_image_1_by_1: [],
+          event_image_16_by_9: [],
+          event_image_9_by_16: [],
+          event_image_3_by_2: [],
+          previewImage: attachfile?.document_url || "",
         }));
       } catch (error) {
         console.error("Error fetching event:", error);
@@ -71,7 +83,6 @@ const EventEdit = () => {
     };
 
     if (id) fetchEvent();
-    console.log("project_id: " + formData.project_id);
   }, [id]);
 
   const [projects, setProjects] = useState([]); // State to store projects
@@ -89,7 +100,6 @@ const EventEdit = () => {
           }
         );
 
-        console.log("Fetched Projects:", response.data);
 
         setProjects(response.data.projects || []); // Ensure data structure is correct
       } catch (error) {
@@ -281,6 +291,7 @@ const EventEdit = () => {
       "event_image_16_by_9", 
       "event_image_9_by_16",
       "event_image_3_by_2",
+      "attachfile", // Exclude the existing attachfile
       "reminders",
       "id",
       "is_delete",
@@ -304,33 +315,59 @@ const EventEdit = () => {
       data.append(`event[${key}]`, formData[key]);
     });
 
-    // Handle image uploads - support both legacy and ratio-specific arrays
-    if (formData.event_images && formData.event_images.length > 0) {
-      formData.event_images.forEach((file) => {
-        if (file instanceof File) {
-          data.append("event[event_images][]", file);
-        }
-      });
-    }
+    // Handle ratio-specific images with correct field names
+    const imageFieldMapping = {
+      "event_image_1_by_1": "event_images_1_by_1",
+      "event_image_16_by_9": "event_images_16_by_9",
+      "event_image_9_by_16": "event_images_9_by_16",
+      "event_image_3_by_2": "event_images_3_by_2"
+    };
 
-    // Handle ratio-specific images
-    ["event_image_1_by_1", "event_image_16_by_9", "event_image_9_by_16", "event_image_3_by_2"].forEach((ratioKey) => {
-      if (formData[ratioKey] && formData[ratioKey].length > 0) {
-        formData[ratioKey].forEach((fileObj) => {
-          if (fileObj instanceof File) {
-            data.append(`event[${ratioKey}][]`, fileObj);
-          } else if (fileObj.file instanceof File) {
-            data.append(`event[${ratioKey}][]`, fileObj.file);
-          }
+    let hasFiles = false;
+    Object.keys(imageFieldMapping).forEach((formKey) => {
+      const payloadKey = imageFieldMapping[formKey];
+      if (formData[formKey] && formData[formKey].length > 0) {
+        console.log(`Processing ${formKey}:`, formData[formKey]);
+        
+        // Only append files that are actual File objects
+        const validFiles = formData[formKey].filter(fileObj => {
+          // Check if it's a direct File object or has a File in the file property
+          const isValidFile = (fileObj instanceof File) || 
+                             (fileObj && fileObj.file instanceof File) ||
+                             (fileObj && typeof fileObj === 'object' && fileObj.constructor === File);
+          
+          console.log(`File validation for ${fileObj.name || 'unnamed'}:`, isValidFile, fileObj);
+          return isValidFile;
         });
+        
+        if (validFiles.length > 0) {
+          hasFiles = true;
+          validFiles.forEach((fileObj) => {
+            if (fileObj instanceof File) {
+              data.append(`event[${payloadKey}][]`, fileObj);
+              console.log(`Appended direct file for ${payloadKey}:`, fileObj.name);
+            } else if (fileObj.file instanceof File) {
+              data.append(`event[${payloadKey}][]`, fileObj.file);
+              console.log(`Appended nested file for ${payloadKey}:`, fileObj.file.name);
+            }
+          });
+        } else {
+          console.log(`No valid files found for ${formKey}`);
+        }
       }
     });
 
-    // Append RSVP fields if RSVP action is "yes"
-    // if (formData.rsvp_action === "yes") {
-    //   data.append("event[rsvp_name]", formData.rsvp_name || "");
-    //   data.append("event[rsvp_number]", formData.rsvp_number || "");
-    // }
+    // Debug FormData contents
+    console.log("Form Data before submission:", formData);
+    console.log("Has files to upload:", hasFiles);
+    console.log("FormData entries:");
+    for (let [key, value] of data.entries()) {
+      console.log(key, value);
+    }
+
+    if (!hasFiles) {
+      console.warn("No new files to upload, only updating text fields");
+    }
 
     try {
       await axios.put(
@@ -347,6 +384,7 @@ const EventEdit = () => {
       navigate("/event-list");
     } catch (error) {
       console.error("Error updating event:", error);
+      console.error("Error response:", error.response?.data);
       toast.error("Failed to update event.");
     } finally {
       setLoading(false);

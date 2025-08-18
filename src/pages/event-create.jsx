@@ -108,11 +108,20 @@ const EventCreate = () => {
         const formattedRatio = video.ratio.replace(":", "_by_");
         const key = `event_image_${formattedRatio}`;
         
-        // Ensure proper video object structure
+        // Safely create preview URL for video
+        let previewUrl = null;
+        if (video.preview) {
+          previewUrl = video.preview;
+        } else if (video.base64) {
+          previewUrl = video.base64;
+        } else if (video.file instanceof File) {
+          previewUrl = URL.createObjectURL(video.file);
+        }
+        
         const videoObject = {
           ...video,
           name: video.name || video.file?.name || `Video_${Date.now()}`,
-          preview: video.preview || video.base64 || (video.file && URL.createObjectURL(video.file))
+          preview: previewUrl
         };
         
         updateFormData(key, [videoObject]);
@@ -132,11 +141,31 @@ const EventCreate = () => {
       const formattedRatio = img.ratio.replace(":", "_by_");
       const key = `event_image_${formattedRatio}`;
       
+      // Safely create preview URL
+      let previewUrl = null;
+      if (img.preview) {
+        previewUrl = img.preview;
+      } else if (img.base64) {
+        previewUrl = img.base64;
+      } else if (img.file instanceof File) {
+        try {
+          previewUrl = URL.createObjectURL(img.file);
+        } catch (error) {
+          console.warn('Failed to create object URL for file:', img.file, error);
+        }
+      } else if (img instanceof File) {
+        try {
+          previewUrl = URL.createObjectURL(img);
+        } catch (error) {
+          console.warn('Failed to create object URL for image:', img, error);
+        }
+      }
+      
       // Ensure proper image object structure
       const imageObject = {
         ...img,
-        name: img.name || img.file?.name || `Image_${Date.now()}`,
-        preview: img.preview || img.base64 || (img.file && URL.createObjectURL(img.file))
+        name: img.name || img.file?.name || img?.name || `Image_${Date.now()}`,
+        preview: previewUrl
       };
       
       updateFormData(key, [imageObject]);
@@ -266,15 +295,22 @@ const EventCreate = () => {
       data.append("event[rsvp_number]", formData.rsvp_number);
     }
 
-    // Handling Attachments (multiple images with ratios)
-    Object.entries(formData).forEach(([key, images]) => {
-      if (
-        (key.startsWith("event_image_")) &&
-        Array.isArray(images)
-      ) {
-        images.forEach((img) => {
+    // Handle ratio-specific images with correct field names
+    const imageFieldMapping = {
+      "event_image_1_by_1": "event_images_1_by_1",
+      "event_image_16_by_9": "event_images_16_by_9",
+      "event_image_9_by_16": "event_images_9_by_16",
+      "event_image_3_by_2": "event_images_3_by_2"
+    };
+
+    Object.keys(imageFieldMapping).forEach((formKey) => {
+      const payloadKey = imageFieldMapping[formKey];
+      if (formData[formKey] && Array.isArray(formData[formKey]) && formData[formKey].length > 0) {
+        formData[formKey].forEach((img) => {
           if (img.file instanceof File) {
-            data.append(`event[${key}]`, img.file);
+            data.append(`event[${payloadKey}][]`, img.file);
+          } else if (img instanceof File) {
+            data.append(`event[${payloadKey}][]`, img);
           }
         });
       }
@@ -958,14 +994,29 @@ const EventCreate = () => {
                                 : [];
 
                               return files.map((file, index) => {
-                                // Handle different file object structures
-                                const preview = file.preview || 
-                                              file.document_url || 
-                                              file.base64 || 
-                                              (file.file && URL.createObjectURL(file.file)) ||
-                                              (file instanceof File && URL.createObjectURL(file)) ||
-                                              "";
-                                              
+                                // Handle different file object structures safely
+                                let preview = "";
+                                
+                                if (file.preview) {
+                                  preview = file.preview;
+                                } else if (file.document_url) {
+                                  preview = file.document_url;
+                                } else if (file.base64) {
+                                  preview = file.base64;
+                                } else if (file.file instanceof File) {
+                                  try {
+                                    preview = URL.createObjectURL(file.file);
+                                  } catch (error) {
+                                    console.warn('Failed to create object URL for file.file:', file.file, error);
+                                  }
+                                } else if (file instanceof File) {
+                                  try {
+                                    preview = URL.createObjectURL(file);
+                                  } catch (error) {
+                                    console.warn('Failed to create object URL for file:', file, error);
+                                  }
+                                }
+                                                            
                                 const name = file.name || 
                                            file.document_file_name || 
                                            (file.file && file.file.name) ||
