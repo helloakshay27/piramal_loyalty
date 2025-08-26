@@ -176,7 +176,6 @@ const EventEdit = () => {
       [name]: value,
     });
   };
-  
 
   // for multiple image files
   const handleImageChange = (e) => {
@@ -416,7 +415,6 @@ const EventEdit = () => {
       setLoading(false);
     }
   };
-  
 
   const formatDateForInput = (isoString) => {
     if (!isoString) return ""; // Handle empty values

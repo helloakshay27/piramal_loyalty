@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import GophygitalLogo1 from "/GophygitalLogo1.svg";
+import LockatedLogo from "/LockatedLogo.png";
 import { useNavigate, useLocation } from "react-router-dom";
 import TypeHeader from "./TypeHeader";
 
@@ -8,6 +9,7 @@ const Header = ({ noTier, onNavChange }) => {
   const [activeNav, setActiveNav] = useState("home"); // Track active nav
   const navigate = useNavigate();
   const location = useLocation();
+  const hostname = window.location.hostname;
 
   // Notify parent when activeNav changes
   useEffect(() => {
@@ -115,7 +117,7 @@ const Header = ({ noTier, onNavChange }) => {
           >
             <span className="navbar-toggler-icon" />
           </button>
-          <img alt="logo" className="go-logo mx-3 my-2" src={GophygitalLogo1} />
+          <img alt="logo" className="go-logo mx-3 my-2" src={hostname === "rustomjee-loyalty.lockated.com" ? LockatedLogo : GophygitalLogo1} />
           <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
