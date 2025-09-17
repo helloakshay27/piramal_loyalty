@@ -234,6 +234,137 @@ const Orders = () => {
     }
   };
 
+  const Pagination = ({
+    currentPage,
+    totalPages,
+    totalEntries,
+    onPageChange,
+  }) => {
+    const startEntry = (currentPage - 1) * perPage + 1;
+    const endEntry = Math.min(currentPage * perPage, totalEntries);
+
+    const getPageNumbers = () => {
+      const pages = [];
+      const maxVisiblePages = 5;
+      const halfVisible = Math.floor(maxVisiblePages / 2);
+
+      let startPage, endPage;
+
+      if (totalPages <= maxVisiblePages) {
+        startPage = 1;
+        endPage = totalPages;
+      } else {
+        if (currentPage <= halfVisible) {
+          startPage = 1;
+          endPage = maxVisiblePages;
+        } else if (currentPage + halfVisible >= totalPages) {
+          startPage = totalPages - maxVisiblePages + 1;
+          endPage = totalPages;
+        } else {
+          startPage = currentPage - halfVisible;
+          endPage = currentPage + halfVisible;
+        }
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        pages.push(i);
+      }
+
+      return pages;
+    };
+
+    const pageNumbers = getPageNumbers();
+
+    const handleJumpForward = () => {
+      if (currentPage + 5 <= totalPages) {
+        onPageChange(currentPage + 5);
+      } else {
+        onPageChange(totalPages);
+      }
+    };
+
+    const handleJumpBackward = () => {
+      if (currentPage - 5 >= 1) {
+        onPageChange(currentPage - 5);
+      } else {
+        onPageChange(1);
+      }
+    };
+
+    return (
+      <nav className="d-flex justify-content-between align-items-center">
+        <ul
+          className="pagination justify-content-center align-items-center"
+          style={{ listStyleType: "none", padding: "0" }}
+        >
+          <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+            <button
+              className="page-link"
+              onClick={() => onPageChange(1)}
+              disabled={currentPage === 1}
+              style={{ padding: "8px 12px", color: "#5e2750" }}
+            >
+              ««
+            </button>
+          </li>
+          <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+            <button
+              className="page-link"
+              onClick={() => onPageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              style={{ padding: "8px 12px", color: "#5e2750" }}
+            >
+              ‹
+            </button>
+          </li>
+          {pageNumbers.map((page) => (
+            <li
+              key={page}
+              className={`page-item ${page === currentPage ? "active" : ""}`}
+            >
+              <button
+                className="page-link"
+                onClick={() => onPageChange(page)}
+                style={{
+                  padding: "8px 12px",
+                  color: page === currentPage ? "#fff" : "#5e2750",
+                  backgroundColor: page === currentPage ? "#5e2750" : "#fff",
+                  border: "2px solid #5e2750",
+                  borderRadius: "3px",
+                }}
+              >
+                {page}
+              </button>
+            </li>
+          ))}
+          <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+            <button
+              className="page-link"
+              onClick={() => onPageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              style={{ padding: "8px 12px", color: "#5e2750" }}
+            >
+              ›
+            </button>
+          </li>
+          <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+            <button
+              className="page-link"
+              onClick={handleJumpForward}
+              disabled={currentPage === totalPages}
+              style={{ padding: "8px 12px", color: "#5e2750" }}
+            >
+              »»
+            </button>
+          </li>
+        </ul>
+        <p className="text-center" style={{ marginTop: "10px", color: "#555" }}>
+          Showing {startEntry} to {endEntry} of {totalEntries} entries
+        </p>
+      </nav>
+    );
+  };
+
   if (loading && orders.length === 0) {
     return (
       <div className="container-fluid">
@@ -336,10 +467,14 @@ const Orders = () => {
                             {error}
                           </div>
                         )}
-                        
-                        <div className="table-responsive">
-                          <table className="table table-hover">
-                            <thead className="table-light">
+                        <div className="tbl-container mx-3 mt-4" style={{
+                          height: "100%",
+                          overflowX: "hidden",
+                          display: "flex",
+                          flexDirection: "column",
+                        }}>
+                          <table className="w-100" style={{ color: '#000', fontWeight: '400', fontSize: '13px' }}>
+                            <thead>
                               <tr>
                                 <th>Order ID</th>
                                 <th>Order Number</th>
@@ -350,30 +485,44 @@ const Orders = () => {
                                 <th>Points Redeemed</th>
                                 <th>Items</th>
                                 <th>Created At</th>
-                                {/* <th>Actions</th> */}
                               </tr>
                             </thead>
-                            <tbody>
+                            <tbody style={{ color: '#000', fontWeight: '400', fontSize: '13px' }}>
                               {orders.length > 0 ? (
                                 orders.map((order) => (
                                   <tr key={order.id}>
-                                    <td>{order.id}</td>
-                                    <td>
+                                    <td style={{ width: '11%' }}>{order.id}</td>
+                                    <td style={{ width: '11%' }}>
                                       <small className="text-muted">{order.order_number}</small>
                                     </td>
-                                    <td>
+                                    <td style={{ width: '11%' }}>
                                       <div>
                                         <div className="fw-semibold">{order.user.name || 'N/A'}</div>
                                         <small className="text-muted">{order.user.email}</small>
                                       </div>
                                     </td>
-                                    <td>
+                                    <td style={{ width: '11%' }}>
                                       <select
-                                        className={`form-select form-select-sm ${getStatusBadgeClass(order.status)}`}
+                                        className="form-select form-select-sm order-status-dropdown"
                                         value={order.status}
                                         onChange={(e) => handleStatusChange(order.id, e.target.value)}
                                         disabled={updatingStatus === order.id}
-                                        style={{ maxWidth: '120px' }}
+                                        style={{
+                                          minWidth: '120px',
+                                          fontSize: '13px',
+                                          fontWeight: '400',
+                                          color: '#212529',
+                                          background: '#fff',
+                                          border: '1px solid #dee2e6',
+                                          borderRadius: '6px',
+                                          padding: '6px 32px 6px 12px', // extra right padding for arrow
+                                          margin: '2px 0',
+                                          appearance: 'none', // hide default arrow
+                                          backgroundImage: `url("data:image/svg+xml,%3Csvg width='16' height='16' fill='gray' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4.646 6.646a.5.5 0 0 1 .708 0L8 9.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E")`,
+                                          backgroundRepeat: 'no-repeat',
+                                          backgroundPosition: 'right 10px center',
+                                          backgroundSize: '16px 16px'
+                                        }}
                                       >
                                         {statusOptions.map(status => (
                                           <option key={status} value={status}>
@@ -387,22 +536,22 @@ const Orders = () => {
                                         </div>
                                       )}
                                     </td>
-                                    <td>
+                                    <td style={{ width: '11%' }}>
                                       <span className={getPaymentStatusBadgeClass(order.payment_status)}>
                                         {order.payment_status.charAt(0).toUpperCase() + order.payment_status.slice(1).replace('_', ' ')}
                                       </span>
                                     </td>
-                                    <td>
+                                    <td style={{ width: '11%' }}>
                                       <div>
                                         <div className="fw-semibold">₹{parseFloat(order.total_amount).toFixed(2)}</div>
                                       </div>
                                     </td>
-                                    <td>
+                                    <td style={{ width: '11%' }}>
                                       <span className="badge bg-primary">
                                         {order.loyalty_points_redeemed.toLocaleString()} pts
                                       </span>
                                     </td>
-                                    <td>
+                                    <td style={{ width: '11%' }}>
                                       <div>
                                         <div className="fw-semibold">{order.total_items} item(s)</div>
                                         {order.order_items.length > 0 && (
@@ -413,41 +562,9 @@ const Orders = () => {
                                         )}
                                       </div>
                                     </td>
-                                    <td>
+                                    <td style={{ width: '11%' }}>
                                       <small>{formatDate(order.created_at)}</small>
                                     </td>
-                                    {/* <td>
-                                      <div className="dropdown">
-                                        <button
-                                          className="btn btn-sm btn-outline-secondary dropdown-toggle"
-                                          type="button"
-                                          data-bs-toggle="dropdown"
-                                          aria-expanded="false"
-                                        >
-                                          Actions
-                                        </button>
-                                        <ul className="dropdown-menu">
-                                          <li>
-                                            <Link 
-                                              className="dropdown-item"
-                                              to={`/order-details/${order.id}`}
-                                            >
-                                              View Details
-                                            </Link>
-                                          </li>
-                                          {order.can_be_cancelled && (
-                                            <li>
-                                              <button 
-                                                className="dropdown-item text-danger"
-                                                onClick={() => handleStatusChange(order.id, 'cancelled')}
-                                              >
-                                                Cancel Order
-                                              </button>
-                                            </li>
-                                          )}
-                                        </ul>
-                                      </div>
-                                    </td> */}
                                   </tr>
                                 ))
                               ) : (
@@ -462,33 +579,13 @@ const Orders = () => {
                               )}
                             </tbody>
                           </table>
+                          <Pagination
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            onPageChange={handlePageChange}
+                            totalEntries={totalCount}
+                          />
                         </div>
-
-                        {/* Pagination */}
-                        {totalPages > 1 && (
-                          <div className="d-flex justify-content-between align-items-center mt-4">
-                            <div className="text-muted">
-                              Showing {((currentPage - 1) * perPage) + 1} to {Math.min(currentPage * perPage, totalCount)} of {totalCount} orders
-                            </div>
-                            <div className="pagination-wrapper">
-                              <button
-                                className="btn btn-outline-primary me-2"
-                                onClick={() => handlePageChange(currentPage - 1)}
-                                disabled={currentPage === 1}
-                              >
-                                Previous
-                              </button>
-                              {renderPagination()}
-                              <button
-                                className="btn btn-outline-primary ms-2"
-                                onClick={() => handlePageChange(currentPage + 1)}
-                                disabled={currentPage === totalPages}
-                              >
-                                Next
-                              </button>
-                            </div>
-                          </div>
-                        )}
                       </div>
                     </div>
                   </div>
@@ -502,6 +599,83 @@ const Orders = () => {
       {showModal && (
         <LoginModal showModal={showModal} setShowModal={setShowModal} />
       )}
+
+      {/* Add this at the end of your component file, or move to your CSS file */}
+      <style>
+      {`
+      .order-status-dropdown {
+        min-width: 120px;
+        padding: 6px 32px 6px 12px;
+        margin: 2px 0;
+        border-radius: 6px;
+        border: 1px solid #dee2e6;
+        background: #fff;
+        font-size: 13px;
+        font-weight: 400;
+        color: #212529;
+        outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' fill='gray' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4.646 6.646a.5.5 0 0 1 .708 0L8 9.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        background-size: 16px 16px;
+      }
+      .order-status-dropdown:focus {
+        border-color: #5e2750;
+        box-shadow: 0 0 0 2px rgba(94,39,80,0.15);
+      }
+      .order-status-dropdown:hover, .order-status-dropdown:active {
+        border-color: #5e2750;
+        box-shadow: 0 2px 12px rgba(94,39,80,0.10);
+      }
+      .order-status-dropdown option {
+        padding: 8px 12px;
+      }
+      .tbl-container table {
+        border-collapse: collapse;
+        width: 100%;
+        background: #fff;
+        font-size: 13px;
+        color: #000;
+      }
+      .tbl-container th, .tbl-container td {
+        border-bottom: 1px solid #eee;
+        padding: 8px 10px;
+        text-align: left;
+        font-weight: 400;
+      }
+      .tbl-container th {
+        background: #f8f8f8;
+        font-weight: 500;
+        color: #5e2750;
+        cursor: pointer;
+      }
+      .tbl-container tr:hover {
+        background: #f3f0f4;
+      }
+      .pagination .page-link {
+        border: none;
+        margin: 0 2px;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        background: #fff;
+        transition: background 0.2s, color 0.2s;
+      }
+      .pagination .page-item.active .page-link {
+        background: #5e2750;
+        color: #fff;
+        border-radius: 3px;
+        border: 2px solid #5e2750;
+      }
+      .pagination .page-link:disabled {
+        color: #ccc;
+        cursor: not-allowed;
+        background: #f8f8f8;
+      }
+      `}
+      </style>
     </div>
   );
 };
