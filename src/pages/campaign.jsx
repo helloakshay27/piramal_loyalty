@@ -38,7 +38,7 @@ const Campaign = () => {
       const storedValue = sessionStorage.getItem("selectedId");
       try {
         const response = await axios.get(
-          `${BASE_URL}loyalty/campaigns.json?access_token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
+          `${BASE_URL}loyalty/campaigns.json?access_token=${token}&&q[loyalty_type_id_eq]=`
         );
         setCampaigns(response.data);
         setFilteredItems(response.data); // Initialize filteredItems with campaigns
