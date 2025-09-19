@@ -577,7 +577,7 @@ const CreateRuleEngine = () => {
 
     try {
       const response = await fetch(
-        `${BASE_URL}/rule_engine/rules/loyalty_re?token=${token}`,
+        `${BASE_URL}rule_engine/rules/loyalty_re?token=${token}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

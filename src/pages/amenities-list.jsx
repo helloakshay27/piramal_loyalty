@@ -24,7 +24,7 @@ const AmenitiesList = () => {
     const fetchAmenities = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`${BASE_URL}/amenity_setups.json`);
+        const response = await axios.get(`${BASE_URL}amenity_setups.json`);
         const data = response.data.amenities_setups || [];
 
         setAmenities(data);
@@ -53,7 +53,7 @@ const AmenitiesList = () => {
     const updatedStatus = !currentStatus;
     try {
       const response = await axios.put(
-        `${BASE_URL}/amenity_setups/${id}.json`,
+        `${BASE_URL}amenity_setups/${id}.json`,
         { amenity_setup: { active: updatedStatus } } 
       );
 
@@ -78,7 +78,7 @@ const AmenitiesList = () => {
     if (!confirmDelete) return;
   
     try {
-      await axios.delete(`${BASE_URL}/amenity_setups/${id}.json`);
+      await axios.delete(`${BASE_URL}amenity_setups/${id}.json`);
       toast.success("Amenity deleted successfully!");
   
       setAmenities((prevAmenities) => prevAmenities.filter((amenity) => amenity.id !== id));

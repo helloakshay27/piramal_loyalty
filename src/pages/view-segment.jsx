@@ -17,7 +17,7 @@
 //     const storedValue = sessionStorage.getItem("selectedId");
 //     try {
 //       const response = await axios.get(
-//         `https://staging.lockated.com/loyalty/segments/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+//         `https://staging.lockated.com/loyalty/segments/${id}.json?access_token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
 //       );
 //       setMembers(response.data.loyalty_members)
 //       console.log("Segment Details Response:", response.data); // Debugging log
@@ -34,7 +34,7 @@
 //     try {
 //       // Ensure we use only the specific segment member IDs
 //       const response = await axios.get(
-//        `https://staging.lockated.com/loyalty/segments/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+//        `https://staging.lockated.com/loyalty/segments/${id}.json?access_token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
 //       );
 //       console.log("Member Details Fetched:", response.data);
 //       setMembers(response.data.loyalty_members) // Debugging log
@@ -199,7 +199,7 @@ const ViewSegment = () => {
     const storedValue = sessionStorage.getItem("selectedId");
     try {
       const response = await axios.get(
-        `${BASE_URL}/loyalty/segments/${id}.json?token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
+        `${BASE_URL}loyalty/segments/${id}.json?access_token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
       );
       setMembers(response.data.loyalty_members);
       setTotalMembers(response.data.loyalty_members.length); // Set total member count

@@ -49,7 +49,7 @@ const Amenities = () => {
 
     try {
       await axios.post(
-        `${BASE_URL}/amenity_setups.json`,
+        `${BASE_URL}amenity_setups.json`,
         formData,
         {
           headers: {

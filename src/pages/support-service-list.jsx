@@ -22,7 +22,7 @@ const SupportServiceList = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `${BASE_URL}/osr_services.json`,
+          `${BASE_URL}osr_services.json`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,

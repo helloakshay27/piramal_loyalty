@@ -31,7 +31,7 @@ const SiteVisitSlotConfigList = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${BASE_URL}/site_schedule/all_site_schedule_slots.json`,
+        `${BASE_URL}site_schedule/all_site_schedule_slots.json`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -82,7 +82,7 @@ const SiteVisitSlotConfigList = () => {
 
     try {
       const response = await axios.put(
-        `${BASE_URL}/site_schedules/${selectedId}.json`,
+        `${BASE_URL}site_schedules/${selectedId}.json`,
         postData,
         {
           headers: {
@@ -116,7 +116,7 @@ const SiteVisitSlotConfigList = () => {
       console.log("Sending payload:", JSON.stringify(postData));
 
       await axios.put(
-        `${BASE_URL}/site_schedules/${slotId}.json`,
+        `${BASE_URL}site_schedules/${slotId}.json`,
         postData,
         {
           headers: {

@@ -42,7 +42,7 @@ const ProjectDetailsList = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       setLoading(true);
-      const url = `${BASE_URL}/get_projects_all.json`;
+      const url = `${BASE_URL}get_projects_all.json`;
       try {
         const response = await axios.get(url, {
           headers: {

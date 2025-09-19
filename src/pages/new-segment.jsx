@@ -41,12 +41,12 @@ const NewSegment = () => {
       const storedValue = sessionStorage.getItem("selectedId");
       try {
         const tierResponse = await axios.get(
-          `${BASE_URL}/loyalty/tiers.json?token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
+          `${BASE_URL}loyalty/tiers.json?access_token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
         );
         setTierLevels(tierResponse.data);
 
         const memberResponse = await axios.get(
-          `${BASE_URL}/loyalty/members.json?token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
+          `${BASE_URL}loyalty/members.json?access_token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
         );
         setInitialData(memberResponse.data);
         setFilteredData(memberResponse.data);
@@ -64,7 +64,7 @@ const NewSegment = () => {
       const storedValue = sessionStorage.getItem("selectedId");
       try {
         const response = await axios.get(
-          `${BASE_URL}/loyalty/tiers.json?token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
+          `${BASE_URL}loyalty/tiers.json?access_token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
         );
         setTierLevels(response.data);
         // Store API data in state
@@ -116,7 +116,7 @@ const NewSegment = () => {
 
   //   try {
   //     const response = await axios.post(
-  //       "https://staging.lockated.com/loyalty/segments.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414",
+  //       "https://staging.lockated.com/loyalty/segments.json?access_token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414",
   //       data
   //     );
   //     if (response.statusText === "Created") {
@@ -164,7 +164,7 @@ const NewSegment = () => {
 
   //   try {
   //     const response = await axios.post(
-  //       "https://staging.lockated.com/loyalty/segments.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414",
+  //       "https://staging.lockated.com/loyalty/segments.json?access_token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414",
   //       data
   //     );
   //     if (response.statusText === "Created") {
@@ -243,7 +243,7 @@ const NewSegment = () => {
 
     try {
       const response = await axios.post(
-        `${BASE_URL}/loyalty/segments.json?token=${token}`,
+        `${BASE_URL}loyalty/segments.json?access_token=${token}`,
         data
       );
 
@@ -444,7 +444,7 @@ const NewSegment = () => {
     const storedValue = sessionStorage.getItem("selectedId");
     try {
       const response = await axios.get(
-        `${BASE_URL}/loyalty/members.json${queryString}&token=${token}&q[loyalty_type_id_eq]=${storedValue}`
+        `${BASE_URL}loyalty/members.json${queryString}&token=${token}&q[loyalty_type_id_eq]=${storedValue}`
       );
 
       // setFilteredData(response.data);

@@ -8,7 +8,7 @@ const TypeHeader = () => {
   const token = localStorage.getItem("access_token");
 
   useEffect(() => {
-    fetch(`${BASE_URL}/loyalty/types.json?token=${token}`)
+    fetch(`${BASE_URL}loyalty/types.json?access_token=${token}`)
       .then((response) => response.json())
       .then((data) => {
         setOptions(data);

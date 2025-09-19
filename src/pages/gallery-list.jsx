@@ -23,7 +23,7 @@ const GalleryList = () => {
     setLoading(true); // Start loading
     try {
       const response = await axios.get(
-      `${BASE_URL}/galleries/get_galleries.json`
+      `${BASE_URL}galleries/get_galleries.json`
       );
       setGalleries(response.data.galleries);
       setPagination((prev) => ({

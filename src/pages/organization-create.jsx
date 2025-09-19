@@ -94,7 +94,7 @@ const OrganizationCreate = () => {
 
     try {
       const response = await axios.post(
-        `${BASE_URL}/organizations.json`,
+        `${BASE_URL}organizations.json`,
         payload,
         {
           headers: {

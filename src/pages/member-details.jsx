@@ -34,7 +34,7 @@ const MemberDetails = () => {
     console.log("Stored ID in session after selection:", storedValue, id);
     try {
       const response = await axios.get(
-        `${BASE_URL}/loyalty/members/${id}.json?token=${token}`
+        `${BASE_URL}loyalty/members/${id}.json?access_token=${token}`
       );
 
       const formattedMember = {
@@ -70,7 +70,7 @@ const MemberDetails = () => {
     console.log("Stored ID in session after selection:", storedValue);
     try {
       const response = await axios.get(
-        `${BASE_URL}/loyalty/members/${id}.json?&token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`
+        `${BASE_URL}loyalty/members/${id}.json?&token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`
       );
       console.log("Transaction Data Response:", response.data);
       

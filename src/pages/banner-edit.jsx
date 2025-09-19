@@ -28,7 +28,7 @@ const BannerEdit = () => {
   const fetchBanner = async () => {
     try {
       const response = await axios.get(
-        `${BASE_URL}/banners/${id}.json`
+        `${BASE_URL}banners/${id}.json`
       );
       if (response.data) {
         setFormData({
@@ -48,7 +48,7 @@ const BannerEdit = () => {
   const fetchProjects = async () => {
     try {
       const response = await axios.get(
-        `${BASE_URL}/projects.json`,
+        `${BASE_URL}projects.json`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -110,7 +110,7 @@ const BannerEdit = () => {
       sendData.append("banner[banner_image]", formData.attachfile)
 
      const res= await axios.put(
-        `${BASE_URL}/banners/${id}.json`,
+        `${BASE_URL}banners/${id}.json`,
         sendData,
         {
           headers: {

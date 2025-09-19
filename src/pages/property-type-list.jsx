@@ -28,7 +28,7 @@ const PropertyTypeList = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `${BASE_URL}/property_types.json`
+          `${BASE_URL}property_types.json`
         );
         setPropertyTypes(response.data);
         setPagination({
@@ -71,7 +71,7 @@ const PropertyTypeList = () => {
     const updatedStatus = !currentStatus;
     try {
       await axios.put(
-        `${BASE_URL}/property_types/${id}.json`,
+        `${BASE_URL}property_types/${id}.json`,
         { property_type: { active: updatedStatus } }, // ✅ Ensures correct format
         { headers: { "Content-Type": "application/json" } }
       );

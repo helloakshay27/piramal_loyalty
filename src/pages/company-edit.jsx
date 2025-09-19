@@ -21,7 +21,7 @@ const CompanyEdit = () => {
   const fetchCompany = async () => {
     try {
       const response = await axios.get(
-        `${BASE_URL}/company_setups/${id}.json`,
+        `${BASE_URL}company_setups/${id}.json`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -43,7 +43,7 @@ const CompanyEdit = () => {
   const fetchOrganizations = async () => {
     try {
       const response = await axios.get(
-        `${BASE_URL}/organizations.json`,
+        `${BASE_URL}organizations.json`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -91,7 +91,7 @@ const CompanyEdit = () => {
 
     try {
       const response = await axios.put(
-        `${BASE_URL}/company_setups/${id}.json`,
+        `${BASE_URL}company_setups/${id}.json`,
         formDataToSend,
         {
           headers: {

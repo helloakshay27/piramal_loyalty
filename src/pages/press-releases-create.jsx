@@ -20,7 +20,7 @@ const PressReleasesCreate = () => {
   const fetchCompany = async () => {
     try {
       const response = await axios.get(
-        `${BASE_URL}/company_setups.json`,
+        `${BASE_URL}company_setups.json`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -165,7 +165,7 @@ const PressReleasesCreate = () => {
       }
 
       await axios.post(
-        `${BASE_URL}/press_releases.json`,
+        `${BASE_URL}press_releases.json`,
         sendData,
         {
           headers: {

@@ -50,7 +50,7 @@ const Specification = () => {
 
     try {
       const response = await axios.post(
-        `${BASE_URL}/specification_setups.json`,
+        `${BASE_URL}specification_setups.json`,
         formData,
         {
           headers: {

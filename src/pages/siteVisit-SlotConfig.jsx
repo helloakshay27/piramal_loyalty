@@ -50,7 +50,7 @@ const SiteVisitSlotConfig = () => {
 
     try {
       const response = await axios.post(
-        `${BASE_URL}/site_schedules`,
+        `${BASE_URL}site_schedules`,
         postData,
         {
           headers: {

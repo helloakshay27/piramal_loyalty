@@ -28,7 +28,7 @@ const PressReleasesEdit = () => {
     const fetchCompany = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/company_setups.json`,
+          `${BASE_URL}company_setups.json`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -48,7 +48,7 @@ const PressReleasesEdit = () => {
     const fetchProjects = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/projects.json`,
+          `${BASE_URL}projects.json`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -69,7 +69,7 @@ const PressReleasesEdit = () => {
       const fetchPressRelease = async () => {
         try {
           const response = await axios.get(
-            `${BASE_URL}/press_releases/${id}.json`,
+            `${BASE_URL}press_releases/${id}.json`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -208,7 +208,7 @@ const PressReleasesEdit = () => {
       }
 
       await axios.put(
-        `${BASE_URL}/press_releases/${id}.json`,
+        `${BASE_URL}press_releases/${id}.json`,
         sendData,
         {
           headers: {

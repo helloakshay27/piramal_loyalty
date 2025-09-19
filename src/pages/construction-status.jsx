@@ -23,7 +23,7 @@ const ConstructionStatus = () => {
 
     try {
       await axios.post(
-        `${BASE_URL}/construction_statuses.json`,
+        `${BASE_URL}construction_statuses.json`,
         formData
       );
 

@@ -115,7 +115,7 @@ const EditRuleEngine = () => {
     const storedValue = sessionStorage.getItem("selectedId");
     try {
       const response = await axios.get(
-        `${BASE_URL}/rule_engine/rules/${id}.json?token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
+        `${BASE_URL}rule_engine/rules/${id}.json?access_token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
       );
       console.log("data for id", response.data);
       return response.data;
@@ -630,7 +630,7 @@ const EditRuleEngine = () => {
         conditions !== null
       ) {
         const response = await fetch(
-          `${BASE_URL}/rule_engine/rules/loyalty_re_update.json?token=${token}
+          `${BASE_URL}rule_engine/rules/loyalty_re_update.json?access_token=${token}
                     `,
           {
             method: "PUT", // Specify the request method

@@ -21,7 +21,7 @@ const CompanyCreate = () => {
   // Fetch Organizations
   useEffect(() => {
     setLoading(true);
-    fetch(`${BASE_URL}/organizations.json`, {
+    fetch(`${BASE_URL}organizations.json`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -94,7 +94,7 @@ const CompanyCreate = () => {
 
     try {
       const response = await fetch(
-        `${BASE_URL}/company_setups.json`,
+        `${BASE_URL}company_setups.json`,
         {
           method: "POST",
           headers: {

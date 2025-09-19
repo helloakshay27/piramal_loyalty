@@ -22,7 +22,7 @@ const CompanyList = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `${BASE_URL}/company_setups.json`,
+          `${BASE_URL}company_setups.json`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,

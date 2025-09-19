@@ -668,7 +668,7 @@ const ProjectDetailsCreate = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       // const token = "RnPRz2AhXvnFIrbcRZKpJqA8aqMAP_JEraLesGnu43Q"; // Replace with your actual token
-      const url = `${BASE_URL}/get_property_types.json`;
+      const url = `${BASE_URL}get_property_types.json`;
 
       try {
         const response = await axios.get(url, {
@@ -690,7 +690,7 @@ const ProjectDetailsCreate = () => {
 
   useEffect(() => {
     const fetchConfigurations = async () => {
-      const url = `${BASE_URL}/configuration_setups.json`;
+      const url = `${BASE_URL}configuration_setups.json`;
 
       try {
         const response = await axios.get(url);
@@ -755,7 +755,7 @@ const ProjectDetailsCreate = () => {
 
   useEffect(() => {
     const fetchSpecifications = async () => {
-      const url = `${BASE_URL}/specification_setups.json`;
+      const url = `${BASE_URL}specification_setups.json`;
 
       try {
         const response = await axios.get(url);
@@ -773,7 +773,7 @@ const ProjectDetailsCreate = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       // const token = "RnPRz2AhXvnFIrbcRZKpJqA8aqMAP_JEraLesGnu43Q"; // Replace with your actual token
-      const url = `${BASE_URL}/amenity_setups.json`;
+      const url = `${BASE_URL}amenity_setups.json`;
 
       try {
         const response = await axios.get(url, {
@@ -796,7 +796,7 @@ const ProjectDetailsCreate = () => {
   useEffect(() => {
     const fetchCategoryTypes = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/category_types.json`);
+        const response = await axios.get(`${BASE_URL}category_types.json`);
 
         if (response.data) {
           // Extract only category_type from each object

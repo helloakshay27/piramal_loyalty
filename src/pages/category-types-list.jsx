@@ -28,7 +28,7 @@ const CategoryTypeList = () => {
   const fetchCategories = () => {
     setLoading(true);
     axios
-      .get(`${BASE_URL}/category_types.json`)
+      .get(`${BASE_URL}category_types.json`)
       .then((response) => {
         setLoading(false);
         if (response.data && Array.isArray(response.data)) {
@@ -71,7 +71,7 @@ const CategoryTypeList = () => {
   const handleToggle = (id, currentStatus) => {
     const newStatus = !currentStatus;
     axios
-      .put(`${BASE_URL}/category_types/${id}.json`, {
+      .put(`${BASE_URL}category_types/${id}.json`, {
         category_type: { active: newStatus },
       })
       .then(() => fetchCategories())

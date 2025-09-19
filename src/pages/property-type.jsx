@@ -25,7 +25,7 @@ const PropertyType = () => {
       payload.append("property_type[property_type]", name); // ✅ Correct format
 
       await axios.post(
-        `${BASE_URL}/property_types.json`,
+        `${BASE_URL}property_types.json`,
         payload,
         {
           headers: {

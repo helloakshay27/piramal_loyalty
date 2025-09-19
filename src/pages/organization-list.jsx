@@ -20,7 +20,7 @@ const OrganizationList = () => {
 
   useEffect(() => {
     setLoading(true); // Start loading
-    fetch(`${BASE_URL}/organizations.json`, {
+    fetch(`${BASE_URL}organizations.json`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,

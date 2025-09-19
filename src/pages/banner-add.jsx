@@ -32,7 +32,7 @@ const BannerAdd = () => {
     const fetchProjects = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/projects.json`,
+          `${BASE_URL}projects.json`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -144,7 +144,7 @@ const BannerAdd = () => {
       alert();
 
       await axios.post(
-        `${BASE_URL}/banners.json`,
+        `${BASE_URL}banners.json`,
         sendData,
         {
           headers: {

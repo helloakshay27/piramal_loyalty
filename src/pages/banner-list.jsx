@@ -32,7 +32,7 @@ const BannerList = () => {
     setLoading(true);
     try {
       const response = await axios.put(
-        `${BASE_URL}/banners/${bannerId}.json`,
+        `${BASE_URL}banners/${bannerId}.json`,
         { banner: { active: !currentStatus } },
         {
           headers: {
@@ -88,7 +88,7 @@ const BannerList = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `${BASE_URL}/banners.json`,
+          `${BASE_URL}banners.json`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,

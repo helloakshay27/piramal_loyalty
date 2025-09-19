@@ -28,7 +28,7 @@ const SitevisitList = () => {
       setLoading(true); // Start loading
       try {
         const response = await axios.get(
-          `${BASE_URL}/site_schedule_requests/all_site.json`,
+          `${BASE_URL}site_schedule_requests/all_site.json`,
           // {
           //   headers: {
           //     "Content-Type": "application/json",

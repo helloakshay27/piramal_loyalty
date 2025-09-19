@@ -21,7 +21,7 @@ const ReferralCreate = () => {
     const fetchProjects = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/projects.json`,
+          `${BASE_URL}projects.json`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -84,7 +84,7 @@ const ReferralCreate = () => {
 
     try {
       const response = await axios.post(
-        `${BASE_URL}/referrals.json`,
+        `${BASE_URL}referrals.json`,
         payload,
         {
           headers: {

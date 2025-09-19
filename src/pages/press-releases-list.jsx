@@ -36,7 +36,7 @@ const PressReleasesList = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `${BASE_URL}/press_releases.json`
+        `${BASE_URL}press_releases.json`
       );
 
       const data = await response.json();

@@ -35,7 +35,7 @@ const Members = () => {
     const storedValue = sessionStorage.getItem("selectedId");
     try {
       const response = await axios.get(
-        `${BASE_URL}/loyalty/members.json`,
+        `${BASE_URL}loyalty/members.json`,
         {
           headers: {
             "Content-Type": "application/json",

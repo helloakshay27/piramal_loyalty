@@ -20,7 +20,7 @@ const CategoryTypes = () => {
   const fetchProjects = async () => {
     try {
       const response = await axios.get(
-        `${BASE_URL}/tags.json`,
+        `${BASE_URL}tags.json`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -36,7 +36,7 @@ const CategoryTypes = () => {
     setLoading(true);
     try {
       await axios.post(
-        `${BASE_URL}/category_types.json`,
+        `${BASE_URL}category_types.json`,
         {
           category_type: {
             category_type: name,

@@ -25,7 +25,7 @@ const ProjectConfigurationList = () => {
     const fetchConfigurations = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/configuration_setups.json`
+          `${BASE_URL}configuration_setups.json`
         );
         setConfigurations(response.data);
         setPagination((prev) => ({
@@ -50,7 +50,7 @@ const ProjectConfigurationList = () => {
   const handleToggleStatus = async (id, currentStatus) => {
     try {
       await axios.patch(
-        `${BASE_URL}/configuration_setups/${id}.json`,
+        `${BASE_URL}configuration_setups/${id}.json`,
         {
           active: !currentStatus,
         }

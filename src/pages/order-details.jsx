@@ -70,7 +70,7 @@ const OrderDetails = () => {
         return;
       }
 
-      const url = `${BASE_URL}/orders/${id}/status_update.json?status=${newStatus}&notes=${encodeURIComponent(notes)}`;
+      const url = `${BASE_URL}orders/${id}/status_update.json?status=${newStatus}&notes=${encodeURIComponent(notes)}`;
       
       await axios.put(url, {}, {
         headers: {

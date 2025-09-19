@@ -39,7 +39,7 @@ const SitevisitEdit = () => {
       }
 
       const response = await axios.get(
-        `${BASE_URL}/projects.json`,
+        `${BASE_URL}projects.json`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -71,7 +71,7 @@ const SitevisitEdit = () => {
     try {
       const formattedDate = formatDateForApi(selectedDate);
       const response = await axios.get(
-        `${BASE_URL}/site_schedule/all_site_schedule_slots.json`,
+        `${BASE_URL}site_schedule/all_site_schedule_slots.json`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -105,7 +105,7 @@ const SitevisitEdit = () => {
   const fetchSiteVisits = async () => {
     try {
       const response = await axios.get(
-      `${BASE_URL}/site_schedule_requests.json`,
+      `${BASE_URL}site_schedule_requests.json`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -199,7 +199,7 @@ const SitevisitEdit = () => {
 
     try {
       const response = await axios.put(
-        `${BASE_URL}/site_schedule_requests/${id}.json`,
+        `${BASE_URL}site_schedule_requests/${id}.json`,
         requestData,
         {
           headers: {

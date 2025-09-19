@@ -23,7 +23,7 @@ const Referrallist = () => {
       setLoading(true); // Start loading
       try {
         const response = await fetch(
-          `${BASE_URL}/referrals/get_all_referrals`,
+          `${BASE_URL}referrals/get_all_referrals`,
           {
             method: "GET",
             headers: {

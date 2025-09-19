@@ -23,7 +23,7 @@ const Testimonials = () => {
     const fetchCompanySetups = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/company_setups.json`,
+          `${BASE_URL}company_setups.json`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -57,7 +57,7 @@ const Testimonials = () => {
     const fetchBuildingTypes = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/building_types.json`,
+          `${BASE_URL}building_types.json`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -104,7 +104,7 @@ const Testimonials = () => {
 
     try {
       const response = await axios.post(
-        `${BASE_URL}/testimonials.json`,
+        `${BASE_URL}testimonials.json`,
         data,
         {
           headers: {

@@ -38,7 +38,7 @@ const Campaign = () => {
       const storedValue = sessionStorage.getItem("selectedId");
       try {
         const response = await axios.get(
-          `${BASE_URL}/loyalty/campaigns.json?token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
+          `${BASE_URL}loyalty/campaigns.json?access_token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
         );
         setCampaigns(response.data);
         setFilteredItems(response.data); // Initialize filteredItems with campaigns
@@ -85,7 +85,7 @@ const Campaign = () => {
     if (selectedCampaign) {
       try {
         const response = await axios.put(
-          `${BASE_URL}/loyalty/campaigns/${selectedCampaign.id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
+          `${BASE_URL}loyalty/campaigns/${selectedCampaign.id}.json?access_token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
           { loyalty_campaign: formData }
         );
         if (response) {

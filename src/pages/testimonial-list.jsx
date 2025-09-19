@@ -26,7 +26,7 @@ const TestimonialList = () => {
     const fetchTestimonials = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/testimonials.json?company_id=1`
+          `${BASE_URL}testimonials.json?company_id=1`
         );
         setTestimonials(response.data.testimonials || []);
         setPagination((prevState) => ({

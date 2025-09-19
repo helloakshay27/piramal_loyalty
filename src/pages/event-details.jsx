@@ -15,7 +15,7 @@ const EventDetails = () => {
     const fetchEventData = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/events/${eventId}}.json`,
+          `${BASE_URL}events/${eventId}}.json`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,

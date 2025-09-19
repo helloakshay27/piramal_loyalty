@@ -22,7 +22,7 @@ const CategoryTypesEdit = () => {
   const fetchTags = async () => {
     try {
       const response = await axios.get(
-        `${BASE_URL}/tags.json`,
+        `${BASE_URL}tags.json`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -37,7 +37,7 @@ const CategoryTypesEdit = () => {
   const fetchCategoryType = async () => {
     try {
       const response = await axios.get(
-        `${BASE_URL}/category_types/${id}.json`,
+        `${BASE_URL}category_types/${id}.json`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -58,7 +58,7 @@ const CategoryTypesEdit = () => {
 
     try {
       await axios.put(
-        `${BASE_URL}/category_types/${id}.json`,
+        `${BASE_URL}category_types/${id}.json`,
         {
           category_type: {
             category_type: categoryType,

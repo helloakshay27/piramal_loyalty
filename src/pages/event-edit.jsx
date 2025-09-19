@@ -110,7 +110,7 @@ const EventEdit = () => {
     const fetchProjects = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/get_all_projects.json`,
+          `${BASE_URL}get_all_projects.json`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -133,7 +133,7 @@ const EventEdit = () => {
   //   const fetchEventTypes = async () => {
   //     try {
   //       const response = await axios.get(
-  //         "${BASE_URL}/events.json",
+  //         "${BASE_URL}events.json",
   //         {
   //           headers: {
   //             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -153,7 +153,7 @@ const EventEdit = () => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/users/get_users`,
+          `${BASE_URL}users/get_users`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,

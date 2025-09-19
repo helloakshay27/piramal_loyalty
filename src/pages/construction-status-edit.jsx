@@ -19,7 +19,7 @@ const ConstructionStatusEdit = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `${BASE_URL}/construction_statuses/${id}.json`
+          `${BASE_URL}construction_statuses/${id}.json`
         );
         setFormData({
           construction_status: response.data.construction_status,
@@ -47,7 +47,7 @@ const ConstructionStatusEdit = () => {
     setLoading(true);
     try {
       await axios.put(
-        `${BASE_URL}/construction_statuses/${id}.json`,
+        `${BASE_URL}construction_statuses/${id}.json`,
         { construction_status: formData }
       );
       toast.success("Construction status updated successfully!");

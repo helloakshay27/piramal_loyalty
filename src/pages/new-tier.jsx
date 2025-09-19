@@ -95,8 +95,8 @@ const NewTier = () => {
       // const token = "bfa5004e7b0175622be8f7e69b37d01290b737f82e078414"; // Ensure to replace with your token
       const url =
         formattedTiers?.length > 0
-          ? `${BASE_URL}/loyalty/tiers/bulk_create?token=${token}`
-          : `${BASE_URL}/loyalty/tiers.json?token=${token}`;
+          ? `${BASE_URL}loyalty/tiers/bulk_create?token=${token}`
+          : `${BASE_URL}loyalty/tiers.json?access_token=${token}`;
 
       console.log("Final URL:", url);
       console.log("Data Sent:", JSON.stringify(data, null, 2));

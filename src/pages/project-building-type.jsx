@@ -18,7 +18,7 @@ const ProjectBuildingType = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        `${BASE_URL}/building_types.json`,
+        `${BASE_URL}building_types.json`,
         { building_type: { building_type: buildingType } },
         {
           headers: {

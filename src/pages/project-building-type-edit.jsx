@@ -16,7 +16,7 @@ const ProjectBuildingTypeEdit = () => {
 
   const fetchBuildingType = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/building_types/${id}.json`);
+      const response = await axios.get(`${BASE_URL}building_types/${id}.json`);
       setBuildingType(response.data.building_type);
     } catch (error) {
       console.error("Error fetching building type:", error);
@@ -32,7 +32,7 @@ const ProjectBuildingTypeEdit = () => {
     }
     setLoading(true);
     try {
-      await axios.put(`${BASE_URL}/building_types/${id}.json`, {
+      await axios.put(`${BASE_URL}building_types/${id}.json`, {
         building_type: { building_type: buildingType },
       });
       toast.success("Building type updated successfully");

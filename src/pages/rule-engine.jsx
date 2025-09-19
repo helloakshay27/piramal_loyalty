@@ -48,7 +48,7 @@ const RuleEngine = () => {
     const fetchRuleEngine = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/rule_engine/rules.json?token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
+          `${BASE_URL}rule_engine/rules.json?access_token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
         );
         setRuleEngine(response.data);
         setFilteredItems(response.data);
@@ -156,7 +156,7 @@ const RuleEngine = () => {
 
     try {
       const response = await axios.get(
-        `${BASE_URL}/rule_engine/rules.json?${queryString}&token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
+        `${BASE_URL}rule_engine/rules.json?${queryString}&token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
       );
       if (response) {
         setFilteredItems(response.data);
@@ -401,7 +401,7 @@ const RuleEngine = () => {
       // Make an API call to update the rule's active state
       // @ts-ignore
       const response = await axios.patch(
-        `${BASE_URL}/rule_engine/rules/${id}.json?token=${token}`,
+        `${BASE_URL}rule_engine/rules/${id}.json?access_token=${token}`,
         { rule_engine_rule: { active: isActive } }
       );
 

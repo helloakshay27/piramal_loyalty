@@ -20,7 +20,7 @@ const EditAmenities = () => {
     const fetchAmenity = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/amenity_setups/${id}.json`
+          `${BASE_URL}amenity_setups/${id}.json`
         );
         console.log(response.data);
 
@@ -73,7 +73,7 @@ const EditAmenities = () => {
 
     try {
       await axios.put(
-        `${BASE_URL}/amenity_setups/${id}.json`,
+        `${BASE_URL}amenity_setups/${id}.json`,
         formData,
         {
           headers: {

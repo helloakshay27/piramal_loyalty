@@ -23,11 +23,11 @@ export default function TierDetails() {
     return `${day}-${month}-${year}`;
   };
 
-  // https://staging.lockated.com/loyalty/tiers/148.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414
+  // https://staging.lockated.com/loyalty/tiers/148.json?access_token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414
   const getMemberDetails = async (id) => {
     try {
       const response = await axios.get(
-        `${BASE_URL}/loyalty/tiers/${id}.json?token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
+        `${BASE_URL}loyalty/tiers/${id}.json?access_token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
       );
 
       const formattedMember = {

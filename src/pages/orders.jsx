@@ -43,7 +43,7 @@ const Orders = () => {
         return;
       }
 
-      let url = `${BASE_URL}/admin/orders.json?page=${page}&per_page=${perPage}`;
+      let url = `${BASE_URL}admin/orders.json?page=${page}&per_page=${perPage}`;
       
       if (search) {
         url += `&search=${encodeURIComponent(search)}`;
@@ -97,7 +97,7 @@ const Orders = () => {
         return;
       }
 
-      const url = `${BASE_URL}/orders/${orderId}/status_update.json?status=${newStatus}&notes=${encodeURIComponent(notes)}`;
+      const url = `${BASE_URL}orders/${orderId}/status_update.json?status=${newStatus}&notes=${encodeURIComponent(notes)}`;
       
       await axios.put(url, {}, {
         headers: {

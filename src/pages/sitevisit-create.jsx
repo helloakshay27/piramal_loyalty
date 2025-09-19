@@ -20,11 +20,11 @@ const SitevisitCreate = () => {
   const [projectsType, setProjectsType] = useState([]);
   const [slots, setSlots] = useState([]);
 
-  // const apiUrl = "${BASE_URL}/site_schedule_requests";
+  // const apiUrl = "${BASE_URL}site_schedule_requests";
   // const projectsApiUrl =
-  //   "${BASE_URL}/get_all_projects.json";
+  //   "${BASE_URL}get_all_projects.json";
   // const slotsApiUrl =
-  //   "${BASE_URL}/site_schedule/all_site_schedule_slots.json";
+  //   "${BASE_URL}site_schedule/all_site_schedule_slots.json";
   // const authToken = "4DbNsI3Y_weQFh2uOM_6tBwX0F9igOLonpseIR0peqs";
   // const projectsAuthToken = "UNE7QFnkjxZJgtKm-Od6EaNeBsWOAiGGp8RpXpWrYQY";
 
@@ -36,7 +36,7 @@ const SitevisitCreate = () => {
     const fetchProjects = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/projects.json`,
+          `${BASE_URL}projects.json`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -62,7 +62,7 @@ const SitevisitCreate = () => {
     try {
       const formattedDate = formatDateForApi(selectedDate);
       const response = await axios.get(
-        `${BASE_URL}/site_schedule/all_site_schedule_slots.json`,
+        `${BASE_URL}site_schedule/all_site_schedule_slots.json`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -180,7 +180,7 @@ const handleSubmit = async (e) => {
 
   try {
     const response = await axios.post(
-      `${BASE_URL}/site_schedule_requests.json`,
+      `${BASE_URL}site_schedule_requests.json`,
       requestData,
       {
         headers: {

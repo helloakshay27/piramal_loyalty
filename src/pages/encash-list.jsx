@@ -30,7 +30,7 @@ const EncashList = () => {
     const fetchEncashRequests = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/encash_requests.json?is_admin=true`,
+          `${BASE_URL}encash_requests.json?is_admin=true`,
           {
             headers: {
               'Authorization': `Bearer ${token}`,
@@ -70,7 +70,7 @@ const EncashList = () => {
 
     try {
       const response = await axios.put(
-        `${BASE_URL}/encash_requests/${selectedRequest.id}.json?token=${token}`,
+        `${BASE_URL}encash_requests/${selectedRequest.id}.json?access_token=${token}`,
         {
           encash_request: {
             status: "completed",

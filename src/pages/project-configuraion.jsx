@@ -65,7 +65,7 @@ const ProjectConfiguration = () => {
 
     try {
       const response = await axios.post(
-        `${BASE_URL}/configuration_setups.json`,
+        `${BASE_URL}configuration_setups.json`,
         formDataToSend,
         {
           headers: {

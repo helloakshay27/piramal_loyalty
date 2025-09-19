@@ -388,11 +388,11 @@ const EventCreate = () => {
   useEffect(() => {
     const fetchEvent = async () => {
       // const token = "RnPRz2AhXvnFIrbcRZKpJqA8aqMAP_JEraLesGnu43Q"; // Replace with your actual token
-      const url = `${BASE_URL}/events.json`;
+      const url = `${BASE_URL}events.json`;
 
       try {
         const response = await axios.get(
-          `${BASE_URL}/events.json`,
+          `${BASE_URL}events.json`,
 
           {
             headers: {
@@ -416,7 +416,7 @@ const EventCreate = () => {
     const fetchEvent = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/users/get_users.json`,
+          `${BASE_URL}users/get_users.json`,
 
           {
             headers: {
@@ -440,7 +440,7 @@ const EventCreate = () => {
     const fetchProjects = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/projects.json`,
+          `${BASE_URL}projects.json`,
 
           {
             headers: {

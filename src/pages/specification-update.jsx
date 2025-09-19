@@ -17,7 +17,7 @@ const SpecificationUpdate = () => {
       try {
         // Fetching data from LIST API to get the icon_url
         const listResponse = await axios.get(
-          `${BASE_URL}/specification_setups.json`
+          `${BASE_URL}specification_setups.json`
         );
 
         // Find the specific item by ID
@@ -73,7 +73,7 @@ const SpecificationUpdate = () => {
 
     try {
       await axios.put(
-        `${BASE_URL}/specification_setups/${id}.json`,
+        `${BASE_URL}specification_setups/${id}.json`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },

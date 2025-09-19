@@ -24,7 +24,7 @@ const NewGallery = () => {
     const fetchProjects = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/projects.json`,
+          `${BASE_URL}projects.json`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -119,7 +119,7 @@ const NewGallery = () => {
 
     try {
       await axios.post(
-        `${BASE_URL}/galleries.json`,
+        `${BASE_URL}galleries.json`,
         data,
         {
           headers: {

@@ -15,7 +15,7 @@ const PropertyTypeEdit = () => {
     const fetchPropertyType = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/property_types/${id}.json`
+          `${BASE_URL}property_types/${id}.json`
         );
         setName(response.data.property_type || ""); // ✅ Ensure correct field
       } catch (error) {
@@ -39,7 +39,7 @@ const PropertyTypeEdit = () => {
 
     try {
       await axios.put(
-        `${BASE_URL}/property_types/${id}.json`,
+        `${BASE_URL}property_types/${id}.json`,
         { property_type: { property_type: name } }, // ✅ Correct backend format
         {
           headers: {

@@ -3,7 +3,7 @@ import BASE_URL from './baseurl';
 
 const token = localStorage.getItem('access_token');
 
-const BASE_URL2 = `${BASE_URL}/rule_engine/applicable_models/loyalty_re.json?token=${token}&company_id=44&active=true`;
+const BASE_URL2 = `${BASE_URL}rule_engine/applicable_models/loyalty_re.json?access_token=${token}&company_id=44&active=true`;
 
   const api = axios.create({
     baseURL: BASE_URL2,

@@ -24,7 +24,7 @@ const TestimonialEdit = () => {
     const fetchTestimonialData = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/testimonials/${testimonial.id}.json`,
+          `${BASE_URL}testimonials/${testimonial.id}.json`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -56,7 +56,7 @@ const TestimonialEdit = () => {
     const fetchBuildingTypes = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/building_types.json`,
+          `${BASE_URL}building_types.json`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -96,7 +96,7 @@ const TestimonialEdit = () => {
       console.log("Submitting data:", formData);
 
       await axios.put(
-        `${BASE_URL}/testimonials/${testimonial.id}.json`,
+        `${BASE_URL}testimonials/${testimonial.id}.json`,
         {
           testimonial: {
             ...formData,

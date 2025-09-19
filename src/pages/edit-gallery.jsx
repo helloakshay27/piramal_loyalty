@@ -28,7 +28,7 @@ const EditGallery = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `${BASE_URL}/galleries/${id}.json`
+          `${BASE_URL}galleries/${id}.json`
         );
         const data = response.data;
 
@@ -81,7 +81,7 @@ const EditGallery = () => {
     const fetchProjects = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/projects.json`,
+          `${BASE_URL}projects.json`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -141,7 +141,7 @@ const EditGallery = () => {
 
     try {
       await axios.put(
-        `${BASE_URL}/galleries/${id}.json`,
+        `${BASE_URL}galleries/${id}.json`,
         data,
         {
           headers: {

@@ -24,7 +24,7 @@ const OrganizationUpdate = () => {
     const fetchOrganization = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/organizations/${id}.json`,
+          `${BASE_URL}organizations/${id}.json`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -84,7 +84,7 @@ const OrganizationUpdate = () => {
 
     try {
       const response = await axios.put(
-        `${BASE_URL}/organizations/${id}.json`,
+        `${BASE_URL}organizations/${id}.json`,
         payload,
         {
           headers: {

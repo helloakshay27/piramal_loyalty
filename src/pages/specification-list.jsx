@@ -21,7 +21,7 @@ const SpecificationList = () => {
     const fetchSpecifications = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/specification_setups.json`,
+          `${BASE_URL}specification_setups.json`,
           {
             params: {
               page: pagination.current_page,
@@ -61,7 +61,7 @@ const SpecificationList = () => {
 
     try {
       await axios.delete(
-        `${BASE_URL}/specification_setups/${id}.json`
+        `${BASE_URL}specification_setups/${id}.json`
       );
       alert("Specification deleted successfully!");
 

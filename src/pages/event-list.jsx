@@ -24,7 +24,7 @@ const Eventlist = () => {
       setLoading(true); // Start loading
       try {
         const response = await fetch(
-          `${BASE_URL}/events.json`,
+          `${BASE_URL}events.json`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -151,7 +151,7 @@ const Eventlist = () => {
   const handleToggleEvent = async (eventId, currentStatus) => {
     try {
       const response = await fetch(
-        `${BASE_URL}/events/${eventId}.json`,
+        `${BASE_URL}events/${eventId}.json`,
         {
           method: "PUT",
           headers: {

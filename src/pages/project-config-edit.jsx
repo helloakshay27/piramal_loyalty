@@ -19,7 +19,7 @@ const ProjectConfigEdit = () => {
     const fetchConfiguration = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/configuration_setups/${id}.json`
+          `${BASE_URL}configuration_setups/${id}.json`
         );
         setFormData({
           name: response.data.name,
@@ -82,7 +82,7 @@ const ProjectConfigEdit = () => {
   
     try {
       await axios.put( // 🔄 Use PUT instead of PATCH if full update is required
-        `${BASE_URL}/configuration_setups/${id}.json`,
+        `${BASE_URL}configuration_setups/${id}.json`,
         formDataToSend,
         {
           headers: {

@@ -87,7 +87,7 @@ const EditSegment = () => {
       const storedValue = sessionStorage.getItem("selectedId");
       try {
         const response = await axios.get(
-          `${BASE_URL}/loyalty/segments/${id}.json?token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
+          `${BASE_URL}loyalty/segments/${id}.json?access_token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
         );
         setSegment(response.data);
         // setFormData({
@@ -162,7 +162,7 @@ const EditSegment = () => {
 
     try {
       const response = await axios.put(
-        `${BASE_URL}/loyalty/segments/${id}.json?token=${token}`,
+        `${BASE_URL}loyalty/segments/${id}.json?access_token=${token}`,
         {
           loyalty_segment: {
             ...formData, // includes name and

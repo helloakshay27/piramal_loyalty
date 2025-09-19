@@ -25,7 +25,7 @@ export default function CampaignDetails() {
   const getMemberDetails = async (id) => {
     try {
       const response = await axios.get(
-        `${BASE_URL}/loyalty/campaigns/${id}.json?token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
+        `${BASE_URL}loyalty/campaigns/${id}.json?access_token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
       );
       // setCampaignDetails(response.data)
       return response.data;

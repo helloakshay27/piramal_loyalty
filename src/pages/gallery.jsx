@@ -9,7 +9,7 @@ const GalleryDetails = () => {
     useEffect(() => {
         const fetchGalleryDetails = async () => {
             try {
-                const response = await axios.get(`${BASE_URL}/galleries.json?project_id=1`);
+                const response = await axios.get(`${BASE_URL}galleries.json?project_id=1`);
                 setGalleryDetails(response.data);  //API returns data in the expected structure
             } catch (error) {
                 console.error("Error fetching gallery details:", error);

@@ -29,7 +29,7 @@ const ProjectBuildingTypeList = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${BASE_URL}/building_types.json`
+        `${BASE_URL}building_types.json`
       );
       setBuildingTypes(response.data);
       setPagination({
@@ -63,7 +63,7 @@ const ProjectBuildingTypeList = () => {
   const handleToggle = async (id, currentStatus) => {
     try {
       await axios.put(
-        `${BASE_URL}/building_types/${id}.json`,
+        `${BASE_URL}building_types/${id}.json`,
         {
           building_type: { active: !currentStatus },
         }

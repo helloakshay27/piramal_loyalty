@@ -19,7 +19,7 @@ const TagAdd = () => {
 
   const fetchTags = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/tags.json`, {
+      const response = await axios.get(`${BASE_URL}tags.json`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -35,7 +35,7 @@ const TagAdd = () => {
     if (!name.trim()) return;
     setLoading(true);
     try {
-      await axios.post(`${BASE_URL}/tags.json`, { tag: { tag_type: name } }, {
+      await axios.post(`${BASE_URL}tags.json`, { tag: { tag_type: name } }, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -49,7 +49,7 @@ const TagAdd = () => {
   };
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${BASE_URL}/tags/${id}.json`, {
+      await axios.delete(`${BASE_URL}tags/${id}.json`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

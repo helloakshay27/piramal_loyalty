@@ -84,7 +84,7 @@ const ProjectDetailsEdit = () => {
 
   const fetchData = async (endpoint, setter) => {
     try {
-      const response = await axios.get(`${BASE_URL}/${endpoint}`, {
+      const response = await axios.get(`${BASE_URL}${endpoint}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
@@ -115,7 +115,7 @@ const ProjectDetailsEdit = () => {
   useEffect(() => {
     const fetchCategoryTypes = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/category_types.json`);
+        const response = await axios.get(`${BASE_URL}category_types.json`);
 
         if (response.data) {
           // Extract only category_type from each object
@@ -458,7 +458,7 @@ const ProjectDetailsEdit = () => {
 
     try {
       const response = await fetch(
-        `${BASE_URL}/projects/${id}/remove_twoD_image/${image.id}.json`,
+        `${BASE_URL}projects/${id}/remove_twoD_image/${image.id}.json`,
         {
           method: "DELETE",
           headers: {
@@ -524,7 +524,7 @@ const ProjectDetailsEdit = () => {
 
     try {
       const response = await fetch(
-        `${BASE_URL}/projects/${id}/remove_gallery_image/${imageId}.json`,
+        `${BASE_URL}projects/${id}/remove_gallery_image/${imageId}.json`,
         {
           method: "DELETE",
           headers: {
@@ -565,7 +565,7 @@ const ProjectDetailsEdit = () => {
 
     try {
       const response = await fetch(
-        `${BASE_URL}/projects/${id}/remove_videos/${videos.id}.json`,
+        `${BASE_URL}projects/${id}/remove_videos/${videos.id}.json`,
         {
           method: "DELETE",
           headers: {
@@ -601,7 +601,7 @@ const ProjectDetailsEdit = () => {
 
     try {
       const response = await fetch(
-        `${BASE_URL}/projects/${id}/remove_creative_image/${Image.id}.json`,
+        `${BASE_URL}projects/${id}/remove_creative_image/${Image.id}.json`,
         {
           method: "DELETE",
           headers: {
@@ -637,7 +637,7 @@ const ProjectDetailsEdit = () => {
 
     try {
       const response = await fetch(
-        `${BASE_URL}/projects/${id}/remove_creative_generics_image/${Image.id}.json`,
+        `${BASE_URL}projects/${id}/remove_creative_generics_image/${Image.id}.json`,
         {
           method: "DELETE",
           headers: {
@@ -673,7 +673,7 @@ const ProjectDetailsEdit = () => {
 
     try {
       const response = await fetch(
-        `${BASE_URL}/projects/${id}/remove_creative_offers_image/${Image.id}.json`,
+        `${BASE_URL}projects/${id}/remove_creative_offers_image/${Image.id}.json`,
         {
           method: "DELETE",
           headers: {
@@ -709,7 +709,7 @@ const ProjectDetailsEdit = () => {
 
     try {
       const response = await fetch(
-        `${BASE_URL}/projects/${id}/remove_ineteriors_image/${Image.id}.json`,
+        `${BASE_URL}projects/${id}/remove_ineteriors_image/${Image.id}.json`,
         {
           method: "DELETE",
           headers: {
@@ -745,7 +745,7 @@ const ProjectDetailsEdit = () => {
 
     try {
       const response = await fetch(
-        `${BASE_URL}/projects/${id}/remove_exterios_image/${Image.id}.json`,
+        `${BASE_URL}projects/${id}/remove_exterios_image/${Image.id}.json`,
         {
           method: "DELETE",
           headers: {
@@ -781,7 +781,7 @@ const ProjectDetailsEdit = () => {
 
     try {
       const response = await fetch(
-        `${BASE_URL}/projects/${id}/remove_layout_image/${Image.id}.json`,
+        `${BASE_URL}projects/${id}/remove_layout_image/${Image.id}.json`,
         {
           method: "DELETE",
           headers: {
