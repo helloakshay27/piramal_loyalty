@@ -7,6 +7,7 @@ const Sidebar = () => {
   const [activeItem, setActiveItem] = useState("/"); // Set default active item
 
   const location = useLocation(); // Get the current location
+  let domain = window.location.hostname;
 
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed); // Toggle collapse state
@@ -80,7 +81,7 @@ const Sidebar = () => {
             onClick={() => handleNavLinkClick("/members")}
           >
             <span className="text">Members</span>
-            
+
           </NavLink>
         </li>
         <li className="nav-item">
@@ -90,19 +91,21 @@ const Sidebar = () => {
             onClick={() => handleNavLinkClick("/tiers")}
           >
             <span className="text">Tiers</span>
-            
+
           </NavLink>
         </li>
-        {/* <li className="nav-item">
-          <NavLink
-            to="/rule-engine"
-            className={`nav-link d-flex justify-content-between ${activeItem === "/rule-engine" ? "active" : ""}`}
-            onClick={() => handleNavLinkClick("/rule-engine")}
-          >
-            <span className="text">Rule Engine</span>
-            
-          </NavLink>
-        </li> */}
+        {domain === "rustamjee-loyalty-dev.lockated.com" && (
+          <li className="nav-item">
+            <NavLink
+              to="/rule-engine"
+              className={`nav-link d-flex justify-content-between ${activeItem === "/rule-engine" ? "active" : ""}`}
+              onClick={() => handleNavLinkClick("/rule-engine")}
+            >
+              <span className="text">Rule Engine</span>
+
+            </NavLink>
+          </li>
+        )}
         {/* Referral */}
         <li className="nav-item">
           <NavLink
@@ -113,21 +116,24 @@ const Sidebar = () => {
             data-section="security"
           >
             <span className="text">Referral</span>
-            
+
           </NavLink>
         </li>
-        {/* <li className="nav-item">
-          <NavLink
-            to="/enquiry-list"
-            // className="menu-link d-flex gap-4"
-            className={`nav-link d-flex justify-content-between ${activeItem === "/enquiry-list" ? "active" : ""}`}
-            onClick={() => handleNavLinkClick("/enquiry-list")}
-            data-section="security"
-          >
-            <span className="text">Enquiry List</span>
-            
-          </NavLink>
-        </li> */}
+        {domain === "rustamjee-loyalty-dev.lockated.com" && (
+
+          <li className="nav-item">
+            <NavLink
+              to="/enquiry-list"
+              // className="menu-link d-flex gap-4"
+              className={`nav-link d-flex justify-content-between ${activeItem === "/enquiry-list" ? "active" : ""}`}
+              onClick={() => handleNavLinkClick("/enquiry-list")}
+              data-section="security"
+            >
+              <span className="text">Enquiry List</span>
+
+            </NavLink>
+          </li>
+        )}
         <li className="nav-item">
           <NavLink
             to="/lock-payments"
@@ -137,21 +143,23 @@ const Sidebar = () => {
             data-section="security"
           >
             <span className="text">Lock Payments</span>
-            
+
           </NavLink>
         </li>
-        {/* <li className="nav-item">
-          <NavLink
-            to="/rule-logs"
-            // className="menu-link d-flex gap-4"
-            className={`nav-link d-flex justify-content-between ${activeItem === "/rule-logs" ? "active" : ""}`}
-            onClick={() => handleNavLinkClick("/rule-logs")}
-            data-section="security"
-          >
-            <span className="text">Rule Logs</span>
-            
-          </NavLink>
-        </li> */}
+        {domain === "rustamjee-loyalty-dev.lockated.com" && (
+          <li className="nav-item">
+            <NavLink
+              to="/rule-logs"
+              // className="menu-link d-flex gap-4"
+              className={`nav-link d-flex justify-content-between ${activeItem === "/rule-logs" ? "active" : ""}`}
+              onClick={() => handleNavLinkClick("/rule-logs")}
+              data-section="security"
+            >
+              <span className="text">Rule Logs</span>
+
+            </NavLink>
+          </li>
+        )}
         <li className="nav-item">
           <NavLink
             to="/demand-notes"
@@ -161,21 +169,24 @@ const Sidebar = () => {
             data-section="security"
           >
             <span className="text">Demand Notes</span>
-            
+
           </NavLink>
         </li>
-        {/* <li className="nav-item">
-          <NavLink
-            to="/home-loan-request"
-            // className="menu-link d-flex gap-4"
-            className={`nav-link d-flex justify-content-between ${activeItem === "/home-loan-request" ? "active" : ""}`}
-            onClick={() => handleNavLinkClick("/home-loan-request")}
-            data-section="security"
-          >
-            <span className="text">Home Loan Request</span>
-            
-          </NavLink>
-        </li> */}
+        {domain === "rustamjee-loyalty-dev.lockated.com" && (
+          <li className="nav-item">
+            <NavLink
+              to="/home-loan-request"
+              // className="menu-link d-flex gap-4"
+              className={`nav-link d-flex justify-content-between ${activeItem === "/home-loan-request" ? "active" : ""}`}
+              onClick={() => handleNavLinkClick("/home-loan-request")}
+              data-section="security"
+            >
+              <span className="text">Home Loan Request</span>
+
+            </NavLink>
+          </li>
+
+        )}
         <li className="nav-item">
           <NavLink
             to="/orders"
@@ -184,7 +195,7 @@ const Sidebar = () => {
             data-section="security"
           >
             <span className="text">Orders</span>
-            
+
           </NavLink>
         </li>
         <li className="nav-item">
@@ -195,124 +206,134 @@ const Sidebar = () => {
             data-section="security"
           >
             <span className="text">Encash</span>
-            
-          </NavLink>
-        </li>
-        {/* <li className="nav-item">
-          <a
-            className="text nav-link d-flex justify-content-between"
-            data-bs-toggle="collapse"
-            data-bs-target="#userRoleCollapse"
-          >
-            <span className="text">Engage</span>
-            {isCollapsed ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-caret-down-fill"
-                viewBox="0 0 16 16"
-              >
-                <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
-              </svg>
-            ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-caret-right-fill"
-                viewBox="0 0 16 16"
-              >
-                <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
-              </svg>
-            )}
-          </a>
-          <ul className="collapse p-0" id="userRoleCollapse">
-            <li>
-              <NavLink
-                className={`ps-4 ${activeItem === "/Segment" ? "active" : ""}`}
-                to="/Segment"
-                onClick={() => handleNavLinkClick("/Segment")}
-              >
-                Segment
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                className={`ps-4 ${activeItem === "/Campaign" ? "active" : ""}`}
-                to="/Campaign"
-                onClick={() => handleNavLinkClick("/Campaign")}
-              >
-                Campaign
-              </NavLink>
-            </li>
-          </ul>
-        </li> */}
 
-{/* <li className="nav-item">
-      <a
-        className="text nav-link d-flex justify-content-between"
-        onClick={toggleCollapse} // Use React's state to handle collapse
-        style={{ cursor: "pointer" }}
-      >
-        <span className="text">Engage</span>
-        {isCollapsed ? (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            className="bi bi-caret-down-fill"
-            viewBox="0 0 16 16"
-          >
-            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
-          </svg>
-        ) : (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            className="bi bi-caret-right-fill"
-            viewBox="0 0 16 16"
-          >
-            <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
-          </svg>
+          </NavLink>
+        </li>
+        {domain === "rustamjee-loyalty-dev.lockated.com" && (
+
+          <li className="nav-item">
+            <a
+              className="text nav-link d-flex justify-content-between"
+              data-bs-toggle="collapse"
+              data-bs-target="#userRoleCollapse"
+            >
+              <span className="text">Engage</span>
+              {isCollapsed ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-caret-down-fill"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-caret-right-fill"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+                </svg>
+              )}
+            </a>
+            <ul className="collapse p-0" id="userRoleCollapse">
+              <li>
+                <NavLink
+                  className={`ps-4 ${activeItem === "/Segment" ? "active" : ""}`}
+                  to="/Segment"
+                  onClick={() => handleNavLinkClick("/Segment")}
+                >
+                  Segment
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  className={`ps-4 ${activeItem === "/Campaign" ? "active" : ""}`}
+                  to="/Campaign"
+                  onClick={() => handleNavLinkClick("/Campaign")}
+                >
+                  Campaign
+                </NavLink>
+              </li>
+            </ul>
+          </li>
         )}
-      </a>
-      <ul className={`collapse p-0 ${isCollapsed ? "show" : ""}`} id="userRoleCollapse">
-        <li>
-          <NavLink
-            className={`ps-4 ${activeItem === "/Segment" ? "active" : ""}`}
-            to="/Segment"
-            onClick={() => handleNavLinkClick("/Segment")}
-          >
-            Segment
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            className={`ps-4 ${activeItem === "/Campaign" ? "active" : ""}`}
-            to="/Campaign"
-            onClick={() => handleNavLinkClick("/Campaign")}
-          >
-            Campaign
-          </NavLink>
-        </li>
-      </ul>
-    </li>
-        <li className="nav-item">
-          <NavLink
-            to="/test"
-            className={`nav-link d-flex justify-content-between ${activeItem === "/services" ? "active" : ""}`}
-            onClick={() => handleNavLinkClick("/services")}
-          >
-            <span className="text">Reports</span>
-            
-          </NavLink>
-        </li> */}
+
+        {domain === "rustamjee-loyalty-dev.lockated.com" && (
+          <>
+
+
+            <li className="nav-item">
+              <a
+                className="text nav-link d-flex justify-content-between"
+                onClick={toggleCollapse} // Use React's state to handle collapse
+                style={{ cursor: "pointer" }}
+              >
+                <span className="text">Engage</span>
+                {isCollapsed ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="bi bi-caret-down-fill"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="bi bi-caret-right-fill"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+                  </svg>
+                )}
+              </a>
+              <ul className={`collapse p-0 ${isCollapsed ? "show" : ""}`} id="userRoleCollapse">
+                <li>
+                  <NavLink
+                    className={`ps-4 ${activeItem === "/Segment" ? "active" : ""}`}
+                    to="/Segment"
+                    onClick={() => handleNavLinkClick("/Segment")}
+                  >
+                    Segment
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    className={`ps-4 ${activeItem === "/Campaign" ? "active" : ""}`}
+                    to="/Campaign"
+                    onClick={() => handleNavLinkClick("/Campaign")}
+                  >
+                    Campaign
+                  </NavLink>
+                </li>
+              </ul>
+            </li>
+            <li className="nav-item">
+              <NavLink
+                to="/test"
+                className={`nav-link d-flex justify-content-between ${activeItem === "/services" ? "active" : ""}`}
+                onClick={() => handleNavLinkClick("/services")}
+              >
+                <span className="text">Reports</span>
+
+              </NavLink>
+            </li>
+          </>
+        )}
+
       </ul>
     </div>
   );
