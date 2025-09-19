@@ -186,17 +186,6 @@ const NewSegment = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // if (!name || !segment_tag || !segment_type || segment_members.length === 0) {
-    //   toast.error(
-    //     "All Mandatory fields are required, and at least one member must be selected.",
-    //     {
-    //       position: "top-center",
-    //       autoClose: 3000,
-    //     }
-    //   );
-    //   return;
-    // }
-
     if (!name) {
       toast.error("Segment Name is required.", {
         position: "top-center",
@@ -243,8 +232,14 @@ const NewSegment = () => {
 
     try {
       const response = await axios.post(
-        `${BASE_URL}loyalty/segments.json?access_token=${token}`,
-        data
+        `${BASE_URL}loyalty/segments.json`,
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       if (response.statusText === "Created") {
@@ -444,21 +439,24 @@ const NewSegment = () => {
     const storedValue = sessionStorage.getItem("selectedId");
     try {
       const response = await axios.get(
-        `${BASE_URL}loyalty/members.json${queryString}&token=${token}&q[loyalty_type_id_eq]=${storedValue}`
+        `${BASE_URL}loyalty/members.json${queryString}&q[loyalty_type_id_eq]=${storedValue}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
-
-      // setFilteredData(response.data);
 
       const membersData = response.data;
 
-      // Update state based on the filtered results
       setFilteredData(membersData);
 
       if (membersData.length > 0) {
         setSelectedMemberIds(membersData.map((member) => member.id));
         setShowMembers(true);
       } else {
-        setSelectedMemberIds([]); // Clear selected members if no data found
+        setSelectedMemberIds([]);
         setShowMembers(false);
       }
     } catch (error) {
