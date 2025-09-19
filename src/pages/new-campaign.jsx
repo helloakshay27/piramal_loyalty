@@ -151,9 +151,21 @@ const NewCampaign = () => {
           style={{ border: "border: 0.5px solid #3A3A33" }}
         >
           <div className="row">
-            <div className="col-md-11">
+            <fieldset className="border col-md-11 m-2">
+              <legend
+                className="float-none"
+                style={{
+                  fontSize: "14px", // Adjust font size for visibility
+                  fontWeight: "400",
+                  padding: "6px", // Padding to ensure full visibility of text
+                  lineHeight: "1.2", // Adjust line-height for better readability
+                  marginBottom: "-8px", // Slight negative margin if legend is too high
+                }}
+              >
+                Campaign Name<span style={{ color: "#E95420" }}>*</span>
+              </legend>
               <input
-                className="border w-100 p-2 py-2"
+                className="border w-100 p-2 py-2 border-0 border-bottom-0 bold-placeholder"
                 placeholder="Enter Campaign Name"
                 name="name"
                 value={formValues.name}
@@ -162,7 +174,7 @@ const NewCampaign = () => {
               />
               {// @ts-ignore
               errors.name && <p className="text-danger">{errors.name}</p>}
-            </div>
+            </fieldset>
           </div>
           <div className="row ms-1 mt-4">
             <fieldset className="border col-lg-3 col-md-5 col-sm-11 me-2">
