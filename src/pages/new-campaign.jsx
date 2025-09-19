@@ -145,15 +145,7 @@ const NewCampaign = () => {
       >
         New Campaign
       </h5>
-      <form
-        onSubmit={handleSubmit}
-        className="go-shadow me-3 pt-3"
-        // style={{
-        //   height: "100%",
-        //   flexDirection: "column",
-        //   marginRight: "26px",
-        // }}
-      >
+      <form onSubmit={handleSubmit} className="go-shadow me-3 pt-3">
         <div
           className="border-bottom pb-5 "
           style={{ border: "border: 0.5px solid #3A3A33" }}
@@ -214,9 +206,7 @@ const NewCampaign = () => {
                 className="float-none"
                 style={{
                   fontWeight: "400",
-
                   fontSize: "14px", // Adjust font size for visibility
-
                   padding: "6px", // Padding to ensure full visibility of text
                   lineHeight: "1.2", // Adjust line-height for better readability
                   marginBottom: "-8px", // Slight negative margin if legend is too high
@@ -252,10 +242,6 @@ const NewCampaign = () => {
                 style={{
                   fontSize: "14px",
                   fontWeight: "400",
-
-                  // @ts-ignore
-                  fontSize: "14px", // Adjust font size for visibility
-
                   padding: "6px", // Padding to ensure full visibility of text
                   lineHeight: "1.2", // Adjust line-height for better readability
                   marginBottom: "-8px", // Slight negative margin if legend is too high
@@ -370,269 +356,7 @@ const NewCampaign = () => {
 };
 
 export default NewCampaign;
-    };
-
-    try {
-      const response = await axios.post(
-        `${BASE_URL}loyalty/campaigns.json?access_token=${token}`,
-        data
-      );
-      if (response.status === 201) {
-        setFormValues({
-          name: "",
-          target_audiance: "",
-          campaign_type: "",
-          loyalty_tier_id: "",
-          campaign_reward: false,
-          loyalty_type_id: sessionStorage.getItem("selectedId"),
-        });
-        navigate("/campaign");
-      }
-    } catch (error) {
-      console.error("Error posting data:", error);
-      alert("Failed to create campaign. Please try again.");
-    }
-  };
-
-  return (
-    <div className="module-data-section mt-2">
-      <p className="pointer">
-        <Link to="/campaign">
-          <span>Campaign</span>
-        </Link>{" "}
-        &gt; New Campaign
-      </p>
-      <h5
-        className="mb-3 title"
-        style={{ fontSize: "20px", fontWeight: "600" }}
-      >
-        New Campaign
-      </h5>
-      <form
-        onSubmit={handleSubmit}
-        className="go-shadow me-3 pt-3"
-        // style={{
-        //   height: "100%",
-        //   flexDirection: "column",
-        //   marginRight: "26px",
-        // }}
-      >
-        <div
-          className="border-bottom pb-5 "
-          style={{ border: "border: 0.5px solid #3A3A33" }}
-        >
-          <div className="row">
-            <div className="col-md-11">
-              <input
-                className="border w-100 p-2 py-2"
-                placeholder="Enter Campaign Name"
-                name="name"
-                value={formValues.name}
-                onChange={handleChange}
-                style={{ fontSize: "12px", fontWeight: "400" }}
-              />
-              {// @ts-ignore
-              errors.name && <p className="text-danger">{errors.name}</p>}
-            </div>
-          </div>
-          <div className="row ms-1 mt-4">
-            <fieldset className="border col-lg-3 col-md-5 col-sm-11 me-2">
-              <legend
-                className="float-none"
-                // @ts-ignore
-                ClassName=""
-                style={{
-                  fontSize: "14px", // Adjust font size for visibility
-                  fontWeight: "400",
-                  padding: "6px", // Padding to ensure full visibility of text
-                  lineHeight: "1.2", // Adjust line-height for better readability
-                  marginBottom: "-8px", // Slight negative margin if legend is too high
-                }}
-              >
-                Target Audience<span>*</span>
-              </legend>
-              <select
-                style={{ fontSize: "12px", fontWeight: "400" }}
-                name="target_audiance"
-                value={formValues.target_audiance}
-                onChange={handleChange}
-                // @ts-ignore
-                required=""
-                className="mt-1 mb-1"
-              >
-                <option value="">Select Target Audience</option>
-                <option value="Recently Joined">Recently Joined</option>
-                <option value="Suspended">Suspended</option>
-                <option value="1 - purchase">1 - purchase</option>
-                <option value="No purchase">No purchase</option>
-              </select>
-              {// @ts-ignore
-              errors.target_audiance && (
-                <p className="text-danger">{errors.target_audiance}</p>
-              )}
-            </fieldset>
-
-            <fieldset className="border col-lg-3 col-md-5 col-sm-11 me-2">
-              <legend
-                className="float-none"
-                style={{
-                  fontWeight: "400",
-
-                  fontSize: "14px", // Adjust font size for visibility
-
-                  padding: "6px", // Padding to ensure full visibility of text
-                  lineHeight: "1.2", // Adjust line-height for better readability
-                  marginBottom: "-8px", // Slight negative margin if legend is too high
-                }}
-              >
-                Campaign Type<span>*</span>
-              </legend>
-              <select
-                style={{ fontSize: "12px", fontWeight: "400" }}
-                name="campaign_type"
-                value={formValues.campaign_type}
-                onChange={handleChange}
-                // @ts-ignore
-                required=""
-                className="mt-1 mb-1"
-              >
-                <option value="">Select Campaign Type</option>
-                <option value="Point based">Point based</option>
-                <option value="Discount based">Discount based</option>
-                <option value="Referral Campaign">Referral Campaign</option>
-                <option value="Tier - Up Campaign">Tier - Up Campaign</option>
-                <option value="Custom Campaign">Custom Campaign</option>
-              </select>
-              {// @ts-ignore
-              errors.campaign_type && (
-                <p className="text-danger">{errors.campaign_type}</p>
-              )}
-            </fieldset>
-
-            <fieldset className="border col-lg-3 col-md-5 col-sm-11">
-              <legend
-                className="float-none"
-                style={{
-                  fontSize: "14px",
-                  fontWeight: "400",
-
-                  // @ts-ignore
-                  fontSize: "14px", // Adjust font size for visibility
-
-                  padding: "6px", // Padding to ensure full visibility of text
-                  lineHeight: "1.2", // Adjust line-height for better readability
-                  marginBottom: "-8px", // Slight negative margin if legend is too high
-                }}
-              >
-                Tier Level<span>*</span>
-              </legend>
-              <select
-                style={{ fontSize: "12px", fontWeight: "400" }}
-                name="loyalty_tier_id"
-                value={formValues.loyalty_tier_id}
-                onChange={handleChange}
-                // @ts-ignore
-                required=""
-                className="mt-1 mb-1"
-              >
-                <option value="">Select Tier Level</option>
-                {tierLevels.map((tier) => (
-                  <option
-                    key={
-                      // @ts-ignore
-                      tier.id
-                    }
-                    value={tier.id}
-                  >
-                    {tier.display_name}
-                  </option>
-                ))}
-              </select>
-              {// @ts-ignore
-              errors.loyalty_tier_id && (
-                <p className="text-danger">{errors.loyalty_tier_id}</p>
-              )}
-            </fieldset>
-          </div>
-        </div>
-
-        <div className="mt-2">
-          <p
-            className="fw-bold"
-            style={{ fontSize: "16px", fontWeight: "500" }}
-          >
-            Points Criteria<span style={{ color: "#E95420" }}>*</span>
-          </p>
-          <p>
-            <input
-              className="align-middle mx-2 custom-checkbox"
-              type="checkbox"
-              name="campaign_reward"
-              checked={formValues.campaign_reward}
-              onChange={handleChange}
-            />
-            <span
-              className="align-middle"
-              style={{
-                color: "#00000099",
-                fontSize: "13.63px",
-                fontWeight: "400",
-              }}
-            >
-              Send points to existing members.
-            </span>
-          </p>
-        </div>
-
-        <div
-          className="mt-5 border-bottom"
-          style={{
-            border: "border: 0.5px solid #3A3A33",
-            paddingBottom: "50px",
-          }}
-        >
-          <p
-            className="fw-bold"
-            style={{ fontSize: "16px", fontWeight: "600" }}
-          >
-            Campaign Rewards<span style={{ color: "#E95420" }}>*</span>
-          </p>
-        </div>
-        <div
-          className="row  justify-content-center"
-          style={{ marginTop: "55px" }}
-        >
-          <div className="col-md-2">
-            <button type="submit" className="purple-btn1 w-100">
-              Submit
-            </button>
-          </div>
-          <div className="col-md-2">
-            <button
-              type="button"
-              className="purple-btn2 w-100"
-              onClick={() =>
-                setFormValues({
-                  name: "",
-                  target_audiance: "",
-                  campaign_type: "",
-                  loyalty_tier_id: "",
-                  campaign_reward: false,
-                  loyalty_type_id: sessionStorage.getItem("selectedId"),
-                })
-              }
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      </form>
-      <ToastContainer />
-    </div>
-  );
-};
-
-export default NewCampaign;
+              
 
 // import React, { useState, useEffect } from "react";
 // import { useFormik } from "formik";
