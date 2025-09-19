@@ -94,7 +94,7 @@ const Sidebar = () => {
 
           </NavLink>
         </li>
-        {domain === "rustamjee-loyalty-dev.lockated.com" && (
+        {domain === "rustomjee-loyalty.lockated.com" && (
           <li className="nav-item">
             <NavLink
               to="/rule-engine"
@@ -119,7 +119,7 @@ const Sidebar = () => {
 
           </NavLink>
         </li>
-        {domain === "rustamjee-loyalty-dev.lockated.com" && (
+        {domain === "rustomjee-loyalty.lockated.com" && (
 
           <li className="nav-item">
             <NavLink
@@ -146,7 +146,7 @@ const Sidebar = () => {
 
           </NavLink>
         </li>
-        {domain === "rustamjee-loyalty-dev.lockated.com" && (
+        {domain === "rustomjee-loyalty.lockated.com" && (
           <li className="nav-item">
             <NavLink
               to="/rule-logs"
@@ -172,7 +172,7 @@ const Sidebar = () => {
 
           </NavLink>
         </li>
-        {domain === "rustamjee-loyalty-dev.lockated.com" && (
+        {domain === "rustomjee-loyalty.lockated.com" && (
           <li className="nav-item">
             <NavLink
               to="/home-loan-request"
@@ -209,7 +209,7 @@ const Sidebar = () => {
 
           </NavLink>
         </li>
-        {domain === "rustamjee-loyalty-dev.lockated.com" && (
+        {domain === "rustomjee-loyalty.lockated.com" && (
 
           <li className="nav-item">
             <a
@@ -265,7 +265,7 @@ const Sidebar = () => {
           </li>
         )}
 
-        {domain === "rustamjee-loyalty-dev.lockated.com" && (
+        {domain === "rustomjee-loyalty.lockated.com" && (
           <>
 
 
