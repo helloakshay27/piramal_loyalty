@@ -26,29 +26,29 @@ const EncashList = () => {
   const storedValue = sessionStorage.getItem("selectedId");
   const token = localStorage.getItem("access_token");
 
-  useEffect(() => {
-    const fetchEncashRequests = async () => {
-      try {
-        const response = await axios.get(
-          `${BASE_URL}encash_requests.json?is_admin=true`,
-          {
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json'
-            }
+  const fetchEncashRequests = async () => {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}encash_requests.json?is_admin=true`,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
           }
-        );
-        setEncashRequests(response.data);
-        setFilteredItems(response.data);
-        console.log("Encash Requests", response.data);
-      } catch (err) {
-        setError("Failed to fetch encash requests.");
-        console.error("Error fetching encash requests:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+        }
+      );
+      setEncashRequests(response.data);
+      setFilteredItems(response.data);
+      console.log("Encash Requests", response.data);
+    } catch (err) {
+      setError("Failed to fetch encash requests.");
+      console.error("Error fetching encash requests:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchEncashRequests();
   }, [token]);
 
@@ -69,7 +69,7 @@ const EncashList = () => {
     }
 
     try {
-      const response = await axios.put(
+      await axios.put(
         `${BASE_URL}encash_requests/${selectedRequest.id}.json?access_token=${token}`,
         {
           encash_request: {
@@ -86,28 +86,15 @@ const EncashList = () => {
         }
       );
 
-      // Update local state
-      setEncashRequests(prevRequests =>
-        prevRequests.map(req =>
-          req.id === selectedRequest.id
-            ? { ...req, status: "completed", transaction_mode: transactionMode, transaction_number: transactionNumber }
-            : req
-        )
-      );
-
-      setFilteredItems(prevRequests =>
-        prevRequests.map(req =>
-          req.id === selectedRequest.id
-            ? { ...req, status: "completed", transaction_mode: transactionMode, transaction_number: transactionNumber }
-            : req
-        )
-      );
-
       setShowModal(false);
       setTransactionMode("");
       setTransactionNumber("");
       setSelectedRequest(null);
-      
+
+      // Refresh data from API after update
+      setLoading(true);
+      await fetchEncashRequests();
+
       alert("Request completed successfully!");
     } catch (error) {
       console.error("Error updating request:", error);
@@ -468,20 +455,29 @@ const EncashList = () => {
                           <td>{request.branch_name}</td>
                           <td>{formatDate(request.created_at)}</td>
                           <td style={{ textAlign: "center" }}>
-                            <select
-                              className="form-select form-select-sm"
-                              value={request.status}
-                              onChange={(e) => handleStatusChange(request.id, e.target.value)}
-                              style={{
-                                fontSize: "12px",
-                                padding: "4px 8px",
-                                backgroundColor: request.status === "completed" ? "#d4edda" : "#fff3cd",
+                            {/* {request.status === "completed" ? (
+                              <div>
+                                <span className="badge bg-success mb-1">Completed</span>
+                                <div>
+                                  <small className="d-block">{request.transaction_mode}</small>
+                                  <small className="text-muted">{request.transaction_number}</small>
+                                </div>
+                              </div>
+                            ) : ( */}
+                              <select
+                                className="form-select form-select-sm"
+                                value={request.status}
+                                onChange={(e) => handleStatusChange(request.id, e.target.value)}
+                                style={{
+                                  fontSize: "12px",
+                                  padding: "4px 8px",
+                                  backgroundColor: request.status === "completed" ? "#d4edda" : "#fff3cd",
                                 border: request.status === "completed" ? "1px solid #c3e6cb" : "1px solid #ffeaa7",
                               }}
-                            >
-                              <option value="requested">Requested</option>
-                              <option value="completed">Completed</option>
-                            </select>
+                              >
+                                <option value="requested">Requested</option>
+                                <option value="completed">Completed</option>
+                              </select>
                           </td>
                           <td style={{ textAlign: "center" }}>
                             {request.transaction_mode && request.transaction_number ? (
