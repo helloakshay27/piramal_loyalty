@@ -37,9 +37,11 @@ const EncashList = () => {
           }
         }
       );
-      setEncashRequests(response.data);
-      setFilteredItems(response.data);
-      console.log("Encash Requests", response.data);
+      // Reverse the data so newest is last
+      const reversedData = [...response.data].reverse();
+      setEncashRequests(reversedData);
+      setFilteredItems(reversedData);
+      console.log("Encash Requests", reversedData);
     } catch (err) {
       setError("Failed to fetch encash requests.");
       console.error("Error fetching encash requests:", err);
@@ -420,6 +422,10 @@ const EncashList = () => {
                       <col style={{ width: "180px" }} />
                       <col style={{ width: "120px" }} />
                       <col style={{ width: "150px" }} />
+                      <col style={{ width: "180px" }} /> {/* Referral Name */}
+                      <col style={{ width: "150px" }} /> {/* Application Value */}
+                      <col style={{ width: "120px" }} /> {/* Brokerage % */}
+                      <col style={{ width: "120px" }} /> {/* Booking Unit */}
                     </colgroup>
                     <thead>
                       <tr>
@@ -434,6 +440,10 @@ const EncashList = () => {
                         <th style={{ textAlign: "center" }}>Created At</th>
                         <th style={{ textAlign: "center" }}>Status</th>
                         <th style={{ textAlign: "center" }}>Transaction</th>
+                        <th style={{ textAlign: "center" }}>Referral Name</th>
+                        <th style={{ textAlign: "center" }}>Application Value</th>
+                        <th style={{ textAlign: "center" }}>Brokerage %</th>
+                        <th style={{ textAlign: "center" }}>Booking Unit</th>
                       </tr>
                     </thead>
                     <tbody
@@ -464,20 +474,20 @@ const EncashList = () => {
                                 </div>
                               </div>
                             ) : ( */}
-                              <select
-                                className="form-select form-select-sm"
-                                value={request.status}
-                                onChange={(e) => handleStatusChange(request.id, e.target.value)}
-                                style={{
-                                  fontSize: "12px",
-                                  padding: "4px 8px",
-                                  backgroundColor: request.status === "completed" ? "#d4edda" : "#fff3cd",
+                            <select
+                              className="form-select form-select-sm"
+                              value={request.status}
+                              onChange={(e) => handleStatusChange(request.id, e.target.value)}
+                              style={{
+                                fontSize: "12px",
+                                padding: "4px 8px",
+                                backgroundColor: request.status === "completed" ? "#d4edda" : "#fff3cd",
                                 border: request.status === "completed" ? "1px solid #c3e6cb" : "1px solid #ffeaa7",
                               }}
-                              >
-                                <option value="requested">Requested</option>
-                                <option value="completed">Completed</option>
-                              </select>
+                            >
+                              <option value="requested">Requested</option>
+                              <option value="completed">Completed</option>
+                            </select>
                           </td>
                           <td style={{ textAlign: "center" }}>
                             {request.transaction_mode && request.transaction_number ? (
@@ -489,6 +499,14 @@ const EncashList = () => {
                               <span className="text-muted">-</span>
                             )}
                           </td>
+                          <td>{request.referral_name || "-"}</td>
+                          <td>{request.application_value !== undefined ? Number(request.application_value).toLocaleString() : "-"}</td>
+                          <td>
+                            {request.brokerage_percentages !== undefined && request.brokerage_percentages !== null
+                              ? `${request.brokerage_percentages} %`
+                              : "-"}
+                          </td>                     
+                          <td>{request.booking_unit || "-"}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -539,7 +557,7 @@ const EncashList = () => {
                     <p><strong>Amount Payable:</strong> {formatCurrency(selectedRequest.amount_payable)}</p>
                     <p><strong>Account:</strong> {selectedRequest.account_number}</p>
                   </div>
-                  
+
                   <div className="row">
                     <div className="col-md-6">
                       <label className="form-label">Transaction Mode <span className="text-danger">*</span></label>
