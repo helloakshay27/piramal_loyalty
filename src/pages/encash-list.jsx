@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "../styles/style.css";
-import { Link } from "react-router-dom";
-import SubHeader from "../components/SubHeader";
 import axios from "axios";
 import { Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import BASE_URL from "../Confi/baseurl";
+import { Toaster, toast } from "sonner";
 
 const EncashList = () => {
   const [encashRequests, setEncashRequests] = useState([]);
@@ -55,18 +54,59 @@ const EncashList = () => {
   }, [token]);
 
   const handleStatusChange = async (id, status) => {
+
     if (status === "completed") {
-      // Open modal for completed status
       const request = encashRequests.find(req => req.id === id);
       setSelectedRequest(request);
       setShowModal(true);
+    } else if (status === "rejected") {
+      try {
+        await axios.put(
+          `${BASE_URL}encash_requests/${id}.json?access_token=${token}`,
+          {
+            encash_request: {
+              status: "rejected"
+            }
+          },
+          {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            }
+          }
+        );
+        setLoading(true);
+        await fetchEncashRequests();
+        toast.success("Request rejected successfully!", {
+          style: {
+            background: "#fff",
+            color: "#000",
+            border: "2px solid #2c001e"
+          }
+        });
+      } catch (error) {
+        console.error("Error rejecting request:", error);
+        toast.error("Failed to reject request. Please try again.", {
+          style: {
+            background: "#fff",
+            color: "#000",
+            border: "2px solid #2c001e"
+          }
+        });
+      }
     }
     // For "requested" status, no action needed as per requirements
   };
 
   const handleCompleteRequest = async () => {
     if (!selectedRequest || !transactionMode || !transactionNumber) {
-      alert("Please fill in all required fields");
+      toast.error("Please fill in all required fields", {
+        style: {
+          background: "#fff",
+          color: "#000",
+          border: "2px solid #2c001e"
+        }
+      });
       return;
     }
 
@@ -93,14 +133,25 @@ const EncashList = () => {
       setTransactionNumber("");
       setSelectedRequest(null);
 
-      // Refresh data from API after update
       setLoading(true);
       await fetchEncashRequests();
 
-      alert("Request completed successfully!");
+      toast.success("Request completed successfully!", {
+        style: {
+          background: "#fff",
+          color: "#000",
+          border: "2px solid #2c001e"
+        }
+      });
     } catch (error) {
       console.error("Error updating request:", error);
-      alert("Failed to update request. Please try again.");
+      toast.error("Failed to update request. Please try again.", {
+        style: {
+          background: "#fff",
+          color: "#000",
+          border: "2px solid #2c001e"
+        }
+      });
     }
   };
 
@@ -302,6 +353,7 @@ const EncashList = () => {
 
   return (
     <>
+      <Toaster position="top-right" richColors />
       <div className="w-100">
         <div className="module-data-section mt-2">
           <p className="pointer">
@@ -481,12 +533,17 @@ const EncashList = () => {
                               style={{
                                 fontSize: "12px",
                                 padding: "4px 8px",
-                                backgroundColor: request.status === "completed" ? "#d4edda" : "#fff3cd",
-                                border: request.status === "completed" ? "1px solid #c3e6cb" : "1px solid #ffeaa7",
+                                backgroundColor: request.status === "completed" ? "#d4edda"
+                                  : request.status === "rejected" ? "#f8d7da"
+                                  : "#fff3cd",
+                                border: request.status === "completed" ? "1px solid #c3e6cb"
+                                  : request.status === "rejected" ? "1px solid #f5c6cb"
+                                  : "1px solid #ffeaa7",
                               }}
                             >
                               <option value="requested">Requested</option>
                               <option value="completed">Completed</option>
+                              <option value="rejected">Rejected</option>
                             </select>
                           </td>
                           <td style={{ textAlign: "center" }}>

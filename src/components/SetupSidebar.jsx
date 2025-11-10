@@ -31,7 +31,7 @@ export default function SetupSidebar() {
           flexDirection: "column",
         }}
       >
-        <li
+        {/* <li
           className={`menu-item d-flex w-100 ${
             pathname === "/project-list" ? "active" : ""
           }`}
@@ -59,7 +59,7 @@ export default function SetupSidebar() {
             </svg>
             <p className="menu-link-text">Project</p>
           </a>
-        </li>
+        </li> */}
         {/* <li
           className={`menu-item d-flex w-100 ${
             pathname === "/banner-list" ? "active" : ""

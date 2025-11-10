@@ -74,7 +74,7 @@ const Sidebar = () => {
             
           </NavLink>
         </li> */}
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <NavLink
             to="/members"
             className={`nav-link d-flex justify-content-between ${activeItem === "/members" ? "active" : ""}`}
@@ -83,8 +83,8 @@ const Sidebar = () => {
             <span className="text">Members</span>
 
           </NavLink>
-        </li>
-        <li className="nav-item">
+        </li> */}
+        {/* <li className="nav-item">
           <NavLink
             to="/tiers"
             className={`nav-link d-flex justify-content-between ${activeItem === "/tiers" ? "active" : ""}`}
@@ -93,7 +93,7 @@ const Sidebar = () => {
             <span className="text">Tiers</span>
 
           </NavLink>
-        </li>
+        </li> */}
         {domain === "rustomjee-loyalty.lockated.com" && (
           <li className="nav-item">
             <NavLink
@@ -107,7 +107,7 @@ const Sidebar = () => {
           </li>
         )}
         {/* Referral */}
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <NavLink
             to="/referral-list"
             // className="menu-link d-flex gap-4"
@@ -118,7 +118,7 @@ const Sidebar = () => {
             <span className="text">Referral</span>
 
           </NavLink>
-        </li>
+        </li> */}
         {domain === "rustomjee-loyalty.lockated.com" && (
 
           <li className="nav-item">
@@ -134,7 +134,7 @@ const Sidebar = () => {
             </NavLink>
           </li>
         )}
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <NavLink
             to="/lock-payments"
             // className="menu-link d-flex gap-4"
@@ -145,7 +145,7 @@ const Sidebar = () => {
             <span className="text">Lock Payments</span>
 
           </NavLink>
-        </li>
+        </li> */}
         {domain === "rustomjee-loyalty.lockated.com" && (
           <li className="nav-item">
             <NavLink
@@ -160,7 +160,7 @@ const Sidebar = () => {
             </NavLink>
           </li>
         )}
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <NavLink
             to="/demand-notes"
             // className="menu-link d-flex gap-4"
@@ -171,7 +171,7 @@ const Sidebar = () => {
             <span className="text">Demand Notes</span>
 
           </NavLink>
-        </li>
+        </li> */}
         {domain === "rustomjee-loyalty.lockated.com" && (
           <li className="nav-item">
             <NavLink
