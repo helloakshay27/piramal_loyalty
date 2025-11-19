@@ -53,47 +53,78 @@ const EncashList = () => {
     fetchEncashRequests();
   }, [token]);
 
-  const handleStatusChange = async (id, status) => {
-
+  const handleStatusChange = (id, status) => {
     if (status === "completed") {
       const request = encashRequests.find(req => req.id === id);
       setSelectedRequest(request);
       setShowModal(true);
     } else if (status === "rejected") {
-      try {
-        await axios.put(
-          `${BASE_URL}encash_requests/${id}.json?access_token=${token}`,
-          {
-            encash_request: {
-              status: "rejected"
-            }
-          },
-          {
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json'
-            }
+      const request = encashRequests.find(req => req.id === id);
+      if (!request) return;
+      // Use toast.dismiss() with no arguments to dismiss all toasts (avoids undefined error)
+      toast((t) => {
+        let confirmed = false;
+        const handleConfirm = async () => {
+          if (confirmed) return;
+          confirmed = true;
+          toast.dismiss(); // Dismiss all, avoids t.id error
+          try {
+            await axios.put(
+              `${BASE_URL}encash_requests/${request.id}.json?access_token=${token}`,
+              { encash_request: { status: "rejected" } },
+              { headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' } }
+            );
+            setLoading(true);
+            await fetchEncashRequests();
+            toast.success(`Request for ${request.person_name || "this user"} rejected successfully!`, {
+              style: { background: "#fff", color: "#000", border: "2px solid #2c001e" }
+            });
+          } catch (error) {
+            console.error("Error rejecting request:", error);
+            toast.error("Failed to reject request. Please try again.", {
+              style: { background: "#fff", color: "#000", border: "2px solid #2c001e" }
+            });
           }
+        };
+        const handleCancel = () => {
+          toast.dismiss(); // Dismiss all, avoids t.id error
+        };
+        return (
+          <div style={{ padding: 8, maxWidth: 320 }}>
+            <div style={{ fontSize: 14, marginBottom: 8 }}>
+              Reject encash request for <strong>{request.person_name || "this user"}</strong>?
+            </div>
+            <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
+              <button
+                onClick={handleConfirm}
+                style={{
+                  background: "#2c001e",
+                  color: "#fff",
+                  border: "none",
+                  padding: "6px 10px",
+                  borderRadius: 4,
+                  cursor: "pointer"
+                }}
+              >
+                Confirm
+              </button>
+              <button
+                onClick={handleCancel}
+                style={{
+                  background: "#fff",
+                  color: "#2c001e",
+                  border: "2px solid #2c001e",
+                  padding: "6px 10px",
+                  borderRadius: 4,
+                  cursor: "pointer"
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
         );
-        setLoading(true);
-        await fetchEncashRequests();
-        toast.success("Request rejected successfully!", {
-          style: {
-            background: "#fff",
-            color: "#000",
-            border: "2px solid #2c001e"
-          }
-        });
-      } catch (error) {
-        console.error("Error rejecting request:", error);
-        toast.error("Failed to reject request. Please try again.", {
-          style: {
-            background: "#fff",
-            color: "#000",
-            border: "2px solid #2c001e"
-          }
-        });
-      }
+      }, { id: `reject-${id}` });
     }
     // For "requested" status, no action needed as per requirements
   };
