@@ -395,8 +395,8 @@ const Eventlist = () => {
                                 verticalAlign: "middle",
                               }}
                             >
-                              {event.attachfile &&
-                              event.attachfile.document_url ? (
+                              {/* Show attachfile image if available, else fallback to any event_images_* */}
+                              {event.attachfile && event.attachfile.document_url ? (
                                 <img
                                   src={event.attachfile.document_url}
                                   alt="event"
@@ -408,7 +408,29 @@ const Eventlist = () => {
                                   }}
                                 />
                               ) : (
-                                <span>No image</span>
+                                (() => {
+                                  // Try each event_images_* array in order
+                                  const fallbackImage =
+                                    (Array.isArray(event.event_images_1_by_1) && event.event_images_1_by_1.length > 0 && event.event_images_1_by_1[0].document_url) ||
+                                    (Array.isArray(event.event_images_9_by_16) && event.event_images_9_by_16.length > 0 && event.event_images_9_by_16[0].document_url) ||
+                                    (Array.isArray(event.event_images_3_by_2) && event.event_images_3_by_2.length > 0 && event.event_images_3_by_2[0].document_url) ||
+                                    (Array.isArray(event.event_images_16_by_9) && event.event_images_16_by_9.length > 0 && event.event_images_16_by_9[0].document_url);
+
+                                  return fallbackImage ? (
+                                    <img
+                                      src={fallbackImage}
+                                      alt="event"
+                                      className="img-fluid rounded"
+                                      style={{
+                                        maxWidth: "100px",
+                                        maxHeight: "100px",
+                                        display: "block",
+                                      }}
+                                    />
+                                  ) : (
+                                    <span>No image</span>
+                                  );
+                                })()
                               )}
                             </td>
                             <td>
