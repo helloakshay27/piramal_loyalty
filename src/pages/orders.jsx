@@ -410,7 +410,7 @@ const Orders = () => {
                               value={statusFilter}
                               onChange={handleStatusFilter}
                             >
-                              <option value="">All Statuses</option>
+                              <option value="">All Status</option>
                               {statusOptions.map(status => (
                                 <option key={status} value={status}>
                                   {status.charAt(0).toUpperCase() + status.slice(1)}
@@ -425,7 +425,7 @@ const Orders = () => {
                               value={paymentStatusFilter}
                               onChange={handlePaymentStatusFilter}
                             >
-                              <option value="">All Payment Statuses</option>
+                              <option value="">All Payment Status</option>
                               {paymentStatusOptions.map(status => (
                                 <option key={status} value={status}>
                                   {status.charAt(0).toUpperCase() + status.slice(1).replace('_', ' ')}

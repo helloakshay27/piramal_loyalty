@@ -185,12 +185,16 @@ const Header = ({ noTier, onNavChange }) => {
             className="avatar"
             role="button"
             tabIndex="0"
-            onClick={handleOpen} // Open the modal on click
-            onKeyPress={(e) => e.key === "Enter" && handleOpen()} // Open on Enter key press
-            data-bs-toggle="modal" // Optional if you want Bootstrap's behavior too
+            onClick={handleOpen}
+            onKeyPress={(e) => e.key === "Enter" && handleOpen()}
+            data-bs-toggle="modal"
             data-bs-target="#userInfo"
           >
-            <div className="avatar__letters">A</div>
+            <div className="avatar__letters">
+              {sessionStorage.getItem("firstname")
+                ? sessionStorage.getItem("firstname")[0].toUpperCase()
+                : "A"}
+            </div>
           </div>
         </div>
       </nav>
