@@ -116,8 +116,8 @@ const SignIn = () => {
           sessionStorage.setItem("email", response.data.email);
           sessionStorage.setItem("firstname", response.data.firstname);
 
-          // Redirect user to the members page after successful login
-          navigate("/");
+          // Redirect user to the orders page after successful login
+          navigate("/orders");
 
           setTimeout(() => {
             setShowModal(true);

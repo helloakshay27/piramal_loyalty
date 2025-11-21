@@ -124,7 +124,7 @@ function App() {
               </ProtectedRoute>
             }
           >
-            <Route index element={<Navigate to="/members" />} />
+            <Route index element={<Navigate to="/orders" />} />
             <Route path="/members" element={<Members />} />
             <Route path="/segment" element={<Segment />} />
             <Route path="/campaign" element={<Campaign />} />
