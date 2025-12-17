@@ -94,7 +94,7 @@ const Sidebar = () => {
 
           </NavLink>
         </li> */}
-        {domain === "rustomjee-loyalty.lockated.com" && (
+        {domain === "rustomjee-loyalty.lockated.com" && domain === "loyalty.lockated.com" (
           <li className="nav-item">
             <NavLink
               to="/rule-engine"
