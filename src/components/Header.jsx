@@ -159,7 +159,7 @@ const Header = ({ noTier, onNavChange }) => {
                   onClick={(e) => {
                     e.preventDefault();
                     setActiveNav("setup");
-                    navigate("/project-list"); // or your actual setup route
+                    navigate("/event-list"); // or your actual setup route
                   }}
                 >
                   Setup
