@@ -491,7 +491,11 @@ const Orders = () => {
                               {orders.length > 0 ? (
                                 orders.map((order) => (
                                   <tr key={order.id}>
-                                    <td style={{ width: '11%' }}>{order.id}</td>
+                                    <td style={{ width: '11%' }}>
+                                      <Link to={`/order-details/${order.id}`} className="text-decoration-none">
+                                        {order.id}
+                                      </Link>
+                                    </td>
                                     <td style={{ width: '11%' }}>
                                       <small className="text-muted">{order.order_number}</small>
                                     </td>
@@ -502,39 +506,9 @@ const Orders = () => {
                                       </div>
                                     </td>
                                     <td style={{ width: '11%' }}>
-                                      <select
-                                        className="form-select form-select-sm order-status-dropdown"
-                                        value={order.status}
-                                        onChange={(e) => handleStatusChange(order.id, e.target.value)}
-                                        disabled={updatingStatus === order.id}
-                                        style={{
-                                          minWidth: '120px',
-                                          fontSize: '13px',
-                                          fontWeight: '400',
-                                          color: '#212529',
-                                          background: '#fff',
-                                          border: '1px solid #dee2e6',
-                                          borderRadius: '6px',
-                                          padding: '6px 32px 6px 12px', // extra right padding for arrow
-                                          margin: '2px 0',
-                                          appearance: 'none', // hide default arrow
-                                          backgroundImage: `url("data:image/svg+xml,%3Csvg width='16' height='16' fill='gray' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4.646 6.646a.5.5 0 0 1 .708 0L8 9.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E")`,
-                                          backgroundRepeat: 'no-repeat',
-                                          backgroundPosition: 'right 10px center',
-                                          backgroundSize: '16px 16px'
-                                        }}
-                                      >
-                                        {statusOptions.map(status => (
-                                          <option key={status} value={status}>
-                                            {status.charAt(0).toUpperCase() + status.slice(1)}
-                                          </option>
-                                        ))}
-                                      </select>
-                                      {updatingStatus === order.id && (
-                                        <div className="spinner-border spinner-border-sm mt-1" role="status">
-                                          <span className="visually-hidden">Updating...</span>
-                                        </div>
-                                      )}
+                                      <span className={getStatusBadgeClass(order.status)}>
+                                        {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                                      </span>
                                     </td>
                                     <td style={{ width: '11%' }}>
                                       <span className={getPaymentStatusBadgeClass(order.payment_status)}>
