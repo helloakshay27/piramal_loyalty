@@ -5,6 +5,7 @@ import { Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import BASE_URL from "../Confi/baseurl";
 import { Toaster, toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 const EncashList = () => {
   const [encashRequests, setEncashRequests] = useState([]);
@@ -21,6 +22,7 @@ const EncashList = () => {
   const [filteredItems, setFilteredItems] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
+  const navigate = useNavigate();
 
   const storedValue = sessionStorage.getItem("selectedId");
   const token = localStorage.getItem("access_token");
@@ -538,7 +540,11 @@ const EncashList = () => {
                     >
                       {currentItems.map((request) => (
                         <tr key={request.id}>
-                          <td style={{ textAlign: "center" }}>{request.id}</td>
+                          <td style={{ textAlign: "center", cursor: "pointer", color: "#5e2750", textDecoration: "underline" }}
+                              onClick={() => navigate(`/encash-details/${request.id}`)}
+                          >
+                            {request.id}
+                          </td>
                           <td>{request.person_name}</td>
                           <td style={{ textAlign: "right" }}>{request.points_to_encash.toLocaleString()}</td>
                           <td style={{ textAlign: "right" }}>{formatCurrency(request.facilitation_fee)}</td>
