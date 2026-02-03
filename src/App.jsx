@@ -38,6 +38,7 @@ import PageNotFound from "./pages/page-not-found";
 
 import ProjectDetailsCreate from "./pages/project-details-create";
 import BannerList from "./pages/banner-list";
+import AdminSetup from "./pages/admin-setup";
 import BannerAdd from "./pages/banner-add";
 import ProjectDetailsList from "./pages/project-details-list";
 import Amenities from "./pages/amenities";
@@ -192,7 +193,8 @@ function App() {
           <Route path="/home-loan-request" element={<HomeLoanRequest />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/order-details/:id" element={<OrderDetails />} />
-          <Route path="/event-list" element={<Eventlist />} />
+            <Route path="/event-list" element={<Eventlist />} />
+            <Route path="/admin-setup" element={<AdminSetup />} />
           <Route path="/event-details/:id" element={<EventDetails />} />
           <Route path="/event-details" element={<EventDetails />} />
           <Route path="/event-edit/:id" element={<EventEdit />} />

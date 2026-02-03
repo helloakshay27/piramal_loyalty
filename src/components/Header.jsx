@@ -166,7 +166,7 @@ const Header = ({ noTier, onNavChange }) => {
                 </a>
               </li>
             </ul>
-            {!noTier && (
+            {/* {!noTier && (
               <div className="top-nav-right">
                 <div className="d-flex search-input w-50 mx-auto">
                   <span className="material-symbols-outlined">search</span>
@@ -178,7 +178,7 @@ const Header = ({ noTier, onNavChange }) => {
                   />
                 </div>
               </div>
-            )}
+            )} */}
           </div>
           <TypeHeader /> {/* Dropdown inside the header */}
           <div

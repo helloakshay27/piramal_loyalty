@@ -173,9 +173,7 @@ export default function SetupSidebar() {
           </a>
         </li> */}
         <li
-          className={`menu-item d-flex w-100 ${
-            pathname === "/event-list" ? "active" : ""
-          }`}
+          className={`menu-item d-flex w-100 ${pathname === "/event-list" ? "active" : ""}`}
         >
           <a
             className="menu-link d-flex gap-4 w-100"
@@ -186,65 +184,27 @@ export default function SetupSidebar() {
             }}
             data-section="security"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              id="Outline"
-              version="1.1"
-              viewBox="0 0 512 512"
-              width="24"
-              height="24"
-              fill="none"
-            >
-              <path
-                d="M448,216h-48v48h48v-48ZM432,248h-16v-16h16v16Z"
-                fill="#DD7007"
-              />
-              <path
-                d="M288,376h-48v48h48v-48ZM272,408h-16v-16h16v16Z"
-                fill="#DD7007"
-              />
-              <path
-                d="M208,216h-48v48h48v-48ZM192,248h-16v-16h16v16Z"
-                fill="#DD7007"
-              />
-              <path
-                d="M128,296h-48v48h48v-48ZM112,328h-16v-16h16v16Z"
-                fill="#DD7007"
-              />
-              <path
-                d="M208,296h-48v48h48v-48ZM192,328h-16v-16h16v16Z"
-                fill="#DD7007"
-              />
-              <path
-                d="M128,376h-48v48h48v-48ZM112,408h-16v-16h16v16Z"
-                fill="#DD7007"
-              />
-              <path
-                d="M208,376h-48v48h48v-48ZM192,408h-16v-16h16v16Z"
-                fill="#DD7007"
-              />
-              <path
-                d="M369.2,249l-40-6.1-18-38.3c-2.1-4.6-8.1-6.2-12.3-2.8s-1.7,1.8-2.2,2.9l-17.9,38.1-40,6.1c-4.4.7-7.4,4.7-6.7,9.1.3,1.7,1,3.2,2.2,4.4l29.2,29.9-6.9,42.3c-.7,4.4,2.3,8.5,6.6,9.2,1.8.3,3.6,0,5.1-.9l35.7-19.7,35.5,19.6c2.6,1.4,5.9,1.5,8.4-.1s4.1-5,3.6-8.1l-6.9-42.3,29.2-29.9c3.1-3.2,3-8.2-.1-11.3-1.2-1.2-2.7-1.9-4.4-2.2h0ZM330.3,284.1c-1.8,1.8-2.6,4.4-2.2,6.9l4.9,30.1-25.1-13.9c-2.4-1.3-5.3-1.3-7.7,0l-25.1,13.9,4.9-30.1c.4-2.5-.4-5.1-2.2-6.9l-21.1-21.7,28.8-4.4c2.6-.4,4.9-2.1,6-4.5l12.5-26.7,12.5,26.7c1.1,2.4,3.4,4.1,6,4.5l28.8,4.4-21.1,21.7Z"
-                fill="#DD7007"
-              />
-              <path
-                d="M448,296h-48v48h48v-48ZM432,328h-16v-16h16v16Z"
-                fill="#DD7007"
-              />
-              <path
-                d="M448,376h-48v48h48v-48ZM432,408h-16v-16h16v16Z"
-                fill="#DD7007"
-              />
-              <path
-                d="M368,376h-48v48h48v-48ZM352,408h-16v-16h16v16Z"
-                fill="#DD7007"
-              />
-              <path
-                d="M407.8,48.4v-31.4h-48.4v31.4h-79.4v-31.4h-48.4v31.4h-79.4v-31.4h-48.4v31.4H15.1v447.3h481.4V48.4h-88.7ZM374.5,32h18.3v64.5h-18.3V32ZM246.7,32h18.3v64.5h-18.3V32ZM118.8,32h18.3v64.5h-18.3V32ZM30.2,63.4h73.6v48.1h48.4v-48.1h79.4v48.1h48.4v-48.1h79.4v48.1h48.4v-48.1h73.6v80.1H30.2V63.4ZM481.5,480.6H30.2V158.5h451.3v322.1Z"
-                fill="#DD7007"
-              />
-            </svg>
+            {/* ...existing code for event icon... */}
             <p className="menu-link-text">Event</p>
+          </a>
+        </li>
+        {/* Admin Setup */}
+        <li
+          className={`menu-item d-flex w-100 ${pathname === "/admin-setup" ? "active" : ""}`}
+        >
+          <a
+            className="menu-link d-flex gap-4 w-100"
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate("/admin-setup");
+            }}
+            data-section="admin-setup"
+          >
+            {/* <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="#DD7007"/>
+            </svg> */}
+            <p className="menu-link-text">Admin</p>
           </a>
         </li>
         {/* Specification */}
