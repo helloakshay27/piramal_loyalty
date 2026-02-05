@@ -130,6 +130,38 @@ function EncashDetails() {
                 <div className="col-6 p-1 member-detail-color">: {encash.booking_unit || '-'}</div>
               </div>
             </div>
+              {/* KYC DOCUMENTS SECTION */}
+              <div className="go-shadow mx-3 no-top-left-shadow mt-4">
+                <h5 className="d-flex">
+                  <span className="title mt-3">KYC DOCUMENTS</span>
+                </h5>
+                <div className="row px-3">
+                  <div className="col-6 p-1 text-muted member-detail-color">Aadhar Card</div>
+                  <div className="col-6 p-1 member-detail-color">
+                    : {encash.adhar_doc ? (
+                      <a href={encash.adhar_doc.document_url} target="_blank" rel="noopener noreferrer">
+                        {encash.adhar_doc.file_name || encash.adhar_doc.document_file_name}
+                      </a>
+                    ) : '-'}
+                  </div>
+                  <div className="col-6 p-1 text-muted member-detail-color">PAN Card</div>
+                  <div className="col-6 p-1 member-detail-color">
+                    : {encash.pan_doc ? (
+                      <a href={encash.pan_doc.document_url} target="_blank" rel="noopener noreferrer">
+                        {encash.pan_doc.file_name || encash.pan_doc.document_file_name}
+                      </a>
+                    ) : '-'}
+                  </div>
+                  <div className="col-6 p-1 text-muted member-detail-color">Cancelled Cheque</div>
+                  <div className="col-6 p-1 member-detail-color">
+                    : {encash.cheque_doc ? (
+                      <a href={encash.cheque_doc.document_url} target="_blank" rel="noopener noreferrer">
+                        {encash.cheque_doc.file_name || encash.cheque_doc.document_file_name}
+                      </a>
+                    ) : '-'}
+                  </div>
+                </div>
+              </div>
           </>
         ) : null}
       </div>
