@@ -76,10 +76,19 @@ export default function AdminSetup() {
     setLoading(true);
     setSuccess("");
     setError("");
+    // Merge existing emails with new ones for 'add' mode, or just use modalEmails for 'edit'
+    let emailsToSubmit = [];
+    if (modalMode === "add") {
+      // Avoid duplicates
+      const existing = emails || [];
+      emailsToSubmit = Array.from(new Set([...existing, ...modalEmails.filter(Boolean)]));
+    } else {
+      emailsToSubmit = modalEmails.filter(Boolean);
+    }
     axios
       .post(
         API_UPDATE,
-        { admin_email_addresses: modalEmails },
+        { admin_email_addresses: emailsToSubmit },
         {
           headers: {
             Accept: "application/json, text/plain, /",
