@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import EventBackToListButton from "../components/EventBackToListButton";
 import SelectBox from "../components/base/SelectBox";
 import BASE_URL from "../Confi/baseurl";
 import ProjectImageVideoUpload from "../components/ProjectImageVideoUpload"; 
@@ -40,6 +41,8 @@ const EventCreate = () => {
   const [selectedProjectId, setSelectedProjectId] = useState("");
   const [showTooltip, setShowTooltip] = useState(false);
   const [showUploader, setShowUploader] = useState(false);
+
+
 
 
   // Handle input change for form fields
@@ -192,62 +195,59 @@ const EventCreate = () => {
     setFiles([...files, ...fileData]);
   };
 
-  const validateForm = (formData) => {
-    const errors = [];
+  const hasValidEventMedia = (fd) => {
+    const ratioKeys = [
+      "event_image_1_by_1",
+      "event_image_16_by_9",
+      "event_image_9_by_16",
+      "event_image_3_by_2",
+    ];
+    const hasRatioUpload = ratioKeys.some((key) => {
+      const arr = fd[key];
+      if (!Array.isArray(arr) || arr.length === 0) return false;
+      return arr.some(
+        (item) =>
+          item instanceof File ||
+          (item && item.file instanceof File)
+      );
+    });
+    const hasLegacy =
+      Array.isArray(fd.event_images) &&
+      fd.event_images.some((f) => f instanceof File);
+    return hasRatioUpload || hasLegacy;
+  };
 
-    // Only validate fields that are visible/active in the form
-    if (!formData.event_name) {
-      errors.push("Event Name is required.");
-      return errors;
+  /** First invalid field only (same order as the form, top to bottom). */
+  const getFirstValidationError = (fd, projectId) => {
+    if (!projectId) return "Project is required.";
+    if (!fd.event_type) return "Event type is required.";
+    if (!String(fd.event_name || "").trim()) return "Event name is required.";
+    if (!String(fd.event_at || "").trim()) return "Event date is required.";
+    if (!fd.from_time) return "Event from time is required.";
+    if (!fd.to_time) return "Event to time is required.";
+    if (fd.from_time && fd.to_time && fd.from_time > fd.to_time) {
+      return "Event to time must be after from time.";
     }
-    if (!formData.event_at) {
-      errors.push("Event At is required.");
-      return errors;
+    if (fd.rsvp_action === "yes") {
+      if (!String(fd.rsvp_name || "").trim()) return "RSVP name is required.";
+      if (!String(fd.rsvp_number || "").trim()) return "RSVP number is required.";
     }
-    if (!formData.from_time) {
-      errors.push("Event from time is required.");
-      return errors;
-    }
-    if (!formData.to_time) {
-      errors.push("Event to Time is required.");
-      return errors;
-    }
-    if (!formData.rsvp_action) {
-      errors.push("RSVP action is required.");
-      return errors;
-    }
-    if (formData.rsvp_action === "yes") {
-      if (!formData.rsvp_name) {
-        errors.push("RSVP Name is required.");
-      }
-      if (!formData.rsvp_number) {
-        errors.push("RSVP Number is required.");
-      }
-    }
-    if (!formData.description) {
-      errors.push("Event description is required.");
-      return errors;
-    }
-    // File validation (images must be present)
-    if (!formData.event_images || formData.event_images.length === 0) {
-      errors.push("At least one image is required.");
-      return errors;
-    }
-    return errors;
+    if (!String(fd.description || "").trim()) return "Event description is required.";
+    if (!hasValidEventMedia(fd)) return "At least one event image is required.";
+    return null;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     toast.dismiss();
 
-    // Validate form data
-    // const validationErrors = validateForm(formData);
-    // if (validationErrors.length > 0) {
-    //   validationErrors.forEach((error) => toast.error(error));
-    //   setLoading(false);
-    //   return;
-    // }
+    const firstError = getFirstValidationError(formData, selectedProjectId);
+    if (firstError) {
+      toast.error(firstError);
+      return;
+    }
+
+    setLoading(true);
 
     // Create FormData to send with the request
     const data = new FormData();
@@ -351,7 +351,7 @@ const EventCreate = () => {
       );
       console.log("Response from server:", response.data);
       
-      toast.success("Event created successfully!");
+      toast.success("Event created successfully!", { duration: 3500 });
       setFormData({
         event_type: "",
         event_name: "",
@@ -365,12 +365,20 @@ const EventCreate = () => {
         comment: "",
         shared: "",
         share_groups: "",
+        event_images: [],
+        event_image_1_by_1: [],
+        event_image_16_by_9: [],
+        event_image_9_by_16: [],
+        event_image_3_by_2: [],
         attachfile: [],
         is_important: "",
         email_trigger_enabled: "",
       });
+      setSelectedProjectId("");
 
-      navigate("/event-list");
+      setTimeout(() => {
+        navigate("/event-list");
+      }, 600);
     } catch (error) {
       console.error("Error submitting the form:", error);
       if (error.response && error.response.data) {
@@ -471,7 +479,9 @@ const EventCreate = () => {
         <div className="website-content overflow-auto">
           <div className="module-data-section container-fluid">
             <div className="module-data-section p-3">
-              <div className="card mt-4 pb-4 mx-4">
+              <EventBackToListButton />
+              <form onSubmit={handleSubmit} noValidate>
+                <div className="card mt-2 pb-4 mx-4">
                 <div className="card-header">
                   <h3 className="card-title">Create Event</h3>
                 </div>
@@ -481,7 +491,13 @@ const EventCreate = () => {
                   <div className="row">
                     <div className="col-md-3 mt-1">
                       <div className="form-group">
-                        <label>Project</label>
+                        <label>
+                          Project
+                          <span style={{ color: "#de7008", fontSize: "16px" }}>
+                            {" "}
+                            *
+                          </span>
+                        </label>
                         <SelectBox
                           options={projects.map((proj) => ({
                             value: proj.id,
@@ -506,7 +522,6 @@ const EventCreate = () => {
                           name="event_type"
                           value={formData.event_type || ""}
                           onChange={handleChange}
-                          required
                         >
                           <option value="">Select Event Type</option>
                           <option value="entertainment">Entertainment</option>
@@ -549,7 +564,6 @@ const EventCreate = () => {
                           name="event_at"
                           placeholder="Enter Evnet At"
                           value={formData.event_at}
-                          required
                           onChange={handleChange}
                         />
                       </div>
@@ -569,7 +583,6 @@ const EventCreate = () => {
                           name="from_time"
                           placeholder="Enter Event From "
                           value={formData.from_time}
-                          required
                           // min={new Date().toISOString().slice(0, 16)}
                           onChange={handleChange}
                         />
@@ -589,7 +602,6 @@ const EventCreate = () => {
                           type="datetime-local"
                           name="to_time"
                           placeholder="Enter Event To"
-                          required
                           value={formData.to_time}
                           min={
                             formData.from_time ||
@@ -748,7 +760,6 @@ const EventCreate = () => {
                           placeholder="Enter Description"
                           value={formData.description}
                           onChange={handleChange}
-                          required
                         />
                       </div>
                     </div>
@@ -1159,12 +1170,23 @@ const EventCreate = () => {
               <div className="row mt-2 justify-content-center">
                 <div className="col-md-2">
                   <button
-                    onClick={handleSubmit}
                     type="submit"
-                    className="purple-btn2 w-100"
+                    className="purple-btn2 w-100 d-inline-flex align-items-center justify-content-center gap-2"
                     disabled={loading}
+                    aria-busy={loading}
                   >
-                    Submit
+                    {loading ? (
+                      <>
+                        <span
+                          className="spinner-border spinner-border-sm"
+                          role="status"
+                          aria-hidden="true"
+                        />
+                        Submitting...
+                      </>
+                    ) : (
+                      "Submit"
+                    )}
                   </button>
                 </div>
                 <div className="col-md-2">
@@ -1177,6 +1199,7 @@ const EventCreate = () => {
                   </button>
                 </div>
               </div>
+              </form>
             </div>
           </div>
         </div>

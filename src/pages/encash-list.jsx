@@ -4,7 +4,7 @@ import axios from "axios";
 import { Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import BASE_URL from "../Confi/baseurl";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 
 const EncashList = () => {
@@ -386,7 +386,6 @@ const EncashList = () => {
 
   return (
     <>
-      <Toaster position="top-right" richColors />
       <div className="w-100">
         <div className="module-data-section mt-2">
           <p className="pointer">

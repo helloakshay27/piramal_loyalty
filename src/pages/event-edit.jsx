@@ -1,10 +1,20 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import { useNavigate, useParams } from "react-router-dom";
+import GophygitalLogo1 from "/GophygitalLogo1.svg";
+import LockatedLogo from "/LockatedLogo.png";
+import EventBackToListButton from "../components/EventBackToListButton";
 import SelectBox from "../components/base/SelectBox";
 import BASE_URL from "../Confi/baseurl";
-import ProjectImageVideoUpload from "../components/ProjectImageVideoUpload"
+import ProjectImageVideoUpload from "../components/ProjectImageVideoUpload";
+
+const normalizeApiString = (v) => {
+  if (v == null) return "";
+  if (typeof v !== "string") return String(v);
+  const t = v.trim();
+  return t === "NA" ? "" : v;
+};
 
 const EventEdit = () => {
   const { id } = useParams();
@@ -39,57 +49,70 @@ const EventEdit = () => {
   const [eventType, setEventType] = useState([]);
   const [eventUserID, setEventUserID] = useState([]);
   const [loading, setLoading] = useState(false);
+  /** True until event GET completes — hides empty form before data arrives. */
+  const [eventLoading, setEventLoading] = useState(true);
   const [showUploader, setShowUploader] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
 
   useEffect(() => {
+    if (!id) {
+      setEventLoading(false);
+      return;
+    }
+
+    let cancelled = false;
+
+    const processImageArray = (imageArray, ratio) => {
+      if (!imageArray || !Array.isArray(imageArray)) return [];
+
+      return imageArray.map((img) => ({
+        id: img.id,
+        name: img.document_file_name,
+        document_file_name: img.document_file_name,
+        document_url: img.document_url,
+        preview: img.document_url,
+        ratio: ratio,
+        size: img.document_file_size / (1024 * 1024), // Convert to MB
+        type: "image",
+        isExisting: true, // Flag to identify existing images
+        originalData: img,
+      }));
+    };
+
     const fetchEvent = async () => {
+      setEventLoading(true);
       try {
-        const response = await axios.get(
-          `${BASE_URL}events/${id}.json`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        
-        // Extract image arrays from API response
-        const { 
-          event_images_1_by_1, 
-          event_images_9_by_16, 
-          event_images_3_by_2, 
-          event_images_16_by_9, 
+        const response = await axios.get(`${BASE_URL}events/${id}.json`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (cancelled) return;
+
+        const {
+          event_images_1_by_1,
+          event_images_9_by_16,
+          event_images_3_by_2,
+          event_images_16_by_9,
           event_images,
           attachfile,
-          ...apiData 
+          ...apiData
         } = response.data;
-        
-        // Process existing images into the correct format for the UI
-        const processImageArray = (imageArray, ratio) => {
-          if (!imageArray || !Array.isArray(imageArray)) return [];
-          
-          return imageArray.map(img => ({
-            id: img.id,
-            name: img.document_file_name,
-            document_file_name: img.document_file_name,
-            document_url: img.document_url,
-            preview: img.document_url,
-            ratio: ratio,
-            size: img.document_file_size / (1024 * 1024), // Convert to MB
-            type: 'image',
-            isExisting: true, // Flag to identify existing images
-            // Keep original API data for reference
-            originalData: img
-          }));
-        };
-        
+
         setFormData((prev) => ({
           ...prev,
           ...apiData,
-          // Populate image arrays with existing images from API
-          event_images: [], // Keep empty for new uploads
+          event_name: normalizeApiString(apiData.event_name),
+          event_at: normalizeApiString(apiData.event_at),
+          description: normalizeApiString(apiData.description),
+          comment: normalizeApiString(apiData.comment),
+          shared: normalizeApiString(apiData.shared),
+          share_groups: normalizeApiString(apiData.share_groups),
+          rsvp_name: normalizeApiString(apiData.rsvp_name),
+          rsvp_number: normalizeApiString(apiData.rsvp_number),
+          event_images: [],
           event_image_1_by_1: processImageArray(event_images_1_by_1, "1:1"),
           event_image_16_by_9: processImageArray(event_images_16_by_9, "16:9"),
           event_image_9_by_16: processImageArray(event_images_9_by_16, "9:16"),
@@ -98,10 +121,20 @@ const EventEdit = () => {
         }));
       } catch (error) {
         console.error("Error fetching event:", error);
+        if (!cancelled) {
+          toast.error("Failed to load event.");
+        }
+      } finally {
+        if (!cancelled) {
+          setEventLoading(false);
+        }
       }
     };
 
-    if (id) fetchEvent();
+    fetchEvent();
+    return () => {
+      cancelled = true;
+    };
   }, [id]);
 
   const [projects, setProjects] = useState([]); // State to store projects
@@ -158,7 +191,7 @@ const EventEdit = () => {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,
               "Content-Type": "application/json",
-            },data
+            },
           }
         );
         setEventUserID(response.data.users || []);
@@ -276,6 +309,67 @@ const EventEdit = () => {
     setShowUploader(false);
   };
 
+  const isBlankField = (v) => {
+    const s = String(v ?? "").trim();
+    return !s || s === "NA";
+  };
+
+  /** Use for controlled inputs — never show placeholder "NA" as a value. */
+  const displayField = (v) => {
+    if (v == null) return "";
+    const s = String(v).trim();
+    if (!s || s === "NA") return "";
+    return String(v);
+  };
+
+  const hasValidEventMedia = (fd) => {
+    const ratioKeys = [
+      "event_image_1_by_1",
+      "event_image_16_by_9",
+      "event_image_9_by_16",
+      "event_image_3_by_2",
+    ];
+    const hasRatioContent = ratioKeys.some((key) => {
+      const arr = fd[key];
+      if (!Array.isArray(arr) || arr.length === 0) return false;
+      return arr.some(
+        (item) =>
+          item instanceof File ||
+          (item && item.file instanceof File) ||
+          (item && item.isExisting) ||
+          !!(item && item.document_url)
+      );
+    });
+    const hasLegacy =
+      Array.isArray(fd.event_images) &&
+      fd.event_images.some((f) => f instanceof File);
+    const hasPreview =
+      fd.previewImage &&
+      String(fd.previewImage).trim() !== "" &&
+      String(fd.previewImage).trim() !== "NA";
+    return hasRatioContent || hasLegacy || hasPreview;
+  };
+
+  /** First invalid field only (same order as the form, top to bottom). */
+  const getFirstValidationError = (fd) => {
+    if (!String(fd.project_id ?? "").trim()) return "Project is required.";
+    if (!fd.event_type) return "Event type is required.";
+    if (isBlankField(fd.event_name)) return "Event name is required.";
+    if (isBlankField(fd.event_at)) return "Event date is required.";
+    if (!fd.from_time || isBlankField(fd.from_time)) return "Event from time is required.";
+    if (!fd.to_time || isBlankField(fd.to_time)) return "Event to time is required.";
+    if (fd.from_time && fd.to_time && fd.from_time > fd.to_time) {
+      return "Event to time must be after from time.";
+    }
+    if (fd.rsvp_action === "yes") {
+      if (isBlankField(fd.rsvp_name)) return "RSVP name is required.";
+      if (isBlankField(fd.rsvp_number)) return "RSVP number is required.";
+    }
+    if (isBlankField(fd.description)) return "Event description is required.";
+    if (!hasValidEventMedia(fd)) return "At least one event image is required.";
+    return null;
+  };
+
   // Function to discard specific event image
   const discardEventImage = (key, fileToDiscard) => {
     setFormData((prevFormData) => {
@@ -299,6 +393,14 @@ const EventEdit = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    toast.dismiss();
+
+    const firstError = getFirstValidationError(formData);
+    if (firstError) {
+      toast.error(firstError);
+      return;
+    }
+
     setLoading(true);
 
     const data = new FormData();
@@ -405,8 +507,10 @@ const EventEdit = () => {
           },
         }
       );
-      toast.success("Event updated successfully!");
-      navigate("/event-list");
+      toast.success("Event updated successfully!", { duration: 3500 });
+      setTimeout(() => {
+        navigate("/event-list");
+      }, 600);
     } catch (error) {
       console.error("Error updating event:", error);
       console.error("Error response:", error.response?.data);
@@ -417,14 +521,21 @@ const EventEdit = () => {
   };
 
   const formatDateForInput = (isoString) => {
-    if (!isoString) return ""; // Handle empty values
+    if (!isoString || String(isoString).trim() === "NA") return "";
     const date = new Date(isoString);
-    return date.toISOString().slice(0, 16); // Extract "YYYY-MM-DDTHH:MM"
+    if (Number.isNaN(date.getTime())) return "";
+    return date.toISOString().slice(0, 16);
   };
 
   const handleCancel = () => {
     navigate(-1);
   };
+
+  const headerLogoSrc =
+    typeof window !== "undefined" &&
+    window.location.hostname === "rustomjee-loyalty.lockated.com"
+      ? LockatedLogo
+      : GophygitalLogo1;
 
   return (
     <>
@@ -432,9 +543,55 @@ const EventEdit = () => {
         <div className="website-content overflow-auto">
           <div className="module-data-section container-fluid">
             <div className="module-data-section p-3">
-              <div className="card mt-4 pb-4 mx-4">
-                <div className="card-header">
-                  <h3 className="card-title">Edit Event</h3>
+              <EventBackToListButton />
+              {eventLoading ? (
+                <div
+                  className="d-flex justify-content-center align-items-center"
+                  style={{ minHeight: "55vh" }}
+                >
+                  <div className="text-center py-5" role="status" aria-live="polite">
+                    <div className="spinner-border text-primary" aria-hidden="true" />
+                    <p className="mt-3 mb-0 text-muted">Loading event…</p>
+                  </div>
+                </div>
+              ) : (
+              <form onSubmit={handleSubmit} noValidate>
+              <div className="card mt-2 pb-4 mx-4">
+                <div className="card-header py-3">
+                  <div
+                    className="d-flex flex-wrap align-items-center gap-3"
+                    style={{ color: "#000" }}
+                  >
+                    <img
+                      alt=""
+                      className="go-logo my-1"
+                      src={headerLogoSrc}
+                      style={{ height: 44, width: "auto", objectFit: "contain" }}
+                    />
+                    <div>
+                      <p className="small mb-1" style={{ color: "#334155" }}>
+                        <span
+                          role="button"
+                          tabIndex={0}
+                          className="pointer"
+                          style={{ color: "#de7008", fontSize: "16px" }}
+                          onClick={() => navigate("/event-list")}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault();
+                              navigate("/event-list");
+                            }
+                          }}
+                        >
+                          Events
+                        </span>{" "}
+                        <span style={{ fontSize: "16px" }}>&gt; Edit Event</span>
+                      </p>
+                      <h3 className="card-title mb-0" style={{ fontSize: "22px" }}>
+                        Edit Event
+                      </h3>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="card-body">
@@ -443,10 +600,10 @@ const EventEdit = () => {
                       <div className="form-group">
                         <label>
                           Project
-                          {/* <span style={{ color: "#de7008", fontSize: "16px" }}>
+                          <span style={{ color: "#de7008", fontSize: "16px" }}>
                             {" "}
                             *
-                          </span> */}
+                          </span>
                         </label>
                         <SelectBox
                           options={projects.map((project) => ({
@@ -478,7 +635,6 @@ const EventEdit = () => {
                           name="event_type"
                           value={formData.event_type || ""}
                           onChange={handleChange}
-                          required
                         >
                           <option value="">Select Event Type</option>
                           <option value="entertainment">Entertainment</option>
@@ -501,7 +657,7 @@ const EventEdit = () => {
                           type="text"
                           name="event_name"
                           placeholder="Enter Event Name"
-                          value={formData.event_name || "NA"}
+                          value={displayField(formData.event_name)}
                           onChange={handleChange}
                         />
                       </div>
@@ -520,7 +676,7 @@ const EventEdit = () => {
                           type="text"
                           name="event_at"
                           placeholder="Enter Evnet At"
-                          value={formData.event_at || "NA"}
+                          value={displayField(formData.event_at)}
                           onChange={handleChange}
                         />
                       </div>
@@ -539,7 +695,7 @@ const EventEdit = () => {
                           type="datetime-local"
                           name="from_time"
                           placeholder="Enter Event From"
-                          value={formatDateForInput(formData.from_time) || "NA"}
+                          value={formatDateForInput(formData.from_time)}
                           onChange={handleChange}
                         />
                       </div>
@@ -558,7 +714,7 @@ const EventEdit = () => {
                           type="datetime-local"
                           name="to_time"
                           placeholder="Enter Event To"
-                          value={formatDateForInput(formData.to_time) || "NA"}
+                          value={formatDateForInput(formData.to_time)}
                           onChange={handleChange}
                         />
                       </div>
@@ -648,7 +804,7 @@ const EventEdit = () => {
                           rows={1}
                           name="description"
                           placeholder="Enter Project Description"
-                          value={formData.description || "NA"}
+                          value={displayField(formData.description)}
                           onChange={handleChange}
                         />
                       </div>
@@ -740,7 +896,7 @@ const EventEdit = () => {
                           rows={1}
                           name="comment"
                           placeholder="Enter Project Description"
-                          value={formData.comment || "NA"}
+                          value={displayField(formData.comment)}
                           onChange={handleChange}
                         />
                       </div> */}
@@ -759,7 +915,7 @@ const EventEdit = () => {
                           type="text"
                           name="shared"
                           placeholder="Enter Event Shared"
-                          value={formData.shared || "NA"}
+                          value={displayField(formData.shared)}
                           onChange={handleChange}
                         />
                       </div> */}
@@ -778,7 +934,7 @@ const EventEdit = () => {
                           type="text"
                           name="share_groups"
                           placeholder="Enter Shared Groups"
-                          value={formData.share_groups || "NA"}
+                          value={displayField(formData.share_groups)}
                           onChange={handleChange}
                         />
                       </div> */}
@@ -1084,12 +1240,23 @@ const EventEdit = () => {
               <div className="row mt-2 justify-content-center">
                 <div className="col-md-2">
                   <button
-                    onClick={handleSubmit}
                     type="submit"
-                    className="purple-btn2 w-100"
+                    className="purple-btn2 w-100 d-inline-flex align-items-center justify-content-center gap-2"
                     disabled={loading}
+                    aria-busy={loading}
                   >
-                    Submit
+                    {loading ? (
+                      <>
+                        <span
+                          className="spinner-border spinner-border-sm"
+                          role="status"
+                          aria-hidden="true"
+                        />
+                        Submitting...
+                      </>
+                    ) : (
+                      "Submit"
+                    )}
                   </button>
                 </div>
 
@@ -1103,6 +1270,8 @@ const EventEdit = () => {
                   </button>
                 </div>
               </div>
+              </form>
+              )}
             </div>
           </div>
         </div>

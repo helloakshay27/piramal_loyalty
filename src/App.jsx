@@ -44,8 +44,9 @@ import ProjectDetailsList from "./pages/project-details-list";
 import Amenities from "./pages/amenities";
 import Testimonials from "./pages/testimonials";
 import Gallery from "./pages/gallery";
-import { Toast } from "bootstrap";
-import { Toaster } from "react-hot-toast";
+import { Toaster as HotToaster } from "react-hot-toast";
+import { Toaster } from "sonner";
+import "sonner/dist/styles.css";
 import ProjectDetailsEdit from "./pages/project-details-edit";
 import TestimonialList from "./pages/testimonial-list";
 import ProjectDetails from "./pages/project-details";
@@ -116,6 +117,32 @@ function App() {
   return (
     <Router>
       <div>
+        <Toaster
+          position="top-right"
+          offset={{ top: "1rem", right: "1rem" }}
+          mobileOffset={{ top: "0.75rem", right: "0.75rem" }}
+          richColors
+          closeButton
+          expand={false}
+          toastOptions={{
+            duration: 4000,
+            style: { border: "none" },
+          }}
+          style={{ zIndex: 2147483647 }}
+        />
+        <HotToaster
+          position="top-right"
+          containerStyle={{
+            zIndex: 2147483646,
+            top: "1rem",
+            right: "1rem",
+            left: "auto",
+          }}
+          toastOptions={{
+            duration: 4000,
+            style: { border: "none", boxShadow: "0 4px 12px rgba(0,0,0,0.12)" },
+          }}
+        />
         <Routes>
           <Route path="/login" element={<SignIn />} />
           <Route

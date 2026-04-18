@@ -66,3 +66,8 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 } */
+
+/* Sonner: remove toast card border (library default is 1px solid) */
+[data-sonner-toast][data-styled="true"] {
+  border: none !important;
+}

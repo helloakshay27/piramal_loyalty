@@ -185,7 +185,7 @@ const Sidebar = () => {
           </li>
 
         )} */}
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <NavLink
             to="/orders"
             className={`nav-link d-flex justify-content-between ${activeItem === "/orders" ? "active" : ""}`}
@@ -195,7 +195,7 @@ const Sidebar = () => {
             <span className="text">Orders</span>
 
           </NavLink>
-        </li>
+        </li> */}
         <li className="nav-item">
           <NavLink
             to="/encash-list"
