@@ -116,8 +116,8 @@ const SignIn = () => {
           sessionStorage.setItem("email", response.data.email);
           sessionStorage.setItem("firstname", response.data.firstname);
 
-          // Redirect user to the orders page after successful login
-          navigate("/orders");
+          // Redirect user to the encash-list page after successful login
+          navigate("/encash-list");
 
           setTimeout(() => {
             setShowModal(true);
