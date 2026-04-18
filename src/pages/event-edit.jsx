@@ -204,10 +204,19 @@ const EventEdit = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    if (name === "event_at") {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+        from_time: "", // Clear time fields when date changes
+        to_time: "",
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   // for multiple image files
@@ -248,6 +257,24 @@ const EventEdit = () => {
       ...prev,
       [name]: value === "true", // Convert string to boolean
     }));
+  };
+
+  const getTodayLocal = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  const getNowLocal = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
   };
 
   // Event images configuration for different ratios
@@ -356,9 +383,24 @@ const EventEdit = () => {
     if (!fd.event_type) return "Event type is required.";
     if (isBlankField(fd.event_name)) return "Event name is required.";
     if (isBlankField(fd.event_at)) return "Event date is required.";
+    
+    // Skip past checks if it's an existing event being edited, 
+    // but the user might still want to prevent updating to past dates.
+    // However, if the event was already in the past, we should allow it unless they change it.
+    // For now, let's just stick to the basic from < to validation.
+    
     if (!fd.from_time || isBlankField(fd.from_time)) return "Event from time is required.";
     if (!fd.to_time || isBlankField(fd.to_time)) return "Event to time is required.";
-    if (fd.from_time && fd.to_time && fd.from_time > fd.to_time) {
+
+    const fromTimeStr = formatDateForInput(fd.from_time);
+    const toTimeStr = formatDateForInput(fd.to_time);
+    const nowLocal = getNowLocal();
+    const todayLocal = getTodayLocal();
+
+    if (formatDateOnly(fd.event_at) > todayLocal) return "Event date cannot be in the future.";
+    if (fromTimeStr > nowLocal) return "Event from time cannot be in the future.";
+
+    if (fromTimeStr && toTimeStr && fromTimeStr > toTimeStr) {
       return "Event to time must be after from time.";
     }
     if (fd.rsvp_action === "yes") {
@@ -524,7 +566,24 @@ const EventEdit = () => {
     if (!isoString || String(isoString).trim() === "NA") return "";
     const date = new Date(isoString);
     if (Number.isNaN(date.getTime())) return "";
-    return date.toISOString().slice(0, 16);
+    
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
+
+  const formatDateOnly = (isoString) => {
+    if (!isoString || String(isoString).trim() === "NA") return "";
+    const date = new Date(isoString);
+    if (Number.isNaN(date.getTime())) return "";
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
   };
 
   const handleCancel = () => {
@@ -673,10 +732,10 @@ const EventEdit = () => {
                         </label>
                         <input
                           className="form-control"
-                          type="text"
+                          type="date"
                           name="event_at"
-                          placeholder="Enter Evnet At"
-                          value={displayField(formData.event_at)}
+                          value={formatDateOnly(formData.event_at)}
+                          max={getTodayLocal()}
                           onChange={handleChange}
                         />
                       </div>
@@ -696,6 +755,7 @@ const EventEdit = () => {
                           name="from_time"
                           placeholder="Enter Event From"
                           value={formatDateForInput(formData.from_time)}
+                          max={getNowLocal()}
                           onChange={handleChange}
                         />
                       </div>
@@ -715,6 +775,8 @@ const EventEdit = () => {
                           name="to_time"
                           placeholder="Enter Event To"
                           value={formatDateForInput(formData.to_time)}
+                          max={getNowLocal()}
+                          min={formatDateForInput(formData.from_time)}
                           onChange={handleChange}
                         />
                       </div>

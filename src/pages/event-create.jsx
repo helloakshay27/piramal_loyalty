@@ -48,10 +48,19 @@ const EventCreate = () => {
   // Handle input change for form fields
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    if (name === "event_at") {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+        from_time: "", // Clear time fields when date changes
+        to_time: "",
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   // for multiple image files
@@ -184,6 +193,24 @@ const EventCreate = () => {
     }));
   };
 
+  const getTodayLocal = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  const getNowLocal = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
+
   const handleFileUpload = (event) => {
     const selectedFiles = Array.from(event.target.files);
     const fileData = selectedFiles.map((file) => ({
@@ -223,9 +250,15 @@ const EventCreate = () => {
     if (!fd.event_type) return "Event type is required.";
     if (!String(fd.event_name || "").trim()) return "Event name is required.";
     if (!String(fd.event_at || "").trim()) return "Event date is required.";
+    const todayLocal = getTodayLocal();
+    const nowLocal = getNowLocal();
+    if (fd.event_at > todayLocal) return "Event date cannot be in the future.";
+
     if (!fd.from_time) return "Event from time is required.";
+    if (fd.from_time > nowLocal) return "Event from time cannot be in the future.";
+
     if (!fd.to_time) return "Event to time is required.";
-    if (fd.from_time && fd.to_time && fd.from_time > fd.to_time) {
+    if (fd.to_time < fd.from_time) {
       return "Event to time must be after from time.";
     }
     if (fd.rsvp_action === "yes") {
@@ -560,10 +593,10 @@ const EventCreate = () => {
                         </label>
                         <input
                           className="form-control"
-                          type="text"
+                          type="date"
                           name="event_at"
-                          placeholder="Enter Evnet At"
                           value={formData.event_at}
+                          max={getTodayLocal()}
                           onChange={handleChange}
                         />
                       </div>
@@ -581,9 +614,9 @@ const EventCreate = () => {
                           className="form-control"
                           type="datetime-local"
                           name="from_time"
-                          placeholder="Enter Event From "
+                          placeholder="Enter Event From"
                           value={formData.from_time}
-                          // min={new Date().toISOString().slice(0, 16)}
+                          max={getNowLocal()}
                           onChange={handleChange}
                         />
                       </div>
@@ -603,10 +636,8 @@ const EventCreate = () => {
                           name="to_time"
                           placeholder="Enter Event To"
                           value={formData.to_time}
-                          min={
-                            formData.from_time ||
-                            new Date().toISOString().slice(0, 16)
-                          }
+                          max={getNowLocal()}
+                          min={formData.from_time}
                           onChange={handleChange}
                         />
                       </div>
