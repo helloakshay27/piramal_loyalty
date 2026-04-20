@@ -177,6 +177,22 @@ const Eventlist = () => {
     }
   };
 
+  const getEventPreviewImage = (event) => {
+    if (Array.isArray(event.event_attachments) && event.event_attachments.length > 0) {
+      return event.event_attachments[0]?.document_url || "";
+    }
+    if (event.attachfile?.document_url) {
+      return event.attachfile.document_url;
+    }
+    return (
+      (Array.isArray(event.attachfiles_1_by_1) && event.attachfiles_1_by_1[0]?.document_url) ||
+      (Array.isArray(event.attachfiles_9_by_16) && event.attachfiles_9_by_16[0]?.document_url) ||
+      (Array.isArray(event.attachfiles_3_by_2) && event.attachfiles_3_by_2[0]?.document_url) ||
+      (Array.isArray(event.attachfiles_16_by_9) && event.attachfiles_16_by_9[0]?.document_url) ||
+      ""
+    );
+  };
+
   return (
     <div className="w-100">
       <div className="module-data-section mt-2 px-3" style={{ color: "#000" }}>
@@ -395,10 +411,9 @@ const Eventlist = () => {
                                 verticalAlign: "middle",
                               }}
                             >
-                              {/* Show attachfile image if available, else fallback to any event_images_* */}
-                              {event.attachfile && event.attachfile.document_url ? (
+                              {getEventPreviewImage(event) ? (
                                 <img
-                                  src={event.attachfile.document_url}
+                                  src={getEventPreviewImage(event)}
                                   alt="event"
                                   className="img-fluid rounded"
                                   style={{
@@ -408,29 +423,7 @@ const Eventlist = () => {
                                   }}
                                 />
                               ) : (
-                                (() => {
-                                  // Try each event_images_* array in order
-                                  const fallbackImage =
-                                    (Array.isArray(event.event_images_1_by_1) && event.event_images_1_by_1.length > 0 && event.event_images_1_by_1[0].document_url) ||
-                                    (Array.isArray(event.event_images_9_by_16) && event.event_images_9_by_16.length > 0 && event.event_images_9_by_16[0].document_url) ||
-                                    (Array.isArray(event.event_images_3_by_2) && event.event_images_3_by_2.length > 0 && event.event_images_3_by_2[0].document_url) ||
-                                    (Array.isArray(event.event_images_16_by_9) && event.event_images_16_by_9.length > 0 && event.event_images_16_by_9[0].document_url);
-
-                                  return fallbackImage ? (
-                                    <img
-                                      src={fallbackImage}
-                                      alt="event"
-                                      className="img-fluid rounded"
-                                      style={{
-                                        maxWidth: "100px",
-                                        maxHeight: "100px",
-                                        display: "block",
-                                      }}
-                                    />
-                                  ) : (
-                                    <span>No image</span>
-                                  );
-                                })()
+                                <span>No image</span>
                               )}
                             </td>
                             <td>

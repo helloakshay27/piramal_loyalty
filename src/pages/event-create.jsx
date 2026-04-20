@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import EventBackToListButton from "../components/EventBackToListButton";
 import SelectBox from "../components/base/SelectBox";
 import BASE_URL from "../Confi/baseurl";
-import ProjectImageVideoUpload from "../components/ProjectImageVideoUpload"; 
 
 const EventCreate = () => {
   const navigate = useNavigate();
@@ -22,11 +21,7 @@ const EventCreate = () => {
     comment: "",
     shared: "",
     share_groups: "",
-    event_images: [], // renamed for clarity and matches API
-    event_image_1_by_1: [],
-    event_image_16_by_9: [],
-    event_image_9_by_16: [],
-    event_image_3_by_2: [],
+    attachfiles: [],
     is_important: "",
     email_trigger_enabled: "",
   });
@@ -39,8 +34,6 @@ const EventCreate = () => {
   const [loading, setLoading] = useState(false);
   const [projects, setProjects] = useState([]);
   const [selectedProjectId, setSelectedProjectId] = useState("");
-  const [showTooltip, setShowTooltip] = useState(false);
-  const [showUploader, setShowUploader] = useState(false);
 
 
 
@@ -48,19 +41,10 @@ const EventCreate = () => {
   // Handle input change for form fields
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === "event_at") {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-        from_time: "", // Clear time fields when date changes
-        to_time: "",
-      }));
-    } else {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    }
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   // for multiple image files
@@ -75,7 +59,7 @@ const EventCreate = () => {
     }
     setFormData((prevFormData) => ({
       ...prevFormData,
-      event_images: [...prevFormData.event_images, ...validFiles],
+      attachfiles: [...prevFormData.attachfiles, ...validFiles],
     }));
   };
 
@@ -83,107 +67,13 @@ const EventCreate = () => {
   const removeImage = (indexToRemove) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
-      event_images: prevFormData.event_images.filter((_, index) => index !== indexToRemove),
+      attachfiles: prevFormData.attachfiles.filter((_, index) => index !== indexToRemove),
     }));
-  };
-
-  // Event image ratios configuration
-  const event_images = [
-    { key: "event_image_1_by_1", label: "1:1" },
-    { key: "event_image_16_by_9", label: "16:9" },
-    { key: "event_image_9_by_16", label: "9:16" },
-    { key: "event_image_3_by_2", label: "3:2" },
-  ];
-
-  const eventUploadConfig = {
-    "Event Images": ["1:1", "9:16", "16:9", "3:2"],
-  };
-
-  const currentUploadType = "Event Images";
-  const selectedRatios = eventUploadConfig[currentUploadType] || [];
-  const dynamicLabel = currentUploadType.replace(/(^\w|\s\w)/g, (m) =>
-    m.toUpperCase()
-  );
-  const dynamicDescription = `Supports ${selectedRatios.join(", ")} aspect ratios`;
-
-  const updateFormData = (key, files) => {
-    setFormData((prev) => ({
-      ...prev,
-      [key]: files, // Replace existing files instead of appending
-    }));
-  };
-
-  const handleCropComplete = (validImages, videoFiles = []) => {
-    // Handle video files first
-    if (videoFiles && videoFiles.length > 0) {
-      videoFiles.forEach((video) => {
-        const formattedRatio = video.ratio.replace(":", "_by_");
-        const key = `event_image_${formattedRatio}`;
-        
-        // Safely create preview URL for video
-        let previewUrl = null;
-        if (video.preview) {
-          previewUrl = video.preview;
-        } else if (video.base64) {
-          previewUrl = video.base64;
-        } else if (video.file instanceof File) {
-          previewUrl = URL.createObjectURL(video.file);
-        }
-        
-        const videoObject = {
-          ...video,
-          name: video.name || video.file?.name || `Video_${Date.now()}`,
-          preview: previewUrl
-        };
-        
-        updateFormData(key, [videoObject]);
-      });
-      setShowUploader(false);
-      return;
-    }
-
-    // Handle images
-    if (!validImages || validImages.length === 0) {
-      toast.error("No valid files selected.");
-      setShowUploader(false);
-      return;
-    }
-
-    validImages.forEach((img) => {
-      const formattedRatio = img.ratio.replace(":", "_by_");
-      const key = `event_image_${formattedRatio}`;
-      
-      console.log('Processing image for ratio:', formattedRatio, img);
-      console.log('Image has file property:', img.file instanceof File);
-      
-      // The image object from ProjectImageVideoUpload already has the correct structure
-      // Just update the formData directly with the image object as-is
-      updateFormData(key, [img]);
-    });
-
-    setShowUploader(false);
-  };
-
-  const discardEventImage = (key, imageToRemove) => {
-    setFormData((prev) => {
-      const updatedArray = (prev[key] || []).filter(
-        (img) => img !== imageToRemove // Remove the exact object reference instead of comparing by id
-      );
-
-      const newFormData = { ...prev };
-      if (updatedArray.length === 0) {
-        delete newFormData[key];
-      } else {
-        newFormData[key] = updatedArray;
-      }
-
-      return newFormData;
-    });
   };
 
   useEffect(() => {
-    // console.log("Updated event_images:", formData.event_images);
-  }, [formData.event_images]);
+    // console.log("Updated attachfiles:", formData.attachfiles);
+  }, [formData.attachfiles]);
 
   const handleRadioChange = (event) => {
     const { name, value } = event.target;
@@ -223,25 +113,7 @@ const EventCreate = () => {
   };
 
   const hasValidEventMedia = (fd) => {
-    const ratioKeys = [
-      "event_image_1_by_1",
-      "event_image_16_by_9",
-      "event_image_9_by_16",
-      "event_image_3_by_2",
-    ];
-    const hasRatioUpload = ratioKeys.some((key) => {
-      const arr = fd[key];
-      if (!Array.isArray(arr) || arr.length === 0) return false;
-      return arr.some(
-        (item) =>
-          item instanceof File ||
-          (item && item.file instanceof File)
-      );
-    });
-    const hasLegacy =
-      Array.isArray(fd.event_images) &&
-      fd.event_images.some((f) => f instanceof File);
-    return hasRatioUpload || hasLegacy;
+    return Array.isArray(fd.attachfiles) && fd.attachfiles.some((f) => f instanceof File);
   };
 
   /** First invalid field only (same order as the form, top to bottom). */
@@ -249,10 +121,8 @@ const EventCreate = () => {
     if (!projectId) return "Project is required.";
     if (!fd.event_type) return "Event type is required.";
     if (!String(fd.event_name || "").trim()) return "Event name is required.";
-    if (!String(fd.event_at || "").trim()) return "Event date is required.";
-    const todayLocal = getTodayLocal();
+    if (!String(fd.event_at || "").trim()) return "Event at is required.";
     const nowLocal = getNowLocal();
-    if (fd.event_at > todayLocal) return "Event date cannot be in the future.";
 
     if (!fd.from_time) return "Event from time is required.";
     if (fd.from_time > nowLocal) return "Event from time cannot be in the future.";
@@ -306,69 +176,11 @@ const EventCreate = () => {
       data.append("event[rsvp_number]", formData.rsvp_number);
     }
 
-    // Handle ratio-specific images with correct field names
-    const imageFieldMapping = {
-      "event_image_1_by_1": "event_images_1_by_1",
-      "event_image_16_by_9": "event_images_16_by_9",
-      "event_image_9_by_16": "event_images_9_by_16",
-      "event_image_3_by_2": "event_images_3_by_2"
-    };
-
-    console.log("Form data before payload creation:", formData);
-
-    let hasImageFiles = false;
-    Object.keys(imageFieldMapping).forEach((formKey) => {
-      const payloadKey = imageFieldMapping[formKey];
-      console.log(`Checking ${formKey}:`, formData[formKey]);
-      
-      if (formData[formKey] && Array.isArray(formData[formKey]) && formData[formKey].length > 0) {
-        formData[formKey].forEach((img, index) => {
-          console.log(`Processing image ${index} in ${formKey}:`, img);
-          console.log(`Image structure:`, {
-            isFile: img instanceof File,
-            hasFileProperty: img.file instanceof File,
-            fileName: img.name || img.file?.name,
-            fileSize: img.file?.size,
-          });
-          
-          if (img.file instanceof File) {
-            data.append(`event[${payloadKey}][]`, img.file);
-            hasImageFiles = true;
-            console.log(`Added file to payload: ${payloadKey}`, img.file.name);
-          } else if (img instanceof File) {
-            data.append(`event[${payloadKey}][]`, img);
-            hasImageFiles = true;
-            console.log(`Added direct file to payload: ${payloadKey}`, img.name);
-          } else {
-            console.warn(`Invalid file object in ${formKey}:`, img);
-            console.warn(`Expected File object but got:`, typeof img, img);
-          }
-        });
-      } else {
-        console.log(`No files in ${formKey} or not an array`);
+    formData.attachfiles.forEach((file) => {
+      if (file instanceof File) {
+        data.append("event[attachfiles][]", file);
       }
     });
-
-    // Legacy support for old event_images array
-    if (formData.event_images && formData.event_images.length > 0) {
-      formData.event_images.forEach((file) => {
-        if (file instanceof File) {
-          data.append("event[event_images][]", file);
-          hasImageFiles = true;
-          console.log("Added legacy image:", file.name);
-        } else {
-          console.warn("Invalid file detected:", file);
-        }
-      });
-    }
-
-    console.log("Has image files to upload:", hasImageFiles);
-
-    // Debug FormData contents
-    console.log("FormData entries:");
-    for (let [key, value] of data.entries()) {
-      console.log(key, value);
-    }
 
     try {
       // Make the POST request
@@ -398,11 +210,7 @@ const EventCreate = () => {
         comment: "",
         shared: "",
         share_groups: "",
-        event_images: [],
-        event_image_1_by_1: [],
-        event_image_16_by_9: [],
-        event_image_9_by_16: [],
-        event_image_3_by_2: [],
+        attachfiles: [],
         attachfile: [],
         is_important: "",
         email_trigger_enabled: "",
@@ -593,10 +401,10 @@ const EventCreate = () => {
                         </label>
                         <input
                           className="form-control"
-                          type="date"
+                          type="text"
                           name="event_at"
+                          placeholder="Enter Event At"
                           value={formData.event_at}
-                          max={getTodayLocal()}
                           onChange={handleChange}
                         />
                       </div>
@@ -936,76 +744,21 @@ const EventCreate = () => {
                             {" "}
                             *
                           </span>
-                          <span
-                            className="tooltip-container"
-                            onMouseEnter={() => setShowTooltip(true)}
-                            onMouseLeave={() => setShowTooltip(false)}
-                          >
-                            [i]
-                            {showTooltip && (
-                              <span className="tooltip-text">
-                                Supports 1:1, 9:16, 16:9, 3:2 aspect ratios
-                              </span>
-                            )}
-                          </span>
                           <span />
                         </label>
-                        
-                        <span
-                          role="button"
-                          tabIndex={0}
-                          onClick={() => setShowUploader(true)}
-                          className="custom-upload-button input-upload-button"
-                          style={{
-                            display: 'block',
-                            padding: '8px 12px',
-                            border: '1px solid #ced4da',
-                            borderRadius: '4px',
-                            backgroundColor: '#fff',
-                            cursor: 'pointer',
-                            textAlign: 'center'
-                          }}
-                        >
-                          <span className="upload-button-label">Choose Images</span>
-                        </span>
-
-                        {showUploader && (
-                          <ProjectImageVideoUpload
-                            onClose={() => setShowUploader(false)}
-                            includeInvalidRatios={false}
-                            selectedRatioProp={selectedRatios}
-                            showAsModal={true}
-                            label={dynamicLabel}
-                            description={dynamicDescription}
-                            onContinue={handleCropComplete}
-                            allowVideos={false}
-                          />
-                        )}
-
-                        {/* Legacy file input for backward compatibility */}
                         <input
                           className="form-control mb-2"
                           type="file"
-                          name="event_images"
+                          name="attachfiles"
                           accept="image/*"
-                          multiple={false}
+                          multiple
                           onChange={handleImageChange}
-                          id="event-image-input"
-                          style={{ display: 'none' }}
                         />
-                        <button
-                          type="button"
-                          className="btn btn-secondary btn-sm mb-2"
-                          onClick={() => document.getElementById('event-image-input').click()}
-                          style={{ display: 'none' }}
-                        >
-                          Add Image (Legacy)
-                        </button>
-                        {formData.event_images && formData.event_images.length > 0 && (
+                        {formData.attachfiles && formData.attachfiles.length > 0 && (
                           <div className="mt-2">
-                            <strong>Legacy Images:</strong>
+                            <strong>Selected Images:</strong>
                             <ul style={{listStyle: 'none', paddingLeft: 0}}>
-                              {formData.event_images.map((file, idx) => (
+                              {formData.attachfiles.map((file, idx) => (
                                 <li key={idx} style={{marginBottom: '4px', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                                   <span>{file.name}</span>
                                   <button
@@ -1022,91 +775,6 @@ const EventCreate = () => {
                             </ul>
                           </div>
                         )}
-                      </div>
-                    </div>
-
-                    {/* Event Images Table */}
-                    <div className="col-md-12 mt-4">
-                      <div className="scrollable-table tbl-container">
-                        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                          <thead>
-                            <tr>
-                              <th style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'left' }}>File Name</th>
-                              <th style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'left' }}>Preview</th>
-                              <th style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'left' }}>Ratio</th>
-                              <th style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'left' }}>Action</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {event_images.map(({ key, label }) => {
-                              const files = Array.isArray(formData[key])
-                                ? formData[key]
-                                : formData[key]
-                                ? [formData[key]]
-                                : [];
-
-                              return files.map((file, index) => {
-                                // Handle different file object structures safely
-                                let preview = "";
-                                
-                                if (file.preview) {
-                                  preview = file.preview;
-                                } else if (file.document_url) {
-                                  preview = file.document_url;
-                                } else if (file.base64) {
-                                  preview = file.base64;
-                                } else if (file.file instanceof File) {
-                                  try {
-                                    preview = URL.createObjectURL(file.file);
-                                  } catch (error) {
-                                    console.warn('Failed to create object URL for file.file:', file.file, error);
-                                  }
-                                } else if (file instanceof File) {
-                                  try {
-                                    preview = URL.createObjectURL(file);
-                                  } catch (error) {
-                                    console.warn('Failed to create object URL for file:', file, error);
-                                  }
-                                }
-                                                            
-                                const name = file.name || 
-                                           file.document_file_name || 
-                                           (file.file && file.file.name) ||
-                                           `Image_${index + 1}`;
-
-                                return (
-                                  <tr key={`${key}-${index}`}>
-                                    <td style={{ padding: '8px', border: '1px solid #ddd' }}>{name}</td>
-                                    <td style={{ padding: '8px', border: '1px solid #ddd' }}>
-                                      {preview && (
-                                        <img
-                                          style={{ maxWidth: 100, maxHeight: 100 }}
-                                          className="img-fluid rounded"
-                                          src={preview}
-                                          alt={name}
-                                          onError={(e) => {
-                                            e.target.style.display = 'none';
-                                          }}
-                                        />
-                                      )}
-                                    </td>
-                                    <td style={{ padding: '8px', border: '1px solid #ddd' }}>{file.ratio || label}</td>
-                                    <td style={{ padding: '8px', border: '1px solid #ddd' }}>
-                                      <button
-                                        type="button"
-                                        className="btn btn-danger btn-sm"
-                                        onClick={() => discardEventImage(key, file)}
-                                        title="Remove image"
-                                      >
-                                        ×
-                                      </button>
-                                    </td>
-                                  </tr>
-                                );
-                              });
-                            })}
-                          </tbody>
-                        </table>
                       </div>
                     </div>
 

@@ -4,13 +4,6 @@ import { useParams } from "react-router-dom";
 import EventBackToListButton from "../components/EventBackToListButton";
 import BASE_URL from "../Confi/baseurl";
 
-const RATIO_IMAGE_KEYS = [
-  { key: "event_images_1_by_1", label: "1 : 1" },
-  { key: "event_images_9_by_16", label: "9 : 16" },
-  { key: "event_images_16_by_9", label: "16 : 9" },
-  { key: "event_images_3_by_2", label: "3 : 2" },
-];
-
 const formatDateTime = (value) => {
   if (value == null || value === "") return "—";
   const d = new Date(value);
@@ -101,43 +94,13 @@ const EventDetails = () => {
     );
   }
 
-  const ratioBlocks = RATIO_IMAGE_KEYS.map(({ key, label }) => {
-    const arr = eventData[key];
-    const list = Array.isArray(arr) ? arr : [];
-    if (list.length === 0) return null;
-    return (
-      <div key={key} className="col-md-6 col-lg-4 mb-4">
-        <div className="small text-muted fw-semibold mb-2">{label}</div>
-        <div className="d-flex flex-column gap-2">
-          {list.map((doc) => (
-            <div
-              key={doc.id ?? doc.document_url}
-              className="border rounded p-2 bg-light text-center"
-            >
-              {doc.document_url ? (
-                <img
-                  src={doc.document_url}
-                  alt={doc.document_file_name || label}
-                  className="img-fluid rounded"
-                  style={{ maxHeight: 220, objectFit: "contain" }}
-                />
-              ) : (
-                <span className="text-muted small">No preview URL</span>
-              )}
-              {doc.document_file_name && (
-                <div className="small text-truncate mt-1" title={doc.document_file_name}>
-                  {doc.document_file_name}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }).filter(Boolean);
-
-  const hasAttachfile = Boolean(eventData.attachfile?.document_url);
-  const hasRatioImages = ratioBlocks.length > 0;
+  const attachmentImages = Array.isArray(eventData.event_attachments)
+    ? eventData.event_attachments
+    : [];
+  const fallbackImage = eventData.attachfile?.document_url
+    ? [eventData.attachfile]
+    : [];
+  const allImages = attachmentImages.length > 0 ? attachmentImages : fallbackImage;
 
   return (
     <>
@@ -216,24 +179,39 @@ const EventDetails = () => {
                   <h3 className="card-title mb-0">Event images</h3>
                 </div>
                 <div className="card-body">
-                  {hasAttachfile && (
-                    <div className="mb-4">
-                      <div className="small text-muted fw-semibold mb-2">Main attachment</div>
-                      <div className="border rounded p-2 bg-light d-inline-block">
-                        <img
-                          src={eventData.attachfile.document_url}
-                          alt="Event attachment"
-                          className="img-fluid rounded"
-                          style={{ maxHeight: 280, objectFit: "contain", display: "block" }}
-                        />
-                      </div>
+                  {allImages.length > 0 ? (
+                    <div className="row">
+                      {allImages.map((doc) => (
+                        <div
+                          key={doc.id ?? doc.document_url}
+                          className="col-md-6 col-lg-4 mb-4"
+                        >
+                          <div className="border rounded p-2 bg-light text-center h-100">
+                            {doc.document_url ? (
+                              <img
+                                src={doc.document_url}
+                                alt={doc.document_file_name || "Event attachment"}
+                                className="img-fluid rounded"
+                                style={{ maxHeight: 220, objectFit: "contain" }}
+                              />
+                            ) : (
+                              <span className="text-muted small">No preview URL</span>
+                            )}
+                            {doc.document_file_name && (
+                              <div
+                                className="small text-truncate mt-1"
+                                title={doc.document_file_name}
+                              >
+                                {doc.document_file_name}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  )}
-                  {hasRatioImages ? (
-                    <div className="row">{ratioBlocks}</div>
-                  ) : !hasAttachfile ? (
+                  ) : (
                     <p className="text-muted mb-0">No images for this event.</p>
-                  ) : null}
+                  )}
                 </div>
               </div>
             </div>
