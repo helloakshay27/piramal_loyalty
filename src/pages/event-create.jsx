@@ -6,6 +6,9 @@ import EventBackToListButton from "../components/EventBackToListButton";
 import SelectBox from "../components/base/SelectBox";
 import BASE_URL from "../Confi/baseurl";
 
+const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png"];
+const MAX_IMAGE_SIZE_BYTES = 5 * 1024 * 1024;
+
 const EventCreate = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -50,10 +53,13 @@ const EventCreate = () => {
   // for multiple image files
   const handleImageChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
-    const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
-    const validFiles = selectedFiles.filter((file) => allowedTypes.includes(file.type));
+    const validFiles = selectedFiles.filter(
+      (file) =>
+        ALLOWED_IMAGE_TYPES.includes(file.type) &&
+        file.size <= MAX_IMAGE_SIZE_BYTES
+    );
     if (validFiles.length !== selectedFiles.length) {
-      toast.error("Only image files (JPG, PNG, GIF, WebP) are allowed.");
+      toast.error("Only JPG/PNG files up to 5 MB are allowed.");
       e.target.value = "";
       return;
     }
@@ -750,7 +756,7 @@ const EventCreate = () => {
                           className="form-control mb-2"
                           type="file"
                           name="attachfiles"
-                          accept="image/*"
+                          accept=".jpg,.jpeg,.png,image/jpeg,image/png"
                           multiple
                           onChange={handleImageChange}
                         />
