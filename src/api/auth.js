@@ -23,15 +23,15 @@ export async function getAccessToken() {
     env = import.meta.env;
   }
 
-  const baseUrl = env.VITE_SF_BASE_URL;
-  const clientId = env.VITE_SF_CLIENT_ID;
-  const clientSecret = env.VITE_SF_CLIENT_SECRET;
-  const refreshToken = env.VITE_SF_REFRESH_TOKEN;
+  const baseUrl = env.VITE_API_BASE_URL;
+  const clientId = env.VITE_CLIENT_ID;
+  const clientSecret = env.VITE_CLIENT_SECRET;
+  const refreshToken = env.VITE_REFRESH_TOKEN;
 
   if (!baseUrl || !clientId || !clientSecret || !refreshToken) {
     console.error(
       "Missing Salesforce environment variables.",
-      { VITE_SF_BASE_URL: baseUrl, VITE_SF_CLIENT_ID: clientId }
+      { VITE_API_BASE_URL: baseUrl, VITE_CLIENT_ID: clientId }
     );
     throw new Error(
       "One or more Salesforce environment variables are missing. Check your .env or src/env.prod.js."
