@@ -4,6 +4,7 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LoginModal from "../components/LoginModal";
 import BASE_URL from "../Confi/baseurl";
+import { getAccessToken } from "../api/auth";
 
 const SignIn = () => {
   const [showModal, setShowModal] = useState(false);
@@ -115,6 +116,17 @@ const SignIn = () => {
 
           sessionStorage.setItem("email", response.data.email);
           sessionStorage.setItem("firstname", response.data.firstname);
+
+          // Fetch and store Salesforce tokens
+          try {
+            const sfTokenData = await getAccessToken();
+            if (sfTokenData?.access_token && sfTokenData?.instance_url) {
+              localStorage.setItem("salesforce_access_token", sfTokenData.access_token);
+              localStorage.setItem("salesforce_instance_url", sfTokenData.instance_url);
+            }
+          } catch (sfErr) {
+            console.error("Failed to fetch Salesforce token on login:", sfErr);
+          }
 
           // Redirect user to the encash-list page after successful login
           navigate("/encash-list");

@@ -6,6 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import BASE_URL from "../Confi/baseurl";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { getAccessToken } from "../api/auth";
 
 const EncashList = () => {
   const [encashRequests, setEncashRequests] = useState([]);
@@ -26,6 +27,25 @@ const EncashList = () => {
 
   const storedValue = sessionStorage.getItem("selectedId");
   const token = localStorage.getItem("access_token");
+
+  // Returns valid { accessToken, instanceUrl } — refreshes from Salesforce OAuth if missing
+  const getSalesforceToken = async () => {
+    let accessToken = localStorage.getItem("salesforce_access_token");
+    let instanceUrl = localStorage.getItem("salesforce_instance_url");
+
+    if (!accessToken || !instanceUrl) {
+      const tokenData = await getAccessToken();
+      if (!tokenData?.access_token || !tokenData?.instance_url) {
+        throw new Error("Unable to obtain Salesforce access token.");
+      }
+      accessToken = tokenData.access_token;
+      instanceUrl = tokenData.instance_url;
+      localStorage.setItem("salesforce_access_token", accessToken);
+      localStorage.setItem("salesforce_instance_url", instanceUrl);
+    }
+
+    return { accessToken, instanceUrl };
+  };
 
   const fetchEncashRequests = async () => {
     try {
@@ -78,6 +98,20 @@ const EncashList = () => {
             );
             setLoading(true);
             await fetchEncashRequests();
+            // Sync rejected status to Salesforce
+            if (request.sfdc_transaction_record_id && !localStorage.getItem(`sfdc_rejected_synced_${request.id}`)) {
+              try {
+                const { accessToken: rejAccessToken, instanceUrl: rejInstanceUrl } = await getSalesforceToken();
+                await fetch(`${rejInstanceUrl}/services/data/v64.0/sobjects/Loyalty_Transaction__c/${request.sfdc_transaction_record_id}`, {
+                  method: 'PATCH',
+                  headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${rejAccessToken}` },
+                  body: JSON.stringify({ Transaction_Status__c: "Rejected" })
+                });
+                localStorage.setItem(`sfdc_rejected_synced_${request.id}`, 'true');
+              } catch (err) {
+                console.error('Failed to update rejected status in SFDC:', err);
+              }
+            }
             toast.success(`Request for ${request.person_name || "this user"} rejected successfully!`, {
               style: { background: "#fff", color: "#000", border: "2px solid #2c001e" }
             });
@@ -168,6 +202,37 @@ const EncashList = () => {
 
       setLoading(true);
       await fetchEncashRequests();
+
+      // Sync completed status to Salesforce
+      try {
+        const { accessToken: sfAccessToken, instanceUrl: sfInstanceUrl } = await getSalesforceToken();
+        if (selectedRequest.sfdc_transaction_record_id) {
+          await fetch(`${sfInstanceUrl}/services/data/v64.0/sobjects/Loyalty_Transaction__c/${selectedRequest.sfdc_transaction_record_id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${sfAccessToken}` },
+            body: JSON.stringify({ Transaction_Status__c: "Completed" })
+          });
+        } else if (selectedRequest.sap_sales_order_code) {
+          await fetch(`${sfInstanceUrl}/services/data/v64.0/sobjects/Loyalty_Transaction__c/`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${sfAccessToken}` },
+            body: JSON.stringify({
+              Category__c: "Encash",
+              Loyalty_Points__c: selectedRequest.points_to_encash,
+              Transaction_Type__c: "Debit",
+              Encashed_Unique_Code__c: selectedRequest.sap_sales_order_code,
+              Transaction_Status__c: "Completed"
+            })
+          });
+        }
+        // Mark payment as deducted in backend
+        await fetch(`${BASE_URL}update_payment_deducted.json?id=${selectedRequest.id}&is_payment_deducted=true`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+        });
+      } catch (sfErr) {
+        console.error('Failed to sync completed status to SFDC:', sfErr);
+      }
 
       toast.success("Request completed successfully!", {
         style: {
