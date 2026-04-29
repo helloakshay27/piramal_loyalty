@@ -290,7 +290,7 @@ input {
         <div className="login-box text-center">
           <form onSubmit={handleSubmit}>
             <div className="logo">
-              <img src="https://piramal-loyalty-dev.lockated.com/assets/logo-87235e425cea36e6c4c9386959ec756051a0331c3a77aa6826425c1d9fabf82e.png" />
+              <img src="Locakted Logo.png" alt="Lockated Logo" />
             </div>
 
             <div className="form-group">
