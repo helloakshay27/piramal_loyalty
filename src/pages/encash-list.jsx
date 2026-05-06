@@ -117,7 +117,15 @@ const EncashList = () => {
             });
           } catch (error) {
             console.error("Error rejecting request:", error);
-            toast.error("Failed to reject request. Please try again.", {
+            let errorMsg = "Failed to reject request. Please try again.";
+            const data = error.response?.data;
+            if (data) {
+              if (Array.isArray(data.status)) errorMsg = data.status[0];
+              else if (typeof data.status === 'string') errorMsg = data.status;
+              else if (data.message) errorMsg = data.message;
+              else if (data.error) errorMsg = data.error;
+            }
+            toast.error(errorMsg, {
               style: { background: "#fff", color: "#000", border: "2px solid #2c001e" }
             });
           }
@@ -243,7 +251,15 @@ const EncashList = () => {
       });
     } catch (error) {
       console.error("Error updating request:", error);
-      toast.error("Failed to update request. Please try again.", {
+      let errorMsg = "Failed to update request. Please try again.";
+      const data = error.response?.data;
+      if (data) {
+        if (Array.isArray(data.status)) errorMsg = data.status[0];
+        else if (typeof data.status === 'string') errorMsg = data.status;
+        else if (data.message) errorMsg = data.message;
+        else if (data.error) errorMsg = data.error;
+      }
+      toast.error(errorMsg, {
         style: {
           background: "#fff",
           color: "#000",
