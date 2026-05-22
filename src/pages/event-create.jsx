@@ -128,10 +128,7 @@ const EventCreate = () => {
     if (!fd.event_type) return "Event type is required.";
     if (!String(fd.event_name || "").trim()) return "Event name is required.";
     if (!String(fd.event_at || "").trim()) return "Event at is required.";
-    const nowLocal = getNowLocal();
-
     if (!fd.from_time) return "Event from time is required.";
-    if (fd.from_time > nowLocal) return "Event from time cannot be in the future.";
 
     if (!fd.to_time) return "Event to time is required.";
     if (fd.to_time < fd.from_time) {
@@ -430,7 +427,6 @@ const EventCreate = () => {
                           name="from_time"
                           placeholder="Enter Event From"
                           value={formData.from_time}
-                          max={getNowLocal()}
                           onChange={handleChange}
                         />
                       </div>
@@ -450,8 +446,6 @@ const EventCreate = () => {
                           name="to_time"
                           placeholder="Enter Event To"
                           value={formData.to_time}
-                          max={getNowLocal()}
-                          min={formData.from_time}
                           onChange={handleChange}
                         />
                       </div>

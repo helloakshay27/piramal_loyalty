@@ -311,10 +311,6 @@ const EventEdit = () => {
 
     const fromTimeStr = formatDateForInput(fd.from_time);
     const toTimeStr = formatDateForInput(fd.to_time);
-    const nowLocal = getNowLocal();
-    const todayLocal = getTodayLocal();
-
-    if (fromTimeStr > nowLocal) return "Event from time cannot be in the future.";
 
     if (fromTimeStr && toTimeStr && fromTimeStr > toTimeStr) {
       return "Event to time must be after from time.";
@@ -618,7 +614,6 @@ const EventEdit = () => {
                           name="from_time"
                           placeholder="Enter Event From"
                           value={formatDateForInput(formData.from_time)}
-                          max={getNowLocal()}
                           onChange={handleChange}
                         />
                       </div>
@@ -638,8 +633,6 @@ const EventEdit = () => {
                           name="to_time"
                           placeholder="Enter Event To"
                           value={formatDateForInput(formData.to_time)}
-                          max={getNowLocal()}
-                          min={formatDateForInput(formData.from_time)}
                           onChange={handleChange}
                         />
                       </div>
