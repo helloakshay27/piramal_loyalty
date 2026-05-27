@@ -597,8 +597,8 @@ const EncashList = () => {
                         <th style={{ textAlign: "center" }}>ID</th>
                         <th style={{ textAlign: "center" }}>Person Name</th>
                         <th style={{ textAlign: "center" }}>Points</th>
-                        <th style={{ textAlign: "center" }}>Fee</th>
-                        <th style={{ textAlign: "center" }}>Amount</th>
+                        {/* <th style={{ textAlign: "center" }}>Fee</th>
+                        <th style={{ textAlign: "center" }}>Amount</th> */}
                         <th style={{ textAlign: "center" }}>Account Number</th>
                         <th style={{ textAlign: "center" }}>IFSC Code</th>
                         <th style={{ textAlign: "center" }}>Branch</th>
@@ -621,14 +621,14 @@ const EncashList = () => {
                       {currentItems.map((request) => (
                         <tr key={request.id}>
                           <td style={{ textAlign: "center", cursor: "pointer", color: "#5e2750", textDecoration: "underline" }}
-                              onClick={() => navigate(`/encash-details/${request.id}`)}
+                            onClick={() => navigate(`/encash-details/${request.id}`)}
                           >
                             {request.id}
                           </td>
                           <td>{request.person_name}</td>
                           <td style={{ textAlign: "right" }}>{request.points_to_encash.toLocaleString()}</td>
-                          <td style={{ textAlign: "right" }}>{formatCurrency(request.facilitation_fee)}</td>
-                          <td style={{ textAlign: "right" }}>{formatCurrency(request.amount_payable)}</td>
+                          {/* <td style={{ textAlign: "right" }}>{formatCurrency(request.facilitation_fee)}</td>
+                          <td style={{ textAlign: "right" }}>{formatCurrency(request.amount_payable)}</td> */}
                           <td>{request.account_number}</td>
                           <td>{request.ifsc_code}</td>
                           <td>{request.branch_name}</td>
@@ -652,10 +652,10 @@ const EncashList = () => {
                                 padding: "4px 8px",
                                 backgroundColor: request.status === "completed" ? "#d4edda"
                                   : request.status === "rejected" ? "#f8d7da"
-                                  : "#fff3cd",
+                                    : "#fff3cd",
                                 border: request.status === "completed" ? "1px solid #c3e6cb"
                                   : request.status === "rejected" ? "1px solid #f5c6cb"
-                                  : "1px solid #ffeaa7",
+                                    : "1px solid #ffeaa7",
                               }}
                             >
                               <option value="requested">Requested</option>
@@ -679,7 +679,7 @@ const EncashList = () => {
                             {request.brokerage_percentages !== undefined && request.brokerage_percentages !== null
                               ? `${request.brokerage_percentages} %`
                               : "-"}
-                          </td>                     
+                          </td>
                           <td>{request.booking_unit || "-"}</td>
                         </tr>
                       ))}
@@ -728,7 +728,7 @@ const EncashList = () => {
                     <h6>Request Details:</h6>
                     <p><strong>Person:</strong> {selectedRequest.person_name}</p>
                     <p><strong>Points:</strong> {selectedRequest.points_to_encash.toLocaleString()}</p>
-                    <p><strong>Amount Payable:</strong> {formatCurrency(selectedRequest.amount_payable)}</p>
+                    {/* <p><strong>Amount Payable:</strong> {formatCurrency(selectedRequest.amount_payable)}</p> */}
                     <p><strong>Account:</strong> {selectedRequest.account_number}</p>
                   </div>
 
