@@ -778,8 +778,8 @@ const EditRuleEngine = () => {
               style={{
                 fontSize: "16px",
                 fontWeight: "600",
-                color: "#E95420",
-                backgroundColor: "#E954202E",
+                color: "var(--lockated-primary)",
+                backgroundColor: "var(--lockated-primary)2E",
               }}
             >
               IF
@@ -889,8 +889,8 @@ const EditRuleEngine = () => {
               style={{
                 fontSize: "16px",
                 fontWeight: "600",
-                color: "#E95420",
-                backgroundColor: "#E954202E",
+                color: "var(--lockated-primary)",
+                backgroundColor: "var(--lockated-primary)2E",
               }}
             >
               Operator
@@ -990,8 +990,8 @@ const EditRuleEngine = () => {
               style={{
                 fontSize: "16px",
                 fontWeight: "600",
-                color: "#E95420",
-                backgroundColor: "#E954202E",
+                color: "var(--lockated-primary)",
+                backgroundColor: "var(--lockated-primary)2E",
               }}
             >
               Value
@@ -1103,8 +1103,8 @@ const EditRuleEngine = () => {
                   style={{
                     fontSize: "16px",
                     fontWeight: "600",
-                    color: "#E95420",
-                    backgroundColor: "#E954202E",
+                    color: "var(--lockated-primary)",
+                    backgroundColor: "var(--lockated-primary)2E",
                   }}
                 >
                   THEN

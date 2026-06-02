@@ -445,7 +445,7 @@ const ProjectDetailsList = () => {
                             className="page-link"
                             onClick={() => handlePageChange(1)}
                             disabled={safeCurrentPage === 1}
-                            style={{ padding: "8px 12px", color: "#5e2750", borderRadius: "3px" }}
+                            style={{ padding: "8px 12px", color: "var(--lockated-primary-hover)", borderRadius: "3px" }}
                           >
                             ««
                           </button>
@@ -455,7 +455,7 @@ const ProjectDetailsList = () => {
                             className="page-link"
                             onClick={() => handlePageChange(safeCurrentPage - 1)}
                             disabled={safeCurrentPage === 1}
-                            style={{ padding: "8px 12px", color: "#5e2750", borderRadius: "3px" }}
+                            style={{ padding: "8px 12px", color: "var(--lockated-primary-hover)", borderRadius: "3px" }}
                           >
                             ‹
                           </button>
@@ -467,9 +467,9 @@ const ProjectDetailsList = () => {
                               onClick={() => handlePageChange(num)}
                               style={{
                                 padding: "8px 12px",
-                                color: num === safeCurrentPage ? "#fff" : "#5e2750",
-                                backgroundColor: num === safeCurrentPage ? "#5e2750" : "#fff",
-                                border: "2px solid #5e2750",
+                                color: num === safeCurrentPage ? "#fff" : "var(--lockated-primary-hover)",
+                                backgroundColor: num === safeCurrentPage ? "var(--lockated-primary-hover)" : "#fff",
+                                border: "2px solid var(--lockated-primary-hover)",
                                 borderRadius: "3px",
                               }}
                             >
@@ -482,7 +482,7 @@ const ProjectDetailsList = () => {
                             className="page-link"
                             onClick={() => handlePageChange(safeCurrentPage + 1)}
                             disabled={safeCurrentPage === totalFilteredPages || totalFilteredPages === 0}
-                            style={{ padding: "8px 12px", color: "#5e2750", borderRadius: "3px" }}
+                            style={{ padding: "8px 12px", color: "var(--lockated-primary-hover)", borderRadius: "3px" }}
                           >
                             ›
                           </button>
@@ -492,7 +492,7 @@ const ProjectDetailsList = () => {
                             className="page-link"
                             onClick={() => handlePageChange(totalFilteredPages)}
                             disabled={safeCurrentPage === totalFilteredPages || totalFilteredPages === 0}
-                            style={{ padding: "8px 12px", color: "#5e2750", borderRadius: "3px" }}
+                            style={{ padding: "8px 12px", color: "var(--lockated-primary-hover)", borderRadius: "3px" }}
                           >
                             »»
                           </button>

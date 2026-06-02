@@ -302,7 +302,7 @@ const Orders = () => {
               className="page-link"
               onClick={() => onPageChange(1)}
               disabled={currentPage === 1}
-              style={{ padding: "8px 12px", color: "#5e2750" }}
+              style={{ padding: "8px 12px", color: "var(--lockated-primary-hover)" }}
             >
               ««
             </button>
@@ -312,7 +312,7 @@ const Orders = () => {
               className="page-link"
               onClick={() => onPageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              style={{ padding: "8px 12px", color: "#5e2750" }}
+              style={{ padding: "8px 12px", color: "var(--lockated-primary-hover)" }}
             >
               ‹
             </button>
@@ -327,9 +327,9 @@ const Orders = () => {
                 onClick={() => onPageChange(page)}
                 style={{
                   padding: "8px 12px",
-                  color: page === currentPage ? "#fff" : "#5e2750",
-                  backgroundColor: page === currentPage ? "#5e2750" : "#fff",
-                  border: "2px solid #5e2750",
+                  color: page === currentPage ? "#fff" : "var(--lockated-primary-hover)",
+                  backgroundColor: page === currentPage ? "var(--lockated-primary-hover)" : "#fff",
+                  border: "2px solid var(--lockated-primary-hover)",
                   borderRadius: "3px",
                 }}
               >
@@ -342,7 +342,7 @@ const Orders = () => {
               className="page-link"
               onClick={() => onPageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-              style={{ padding: "8px 12px", color: "#5e2750" }}
+              style={{ padding: "8px 12px", color: "var(--lockated-primary-hover)" }}
             >
               ›
             </button>
@@ -352,7 +352,7 @@ const Orders = () => {
               className="page-link"
               onClick={handleJumpForward}
               disabled={currentPage === totalPages}
-              style={{ padding: "8px 12px", color: "#5e2750" }}
+              style={{ padding: "8px 12px", color: "var(--lockated-primary-hover)" }}
             >
               »»
             </button>
@@ -596,11 +596,11 @@ const Orders = () => {
         background-size: 16px 16px;
       }
       .order-status-dropdown:focus {
-        border-color: #5e2750;
+        border-color: var(--lockated-primary-hover);
         box-shadow: 0 0 0 2px rgba(94,39,80,0.15);
       }
       .order-status-dropdown:hover, .order-status-dropdown:active {
-        border-color: #5e2750;
+        border-color: var(--lockated-primary-hover);
         box-shadow: 0 2px 12px rgba(94,39,80,0.10);
       }
       .order-status-dropdown option {
@@ -622,7 +622,7 @@ const Orders = () => {
       .tbl-container th {
         background: #f8f8f8;
         font-weight: 500;
-        color: #5e2750;
+        color: var(--lockated-primary-hover);
         cursor: pointer;
       }
       .tbl-container tr:hover {
@@ -638,10 +638,10 @@ const Orders = () => {
         transition: background 0.2s, color 0.2s;
       }
       .pagination .page-item.active .page-link {
-        background: #5e2750;
+        background: var(--lockated-primary-hover);
         color: #fff;
         border-radius: 3px;
-        border: 2px solid #5e2750;
+        border: 2px solid var(--lockated-primary-hover);
       }
       .pagination .page-link:disabled {
         color: #ccc;

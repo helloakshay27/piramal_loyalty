@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import BASE_URL from "../Confi/baseurl"; 
+import BASE_URL from "../Confi/baseurl";
+import ListSearchBar from "../components/list/ListSearchBar";
+import ListPagination from "../components/list/ListPagination"; 
 
 const Eventlist = () => {
   const [events, setEvents] = useState([]);
@@ -110,28 +112,6 @@ const Eventlist = () => {
     safeCurrentPage * pageSize
   );
 
-  const getPageNumbers = () => {
-    const pages = [];
-    const maxVisiblePages = 5;
-    const halfVisible = Math.floor(maxVisiblePages / 2);
-    let startPage, endPage;
-    if (totalPages <= maxVisiblePages) {
-      startPage = 1;
-      endPage = totalPages;
-    } else if (safeCurrentPage <= halfVisible) {
-      startPage = 1;
-      endPage = maxVisiblePages;
-    } else if (safeCurrentPage + halfVisible >= totalPages) {
-      startPage = totalPages - maxVisiblePages + 1;
-      endPage = totalPages;
-    } else {
-      startPage = safeCurrentPage - halfVisible;
-      endPage = safeCurrentPage + halfVisible;
-    }
-    for (let i = startPage; i <= endPage; i++) pages.push(i);
-    return pages;
-  };
-
   const handlePageChange = (pageNumber) => {
     setPagination((prevState) => ({
       ...prevState,
@@ -140,14 +120,6 @@ const Eventlist = () => {
     localStorage.setItem("event_list_currentPage", pageNumber);
   };
 
-  const handleSearchSubmit = (event) => {
-    event.preventDefault();
-    const params = new URLSearchParams();
-    if (searchQuery) {
-      params.set("s[name_cont]", searchQuery);
-    }
-    navigate(`${location.pathname}?${params.toString()}`, { replace: true });
-  };
   const handleToggleEvent = async (eventId, currentStatus) => {
     try {
       const response = await fetch(
@@ -219,88 +191,20 @@ const Eventlist = () => {
               </svg>
               <span>Add</span>
             </button>
-            <div className="d-flex align-items-center">
-              <div className="d-flex align-items-center position-relative">
-                <div className="position-relative me-3" style={{ width: "100%" }}>
-                  <input
-                    className="form-control"
-                    style={{
-                      height: "35px",
-                      paddingLeft: "30px",
-                      textAlign: "left",
-                    }}
-                    type="search"
-                    placeholder="Search by Event Name"
-                    aria-label="Search"
-                    value={searchQuery}
-                    onChange={handleSearchInputChange}
-                  />
-                  <div
-                    className="position-absolute"
-                    style={{ top: "7px", left: "10px" }}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      className="bi bi-search"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                    </svg>
-                  </div>
-                  {suggestions.length > 0 && (
-                    <ul
-                      className="suggestions-list position-absolute"
-                      style={{
-                        listStyle: "none",
-                        padding: "0",
-                        marginTop: "5px",
-                        border: "1px solid #ddd",
-                        maxHeight: "200px",
-                        overflowY: "auto",
-                        width: "100%",
-                        zIndex: 1,
-                        backgroundColor: "#fff",
-                        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                      }}
-                    >
-                      {suggestions.map((event) => (
-                        <li
-                          key={event.id}
-                          style={{
-                            padding: "8px",
-                            cursor: "pointer",
-                          }}
-                          onClick={() => handleSuggestionClick(event)}
-                        >
-                          {event.event_name}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              </div>
-              <button
-                className="purple-btn1 rounded-3 px-3"
-                onClick={e => {
-                  e.preventDefault();
-                  // Just trigger the filter, since it's already live
-                }}
-              >
-                Go!
-              </button>
-              <button
-                className="purple-btn2 rounded-3 mt-2"
-                onClick={() => {
-                  setSearchQuery("");
-                  setSuggestions([]);
-                }}
-              >
-                Reset
-              </button>
-            </div>
+            <ListSearchBar
+              value={searchQuery}
+              onChange={handleSearchInputChange}
+              placeholder="Search by event name, date, or time..."
+              onReset={() => {
+                setSearchQuery("");
+                setSuggestions([]);
+                setPagination((prev) => ({ ...prev, current_page: 1 }));
+              }}
+              suggestions={suggestions}
+              getSuggestionKey={(event) => event.id}
+              renderSuggestion={(event) => event.event_name}
+              onSuggestionClick={handleSuggestionClick}
+            />
           </div>
           <div
             className="tbl-container mx-3 mt-4"
@@ -474,75 +378,14 @@ const Eventlist = () => {
                       )}
                     </tbody>
                   </table>
-                  <nav className="d-flex justify-content-between align-items-center mt-3">
-                    <ul
-                      className="pagination justify-content-center align-items-center"
-                      style={{ listStyleType: "none", padding: 0, margin: 0 }}
-                    >
-                      <li className={`page-item ${safeCurrentPage === 1 ? "disabled" : ""}`}>
-                        <button
-                          className="page-link"
-                          onClick={() => handlePageChange(1)}
-                          disabled={safeCurrentPage === 1}
-                          style={{ padding: "8px 12px", color: "#5e2750", borderRadius: "3px" }}
-                        >
-                          ««
-                        </button>
-                      </li>
-                      <li className={`page-item ${safeCurrentPage === 1 ? "disabled" : ""}`}>
-                        <button
-                          className="page-link"
-                          onClick={() => handlePageChange(safeCurrentPage - 1)}
-                          disabled={safeCurrentPage === 1}
-                          style={{ padding: "8px 12px", color: "#5e2750", borderRadius: "3px" }}
-                        >
-                          ‹
-                        </button>
-                      </li>
-                      {getPageNumbers().map(num => (
-                        <li key={num} className={`page-item ${num === safeCurrentPage ? "active" : ""}`}>
-                          <button
-                            className="page-link"
-                            onClick={() => handlePageChange(num)}
-                            style={{
-                              padding: "8px 12px",
-                              color: num === safeCurrentPage ? "#fff" : "#5e2750",
-                              backgroundColor: num === safeCurrentPage ? "#5e2750" : "#fff",
-                              border: "2px solid #5e2750",
-                              borderRadius: "3px",
-                            }}
-                          >
-                            {num}
-                          </button>
-                        </li>
-                      ))}
-                      <li className={`page-item ${safeCurrentPage === totalPages ? "disabled" : ""}`}>
-                        <button
-                          className="page-link"
-                          onClick={() => handlePageChange(safeCurrentPage + 1)}
-                          disabled={safeCurrentPage === totalPages || totalPages === 0}
-                          style={{ padding: "8px 12px", color: "#5e2750", borderRadius: "3px" }}
-                        >
-                          ›
-                        </button>
-                      </li>
-                      <li className={`page-item ${safeCurrentPage === totalPages ? "disabled" : ""}`}>
-                        <button
-                          className="page-link"
-                          onClick={() => handlePageChange(totalPages)}
-                          disabled={safeCurrentPage === totalPages || totalPages === 0}
-                          style={{ padding: "8px 12px", color: "#5e2750", borderRadius: "3px" }}
-                        >
-                          »»
-                        </button>
-                      </li>
-                    </ul>
-                    <p className="text-center" style={{ marginTop: "10px", color: "#555" }}>
-                      Showing {filteredEvents.length === 0 ? 0 : (safeCurrentPage - 1) * pageSize + 1}
-                      {" - "}
-                      {Math.min(safeCurrentPage * pageSize, filteredEvents.length)} of {filteredEvents.length} entries
-                    </p>
-                  </nav>
+                  <ListPagination
+                    currentPage={safeCurrentPage}
+                    totalPages={totalPages}
+                    totalCount={filteredEvents.length}
+                    pageSize={pageSize}
+                    onPageChange={handlePageChange}
+                    itemLabel="events"
+                  />
                 </>
               )}
             </div>

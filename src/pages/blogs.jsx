@@ -306,7 +306,7 @@ export default function Blogs() {
                           className="page-link"
                           onClick={() => setPage(1)}
                           disabled={page === 1}
-                          style={{ padding: "8px 12px", color: "#5e2750", borderRadius: "3px" }}
+                          style={{ padding: "8px 12px", color: "var(--lockated-primary-hover)", borderRadius: "3px" }}
                         >
                           ««
                         </button>
@@ -316,7 +316,7 @@ export default function Blogs() {
                           className="page-link"
                           onClick={() => setPage(page - 1)}
                           disabled={page === 1}
-                          style={{ padding: "8px 12px", color: "#5e2750", borderRadius: "3px" }}
+                          style={{ padding: "8px 12px", color: "var(--lockated-primary-hover)", borderRadius: "3px" }}
                         >
                           ‹
                         </button>
@@ -328,9 +328,9 @@ export default function Blogs() {
                             onClick={() => setPage(num)}
                             style={{
                               padding: "8px 12px",
-                              color: num === page ? "#fff" : "#5e2750",
-                              backgroundColor: num === page ? "#5e2750" : "#fff",
-                              border: "2px solid #5e2750",
+                              color: num === page ? "#fff" : "var(--lockated-primary-hover)",
+                              backgroundColor: num === page ? "var(--lockated-primary-hover)" : "#fff",
+                              border: "2px solid var(--lockated-primary-hover)",
                               borderRadius: "3px",
                             }}
                           >
@@ -343,7 +343,7 @@ export default function Blogs() {
                           className="page-link"
                           onClick={() => setPage(page + 1)}
                           disabled={page === totalPages || totalPages === 0}
-                          style={{ padding: "8px 12px", color: "#5e2750", borderRadius: "3px" }}
+                          style={{ padding: "8px 12px", color: "var(--lockated-primary-hover)", borderRadius: "3px" }}
                         >
                           ›
                         </button>
@@ -353,7 +353,7 @@ export default function Blogs() {
                           className="page-link"
                           onClick={() => setPage(totalPages)}
                           disabled={page === totalPages || totalPages === 0}
-                          style={{ padding: "8px 12px", color: "#5e2750", borderRadius: "3px" }}
+                          style={{ padding: "8px 12px", color: "var(--lockated-primary-hover)", borderRadius: "3px" }}
                         >
                           »»
                         </button>

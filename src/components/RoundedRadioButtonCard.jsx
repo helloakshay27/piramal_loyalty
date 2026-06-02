@@ -55,14 +55,14 @@ export default function RoundedRadioButtonCard({ onChange }) {
                     cy="15"
                     r="10"
                     fill="none"
-                    stroke={circleHovered ? "#ff5733" : "#e95420"} // Hover effect for circle
+                    stroke={circleHovered ? "#ff5733" : "var(--lockated-primary)"} // Hover effect for circle
                     strokeWidth="2"
                     style={{
                       transition: "stroke 0.3s ease",
                     }}
                   />
                   {selected === option.value && (
-                    <circle cx="15" cy="15" r="7" fill="#e95420" />
+                    <circle cx="15" cy="15" r="7" fill="var(--lockated-primary)" />
                   )}
                 </svg>
                 <h5 className="card-title mb-0 ps-3 fw-bold">{option.label}</h5>

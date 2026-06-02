@@ -206,21 +206,21 @@ export default function RuleLogs() {
         </p>
         <ul className="pagination justify-content-center align-items-center" style={{ listStyleType: "none", padding: "0", margin: "0" }}>
           <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-            <button className="page-link" onClick={() => onPageChange(1)} disabled={currentPage === 1} style={{ padding: "8px 12px", color: "#5e2750" }}>««</button>
+            <button className="page-link" onClick={() => onPageChange(1)} disabled={currentPage === 1} style={{ padding: "8px 12px", color: "var(--lockated-primary-hover)" }}>««</button>
           </li>
           <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-            <button className="page-link" onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1} style={{ padding: "8px 12px", color: "#5e2750" }}>‹</button>
+            <button className="page-link" onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1} style={{ padding: "8px 12px", color: "var(--lockated-primary-hover)" }}>‹</button>
           </li>
           {pageNumbers.map((page) => (
             <li key={page} className={`page-item ${page === currentPage ? "active" : ""}`}>
-              <button className="page-link" onClick={() => onPageChange(page)} style={{ padding: "8px 12px", color: page === currentPage ? "#fff" : "#5e2750", backgroundColor: page === currentPage ? "#5e2750" : "#fff", border: "2px solid #5e2750", borderRadius: "3px" }}>{page}</button>
+              <button className="page-link" onClick={() => onPageChange(page)} style={{ padding: "8px 12px", color: page === currentPage ? "#fff" : "var(--lockated-primary-hover)", backgroundColor: page === currentPage ? "var(--lockated-primary-hover)" : "#fff", border: "2px solid var(--lockated-primary-hover)", borderRadius: "3px" }}>{page}</button>
             </li>
           ))}
           <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
-            <button className="page-link" onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages} style={{ padding: "8px 12px", color: "#5e2750" }}>›</button>
+            <button className="page-link" onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages} style={{ padding: "8px 12px", color: "var(--lockated-primary-hover)" }}>›</button>
           </li>
           <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
-            <button className="page-link" onClick={() => onPageChange(totalPages)} disabled={currentPage === totalPages} style={{ padding: "8px 12px", color: "#5e2750" }}>»»</button>
+            <button className="page-link" onClick={() => onPageChange(totalPages)} disabled={currentPage === totalPages} style={{ padding: "8px 12px", color: "var(--lockated-primary-hover)" }}>»»</button>
           </li>
         </ul>
       </nav>

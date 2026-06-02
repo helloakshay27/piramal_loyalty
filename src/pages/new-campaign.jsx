@@ -162,7 +162,7 @@ const NewCampaign = () => {
                   marginBottom: "-8px", // Slight negative margin if legend is too high
                 }}
               >
-                Campaign Name<span style={{ color: "#E95420" }}>*</span>
+                Campaign Name<span style={{ color: "var(--lockated-primary)" }}>*</span>
               </legend>
               <input
                 className="border w-100 p-2 py-2 border-0 border-bottom-0 bold-placeholder"
@@ -296,7 +296,7 @@ const NewCampaign = () => {
             className="fw-bold"
             style={{ fontSize: "16px", fontWeight: "500" }}
           >
-            Points Criteria<span style={{ color: "#E95420" }}>*</span>
+            Points Criteria<span style={{ color: "var(--lockated-primary)" }}>*</span>
           </p>
           <p>
             <input
@@ -330,7 +330,7 @@ const NewCampaign = () => {
             className="fw-bold"
             style={{ fontSize: "16px", fontWeight: "600" }}
           >
-            Campaign Rewards<span style={{ color: "#E95420" }}>*</span>
+            Campaign Rewards<span style={{ color: "var(--lockated-primary)" }}>*</span>
           </p>
         </div>
         <div

@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import "../styles/style.css";
 
 export default function SetupSidebar() {
   const navigate = useNavigate();
   const location = useLocation();
   const { pathname } = location;
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const sidebarPaths = [
     "/project-list",
@@ -23,14 +25,29 @@ export default function SetupSidebar() {
 
   const isProjectActive = sidebarPaths.includes(pathname);
 
+  const menuItemClass = (path) =>
+    `menu-item${pathname === path ? " active" : ""}`;
+
   return (
-    <aside className="sidebar setup-sidebar">
-      <ul
-        className="menu-list px-2 d-flex pt-2"
-        style={{
-          flexDirection: "column",
-        }}
-      >
+    <aside
+      className={`sidebar setup-sidebar lockated-sidebar${
+        isCollapsed ? " is-collapsed" : ""
+      }`}
+    >
+      <div className="lockated-sidebar__head">
+        <span className="lockated-sidebar__label">Setup</span>
+        <button
+          type="button"
+          className="lockated-sidebar__collapse"
+          onClick={() => setIsCollapsed((c) => !c)}
+          aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+        >
+          <span className="material-symbols-outlined">chevron_left</span>
+        </button>
+      </div>
+
+      <nav className="lockated-sidebar__nav">
+      <ul className="menu-list">
         {/* <li
           className={`menu-item d-flex w-100 ${
             pathname === "/project-list" ? "active" : ""
@@ -172,39 +189,34 @@ export default function SetupSidebar() {
             <p className="menu-link-text">Enquiry</p>
           </a>
         </li> */}
-        <li
-          className={`menu-item d-flex w-100 ${pathname === "/event-list" ? "active" : ""}`}
-        >
+        <li className={menuItemClass("/event-list")}>
           <a
-            className="menu-link d-flex gap-4 w-100"
+            className="menu-link"
             href="#"
+            title={isCollapsed ? "Event" : undefined}
             onClick={(e) => {
               e.preventDefault();
               navigate("/event-list");
             }}
             data-section="security"
           >
-            {/* ...existing code for event icon... */}
-            <p className="menu-link-text">Event</p>
+            <span className="material-symbols-outlined">event</span>
+            <span className="menu-link-text">Event</span>
           </a>
         </li>
-        {/* Admin Setup */}
-        <li
-          className={`menu-item d-flex w-100 ${pathname === "/admin-setup" ? "active" : ""}`}
-        >
+        <li className={menuItemClass("/admin-setup")}>
           <a
-            className="menu-link d-flex gap-4 w-100"
+            className="menu-link"
             href="#"
+            title={isCollapsed ? "Admin" : undefined}
             onClick={(e) => {
               e.preventDefault();
               navigate("/admin-setup");
             }}
             data-section="admin-setup"
           >
-            {/* <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="#DD7007"/>
-            </svg> */}
-            <p className="menu-link-text">Admin</p>
+            <span className="material-symbols-outlined">admin_panel_settings</span>
+            <span className="menu-link-text">Admin</span>
           </a>
         </li>
         {/* Specification */}
@@ -441,6 +453,7 @@ export default function SetupSidebar() {
           </a>
         </li> */}
       </ul>
+      </nav>
     </aside>
   );
 }

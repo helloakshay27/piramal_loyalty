@@ -91,12 +91,12 @@ const RoundRadioButtonCard = () => {
                     cy="15"
                     r="10"
                     fill="none"
-                    stroke="#e95420"
+                    stroke="var(--lockated-primary)"
                     strokeWidth="2"
                   />
                   {/* Inner circle (selected) */}
                   {selected === option.value && (
-                    <circle cx="15" cy="15" r="7" fill="#e95420" />
+                    <circle cx="15" cy="15" r="7" fill="var(--lockated-primary)" />
                   )}
                 </svg>
                 <h5 className="card-title mb-0 ps-3 fw-bold">{option.label}</h5>

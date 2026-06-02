@@ -7,6 +7,7 @@ const TypeHeader = () => {
   const [options, setOptions] = useState([]);
   const token = localStorage.getItem("access_token");
 
+  // Fetch site options from API
   useEffect(() => {
     fetch(`${BASE_URL}loyalty/types.json?access_token=${token}`)
       .then((response) => response.json())
@@ -14,15 +15,33 @@ const TypeHeader = () => {
         setOptions(data);
       })
       .catch((error) => console.error("Error fetching data:", error));
-
-    // Load previously selected option from session storage
-    const storedId = sessionStorage.getItem("selectedId");
-    if (storedId) {
-      console.log("Stored ID from session:", storedId); // Debug stored ID
-      const storedOption = options.find((opt) => opt.id === parseInt(storedId));
-      if (storedOption) setSelected(storedOption.name);
-    }
   }, []);
+
+  // Once options are loaded, auto-select if only one option exists
+  // or restore previously selected option from session storage
+  useEffect(() => {
+    if (options.length === 0) return;
+
+    const savedName = sessionStorage.getItem("selectedName");
+    const savedId = sessionStorage.getItem("selectedId");
+
+    if (savedName && savedId) {
+      // Restore previously selected option
+      const storedOption = options.find((opt) => opt.id === parseInt(savedId));
+      if (storedOption) {
+        setSelected(storedOption.name);
+        return;
+      }
+    }
+
+    // Auto-select if there is only one option (e.g., Piramal)
+    if (options.length === 1) {
+      const onlyOption = options[0];
+      setSelected(onlyOption.name);
+      sessionStorage.setItem("selectedId", onlyOption.id);
+      sessionStorage.setItem("selectedName", onlyOption.name);
+    }
+  }, [options]);
 
   const handleSelect = (eventKey, event) => {
     const selectedId = event.target.getAttribute("data-id"); // Get the ID
@@ -41,14 +60,6 @@ const TypeHeader = () => {
     window.location.reload();
   };
 
-  useEffect(() => {
-    // Retrieve the selected ID from session storage on component mount
-    const savedId = sessionStorage.getItem("selectedName");
-    if (savedId) {
-      // Assuming you can derive eventKey from savedId
-      setSelected(savedId); // Restore the selected option
-    }
-  }, []);
   return (
     <Dropdown onSelect={handleSelect}>
       <Dropdown.Toggle

@@ -323,7 +323,7 @@ const RuleEngine = () => {
               className="page-link"
               onClick={() => onPageChange(1)} // Jump to first page
               disabled={currentPage === 1}
-              style={{ padding: "8px 12px", color: "#5e2750" }}
+              style={{ padding: "8px 12px", color: "var(--lockated-primary-hover)" }}
             >
               «« {/* Double left arrow for jumping to the first page */}
             </button>
@@ -333,7 +333,7 @@ const RuleEngine = () => {
               className="page-link"
               onClick={() => onPageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              style={{ padding: "8px 12px", color: "#5e2750" }}
+              style={{ padding: "8px 12px", color: "var(--lockated-primary-hover)" }}
             >
               ‹
             </button>
@@ -349,9 +349,9 @@ const RuleEngine = () => {
                 onClick={() => onPageChange(page)}
                 style={{
                   padding: "8px 12px",
-                  color: page === currentPage ? "#fff" : "#5e2750",
-                  backgroundColor: page === currentPage ? "#5e2750" : "#fff",
-                  border: "2px solid #5e2750",
+                  color: page === currentPage ? "#fff" : "var(--lockated-primary-hover)",
+                  backgroundColor: page === currentPage ? "var(--lockated-primary-hover)" : "#fff",
+                  border: "2px solid var(--lockated-primary-hover)",
                   borderRadius: "3px",
                 }}
               >
@@ -369,7 +369,7 @@ const RuleEngine = () => {
               className="page-link"
               onClick={() => onPageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-              style={{ padding: "8px 12px", color: "#5e2750" }}
+              style={{ padding: "8px 12px", color: "var(--lockated-primary-hover)" }}
             >
               ›
             </button>
@@ -383,7 +383,7 @@ const RuleEngine = () => {
               className="page-link"
               onClick={handleJumpForward} // Jump forward by 7 pages
               disabled={currentPage === totalPages}
-              style={{ padding: "8px 12px", color: "#5e2750" }}
+              style={{ padding: "8px 12px", color: "var(--lockated-primary-hover)" }}
             >
               »» {/* Double right arrow for jumping to the last page */}
             </button>
@@ -694,7 +694,7 @@ const RuleEngine = () => {
                           xmlns="http://www.w3.org/2000/svg"
                           width="16"
                           height="16"
-                          fill="#5e2750"
+                          fill="var(--lockated-primary-hover)"
                           className="bi bi-pencil-square"
                           viewBox="0 0 16 16"
                         >
@@ -782,7 +782,7 @@ const RuleEngine = () => {
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
                         height="16"
-                        fill="#5e2750"
+                        fill="var(--lockated-primary-hover)"
                         className="bi bi-pencil-square"
                         viewBox="0 0 16 16"
                       >

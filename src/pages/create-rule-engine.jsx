@@ -709,8 +709,8 @@ const CreateRuleEngine = () => {
               style={{
                 fontSize: "16px",
                 fontWeight: "600",
-                color: "#E95420",
-                backgroundColor: "#E954202E",
+                color: "var(--lockated-primary)",
+                backgroundColor: "var(--lockated-primary)2E",
               }}
             >
               IF
@@ -812,8 +812,8 @@ const CreateRuleEngine = () => {
               style={{
                 fontSize: "16px",
                 fontWeight: "600",
-                color: "#E95420",
-                backgroundColor: "#E954202E",
+                color: "var(--lockated-primary)",
+                backgroundColor: "var(--lockated-primary)2E",
               }}
             >
               Operator
@@ -905,8 +905,8 @@ const CreateRuleEngine = () => {
               style={{
                 fontSize: "16px",
                 fontWeight: "600",
-                color: "#E95420",
-                backgroundColor: "#E954202E",
+                color: "var(--lockated-primary)",
+                backgroundColor: "var(--lockated-primary)2E",
               }}
             >
               Value
@@ -1028,8 +1028,8 @@ const CreateRuleEngine = () => {
                   style={{
                     fontSize: "16px",
                     fontWeight: "600",
-                    color: "#E95420",
-                    backgroundColor: "#E954202E",
+                    color: "var(--lockated-primary)",
+                    backgroundColor: "var(--lockated-primary)2E",
                   }}
                 >
                   THEN

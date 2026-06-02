@@ -1,0 +1,422 @@
+/**
+ * Lockated Brand Guidelines — design tokens, typography, and global defaults.
+ * Import this file before app/page styles so CSS variables are available everywhere.
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap");
+@import "./layout-shell.css";
+
+/* -------------------------------------------------------------------------- */
+/* Color tokens                                                                */
+/* -------------------------------------------------------------------------- */
+
+:root {
+  /* Primary */
+  --lockated-primary: #da7756;
+  --lockated-primary-hover: color-mix(in srgb, #da7756 85%, #000000);
+  --lockated-primary-selected-bg: color-mix(in srgb, #da7756 8%, #f6f4ee);
+  --lockated-bg: #f6f4ee;
+  --lockated-text: #2c2c2c;
+
+  /* Secondary */
+  --lockated-secondary-green: #798c5e;
+  --lockated-secondary-green-hover: color-mix(in srgb, #798c5e 85%, #000000);
+  --lockated-secondary-lavender: #cecbf6;
+  --lockated-secondary-lavender-hover: color-mix(in srgb, #cecbf6 70%, #000000);
+  --lockated-secondary-teal: #9ec8ba;
+  --lockated-secondary-teal-hover: color-mix(in srgb, #9ec8ba 70%, #000000);
+
+  /* Tertiary — semantic & dashboard */
+  --lockated-info: #6b9bcc;
+  --lockated-muted: #d3d1c7;
+  --lockated-tag: #cecbf6;
+  --lockated-danger: #e49191;
+  --lockated-warning: #edc488;
+  --lockated-growth: color-mix(in srgb, #108c72 30%, transparent);
+
+  /* Accent & surfaces */
+  --lockated-card-border: #c4b89d;
+  --lockated-card-fill: #f6f4ee;
+  --lockated-divider: #d5dbdb;
+  --lockated-highlight-gradient: radial-gradient(
+    circle at top left,
+    #f6f4ee 0%,
+    #2c2c2c 100%
+  );
+
+  /* Status */
+  --lockated-success: #89f7e7;
+  --lockated-status-warning: #edc488;
+  --lockated-error: #e7848e;
+  --lockated-exception: #aab9c5;
+
+  /* Legacy aliases (old loyalty theme → Lockated) */
+  --legacy-primary: var(--lockated-primary);
+  --legacy-primary-dark: var(--lockated-primary-hover);
+  --legacy-accent-purple: var(--lockated-primary);
+  --legacy-accent-purple-dark: var(--lockated-primary-hover);
+
+  /* mor.css / theme-connect compatibility */
+  --red: var(--lockated-primary);
+  --lightred: var(--lockated-primary);
+  --scrollbar-color: var(--lockated-primary);
+  --body-bg-color: var(--lockated-bg);
+  --text-color: var(--lockated-text);
+  --black: var(--lockated-text);
+  --grey: var(--lockated-text);
+  --light-grey: var(--lockated-muted);
+
+  /* Typography — desktop (default) */
+  --lockated-font-family: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --lockated-h1-size: 26px;
+  --lockated-h2-size: 24px;
+  --lockated-body-1-size: 20px;
+  --lockated-body-2-size: 18px;
+  --lockated-body-3-size: 16px;
+  --lockated-body-4-size: 14px;
+  --lockated-body-5-size: 12px;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  :root {
+    --lockated-h1-size: 24px;
+    --lockated-h2-size: 20px;
+    --lockated-body-1-size: 18px;
+    --lockated-body-2-size: 18px;
+    --lockated-body-3-size: 16px;
+    --lockated-body-4-size: 16px;
+    --lockated-body-5-size: 14px;
+    --lockated-body-6-size: 12px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  :root {
+    --lockated-h1-size: 16px;
+    --lockated-h2-size: 14px;
+    --lockated-body-1-size: 12px;
+    --lockated-body-2-size: 10px;
+    --lockated-body-3-size: 12px;
+    --lockated-body-4-size: 12px;
+    --lockated-body-5-size: 12px;
+    --lockated-body-6-size: 10px;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Base document styles                                                        */
+/* -------------------------------------------------------------------------- */
+
+html {
+  font-family: var(--lockated-font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--lockated-font-family) !important;
+  color: var(--lockated-text) !important;
+  background-color: var(--lockated-bg);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Typography utility classes                                                  */
+/* -------------------------------------------------------------------------- */
+
+.lockated-h1-semibold {
+  font-family: var(--lockated-font-family);
+  font-size: var(--lockated-h1-size);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--lockated-text);
+}
+
+.lockated-h2-semibold,
+.lockated-h2-medium,
+.lockated-h2-regular {
+  font-family: var(--lockated-font-family);
+  font-size: var(--lockated-h2-size);
+  line-height: 1.35;
+  color: var(--lockated-text);
+}
+
+.lockated-h2-semibold {
+  font-weight: 600;
+}
+
+.lockated-h2-medium {
+  font-weight: 500;
+}
+
+.lockated-h2-regular {
+  font-weight: 400;
+}
+
+.lockated-body-1-semibold,
+.lockated-body-1-medium {
+  font-family: var(--lockated-font-family);
+  font-size: var(--lockated-body-1-size);
+  line-height: 1.45;
+  color: var(--lockated-text);
+}
+
+.lockated-body-1-semibold {
+  font-weight: 600;
+}
+
+.lockated-body-1-medium {
+  font-weight: 500;
+}
+
+.lockated-body-2-semibold,
+.lockated-body-2-medium,
+.lockated-body-2-regular {
+  font-family: var(--lockated-font-family);
+  font-size: var(--lockated-body-2-size);
+  line-height: 1.45;
+  color: var(--lockated-text);
+}
+
+.lockated-body-2-semibold {
+  font-weight: 600;
+}
+
+.lockated-body-2-medium {
+  font-weight: 500;
+}
+
+.lockated-body-2-regular {
+  font-weight: 400;
+}
+
+.lockated-body-3-semibold,
+.lockated-body-3-medium,
+.lockated-body-3-regular {
+  font-family: var(--lockated-font-family);
+  font-size: var(--lockated-body-3-size);
+  line-height: 1.5;
+  color: var(--lockated-text);
+}
+
+.lockated-body-3-semibold {
+  font-weight: 600;
+}
+
+.lockated-body-3-medium {
+  font-weight: 500;
+}
+
+.lockated-body-3-regular {
+  font-weight: 400;
+}
+
+.lockated-body-4-semibold,
+.lockated-body-4-medium,
+.lockated-body-4-regular {
+  font-family: var(--lockated-font-family);
+  font-size: var(--lockated-body-4-size);
+  line-height: 1.5;
+  color: var(--lockated-text);
+}
+
+.lockated-body-4-semibold {
+  font-weight: 600;
+}
+
+.lockated-body-4-medium {
+  font-weight: 500;
+}
+
+.lockated-body-4-regular {
+  font-weight: 400;
+}
+
+.lockated-body-5-medium,
+.lockated-body-5-regular {
+  font-family: var(--lockated-font-family);
+  font-size: var(--lockated-body-5-size);
+  line-height: 1.5;
+  color: var(--lockated-text);
+}
+
+.lockated-body-5-medium {
+  font-weight: 500;
+}
+
+.lockated-body-5-regular {
+  font-weight: 400;
+}
+
+/* Semantic text helpers */
+.lockated-text-muted {
+  color: var(--lockated-muted) !important;
+}
+
+.lockated-text-danger {
+  color: var(--lockated-danger) !important;
+}
+
+.lockated-text-warning {
+  color: var(--lockated-warning) !important;
+}
+
+.lockated-text-info {
+  color: var(--lockated-info) !important;
+}
+
+.lockated-text-success {
+  color: var(--lockated-success) !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Surfaces & components                                                       */
+/* -------------------------------------------------------------------------- */
+
+.lockated-card {
+  background-color: var(--lockated-card-fill);
+  border: 1px solid var(--lockated-card-border);
+  border-radius: 8px;
+}
+
+.lockated-divider {
+  border-color: var(--lockated-divider);
+}
+
+.lockated-btn-primary {
+  font-family: var(--lockated-font-family);
+  background-color: var(--lockated-primary);
+  border-color: var(--lockated-primary);
+  color: #fff;
+}
+
+.lockated-btn-primary:hover,
+.lockated-btn-primary:focus {
+  background-color: var(--lockated-primary-hover);
+  border-color: var(--lockated-primary-hover);
+  color: #fff;
+}
+
+.lockated-btn-primary:active,
+.lockated-btn-primary.active {
+  background-color: var(--lockated-primary-hover);
+  border-color: var(--lockated-primary-hover);
+}
+
+.lockated-selected {
+  background-color: var(--lockated-primary-selected-bg);
+}
+
+/* Bootstrap alignment (loaded after bootstrap in App.jsx) */
+.btn-primary {
+  --bs-btn-bg: var(--lockated-primary);
+  --bs-btn-border-color: var(--lockated-primary);
+  --bs-btn-hover-bg: var(--lockated-primary-hover);
+  --bs-btn-hover-border-color: var(--lockated-primary-hover);
+  --bs-btn-active-bg: var(--lockated-primary-hover);
+  --bs-btn-active-border-color: var(--lockated-primary-hover);
+  --bs-btn-disabled-bg: var(--lockated-muted);
+  --bs-btn-disabled-border-color: var(--lockated-muted);
+  font-family: var(--lockated-font-family);
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--lockated-primary);
+  --bs-btn-border-color: var(--lockated-primary);
+  --bs-btn-hover-bg: var(--lockated-primary);
+  --bs-btn-hover-border-color: var(--lockated-primary);
+  --bs-btn-active-bg: var(--lockated-primary-hover);
+  --bs-btn-active-border-color: var(--lockated-primary-hover);
+  font-family: var(--lockated-font-family);
+}
+
+.form-control,
+.form-select,
+.input-group-text {
+  font-family: var(--lockated-font-family);
+  border-color: var(--lockated-divider);
+  color: var(--lockated-text);
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--lockated-primary);
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--lockated-primary) 25%, transparent);
+}
+
+.form-check-input:checked {
+  background-color: var(--lockated-primary);
+  border-color: var(--lockated-primary);
+}
+
+.form-check-input:focus {
+  border-color: var(--lockated-primary);
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--lockated-primary) 25%, transparent);
+}
+
+.navbar:not(.lockated-header) .nav-link.active,
+.navbar:not(.lockated-header) .active {
+  background-color: var(--lockated-primary) !important;
+  color: #fff !important;
+}
+
+a {
+  color: var(--lockated-primary);
+}
+
+a:hover {
+  color: var(--lockated-primary-hover);
+}
+
+.text-primary {
+  color: var(--lockated-primary) !important;
+}
+
+.bg-primary {
+  background-color: var(--lockated-primary) !important;
+}
+
+.border-primary {
+  border-color: var(--lockated-primary) !important;
+}
+
+/* Required field asterisk / labels (payment-form style) */
+.lockated-label-required,
+label.required,
+.form-label.required {
+  color: var(--lockated-danger);
+}
+
+/* Shared list pagination (replaces inline #5e2750 styles) */
+.lockated-page-btn {
+  padding: 8px 12px;
+  color: var(--lockated-primary-hover);
+  border-radius: 3px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: var(--lockated-font-family);
+}
+
+.lockated-page-num {
+  padding: 8px 12px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: var(--lockated-font-family);
+  color: var(--lockated-primary-hover);
+  background-color: #fff;
+  border: 2px solid var(--lockated-primary-hover);
+}
+
+.lockated-page-num.is-active {
+  color: #fff;
+  background-color: var(--lockated-primary-hover);
+}
+
+.lockated-link-accent {
+  color: var(--lockated-primary-hover);
+  text-decoration: underline;
+  cursor: pointer;
+}

@@ -7,6 +7,8 @@ import BASE_URL from "../Confi/baseurl";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { getAccessToken } from "../api/auth";
+import ListSearchBar from "../components/list/ListSearchBar";
+import ListPagination from "../components/list/ListPagination";
 
 const EncashList = () => {
   const [encashRequests, setEncashRequests] = useState([]);
@@ -286,38 +288,31 @@ const EncashList = () => {
     }).format(amount);
   };
 
-  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage) || 1;
+  const safeCurrentPage = Math.min(currentPage, totalPages);
   const currentItems = filteredItems.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+    (safeCurrentPage - 1) * itemsPerPage,
+    safeCurrentPage * itemsPerPage
   );
 
-  const handleSearch = () => {
-    const filtered = encashRequests.filter((request) =>
+  const filterEncashByTerm = (term) => {
+    const q = term.trim().toLowerCase();
+    if (!q) return encashRequests;
+    return encashRequests.filter((request) =>
       `${request.person_name} ${request.account_number} ${request.status}`
         .toLowerCase()
-        .includes(searchTerm.toLowerCase())
+        .includes(q)
     );
-    setFilteredItems(filtered);
-    setCurrentPage(1);
-    setSuggestions([]);
   };
 
   const handleSearchInputChange = (e) => {
     const term = e.target.value;
     setSearchTerm(term);
-
-    if (term) {
-      const filteredSuggestions = encashRequests.filter((request) =>
-        `${request.person_name} ${request.account_number} ${request.status}`
-          .toLowerCase()
-          .includes(term.toLowerCase())
-      );
-      setSuggestions(filteredSuggestions);
-      setSelectedIndex(-1);
-    } else {
-      setSuggestions([]);
-    }
+    const filtered = filterEncashByTerm(term);
+    setFilteredItems(filtered);
+    setCurrentPage(1);
+    setSuggestions(term ? filtered.slice(0, 8) : []);
+    setSelectedIndex(-1);
   };
 
   const handleKeyDown = (e) => {
@@ -339,11 +334,13 @@ const EncashList = () => {
     setSearchTerm(request.person_name);
     setSuggestions([]);
     setFilteredItems([request]);
+    setCurrentPage(1);
   };
 
   const handleReset = () => {
     setSearchTerm("");
     setFilteredItems(encashRequests);
+    setSuggestions([]);
     setCurrentPage(1);
   };
 
@@ -351,118 +348,6 @@ const EncashList = () => {
     if (page > 0 && page <= totalPages) {
       setCurrentPage(page);
     }
-  };
-
-  const Pagination = ({ currentPage, totalPages, totalEntries, onPageChange }) => {
-    const startEntry = (currentPage - 1) * itemsPerPage + 1;
-    const endEntry = Math.min(currentPage * itemsPerPage, totalEntries);
-
-    const getPageNumbers = () => {
-      const pages = [];
-      const maxVisiblePages = 5;
-      const halfVisible = Math.floor(maxVisiblePages / 2);
-
-      let startPage, endPage;
-
-      if (totalPages <= maxVisiblePages) {
-        startPage = 1;
-        endPage = totalPages;
-      } else {
-        if (currentPage <= halfVisible) {
-          startPage = 1;
-          endPage = maxVisiblePages;
-        } else if (currentPage + halfVisible >= totalPages) {
-          startPage = totalPages - maxVisiblePages + 1;
-          endPage = totalPages;
-        } else {
-          startPage = currentPage - halfVisible;
-          endPage = currentPage + halfVisible;
-        }
-      }
-
-      for (let i = startPage; i <= endPage; i++) {
-        pages.push(i);
-      }
-
-      return pages;
-    };
-
-    const pageNumbers = getPageNumbers();
-
-    return (
-      <nav className="d-flex justify-content-between align-items-center">
-        <ul
-          className="pagination justify-content-center align-items-center"
-          style={{ listStyleType: "none", padding: "0" }}
-        >
-          <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-            <button
-              className="page-link"
-              onClick={() => onPageChange(1)}
-              disabled={currentPage === 1}
-              style={{ padding: "8px 12px", color: "#5e2750" }}
-            >
-              ««
-            </button>
-          </li>
-          <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-            <button
-              className="page-link"
-              onClick={() => onPageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-              style={{ padding: "8px 12px", color: "#5e2750" }}
-            >
-              ‹
-            </button>
-          </li>
-
-          {pageNumbers.map((page) => (
-            <li
-              key={page}
-              className={`page-item ${page === currentPage ? "active" : ""}`}
-            >
-              <button
-                className="page-link"
-                onClick={() => onPageChange(page)}
-                style={{
-                  padding: "8px 12px",
-                  color: page === currentPage ? "#fff" : "#5e2750",
-                  backgroundColor: page === currentPage ? "#5e2750" : "#fff",
-                  border: "2px solid #5e2750",
-                  borderRadius: "3px",
-                }}
-              >
-                {page}
-              </button>
-            </li>
-          ))}
-
-          <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
-            <button
-              className="page-link"
-              onClick={() => onPageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-              style={{ padding: "8px 12px", color: "#5e2750" }}
-            >
-              ›
-            </button>
-          </li>
-          <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
-            <button
-              className="page-link"
-              onClick={() => onPageChange(totalPages)}
-              disabled={currentPage === totalPages}
-              style={{ padding: "8px 12px", color: "#5e2750" }}
-            >
-              »»
-            </button>
-          </li>
-        </ul>
-        <p className="text-center" style={{ marginTop: "10px", color: "#555" }}>
-          Showing {startEntry} to {endEntry} of {totalEntries} entries
-        </p>
-      </nav>
-    );
   };
 
   return (
@@ -474,82 +359,24 @@ const EncashList = () => {
           </p>
           <h5>Encash Requests</h5>
 
-          <div className="d-flex justify-content-end align-items-center">
-            <div className="d-flex align-items-center">
-              <div className="position-relative me-3">
-                <div className="d-flex align-items-center position-relative">
-                  <div className="position-relative me-3" style={{ width: "100%" }}>
-                    <input
-                      className="form-control"
-                      style={{
-                        height: "35px",
-                        paddingLeft: "30px",
-                        textAlign: "left",
-                      }}
-                      type="search"
-                      placeholder="Search by name, account, status..."
-                      aria-label="Search"
-                      value={searchTerm}
-                      onChange={handleSearchInputChange}
-                      onKeyDown={handleKeyDown}
-                    />
-                    <div
-                      className="position-absolute"
-                      style={{ top: "7px", left: "10px" }}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        fill="currentColor"
-                        className="bi bi-search"
-                        viewBox="0 0 16 16"
-                      >
-                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                      </svg>
-                    </div>
-                    {suggestions.length > 0 && (
-                      <ul
-                        className="suggestions-list position-absolute"
-                        style={{
-                          listStyle: "none",
-                          padding: "0",
-                          marginTop: "5px",
-                          border: "1px solid #ddd",
-                          maxHeight: "200px",
-                          overflowY: "auto",
-                          width: "100%",
-                          zIndex: 1,
-                          backgroundColor: "#fff",
-                          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                        }}
-                      >
-                        {suggestions.map((request, index) => (
-                          <li
-                            key={request.id}
-                            style={{
-                              padding: "8px",
-                              cursor: "pointer",
-                            }}
-                            className={selectedIndex === index ? "highlight" : ""}
-                            onClick={() => handleSuggestionClick(request)}
-                          >
-                            {request.person_name} - {request.account_number}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                </div>
-              </div>
-              <button className="purple-btn1 rounded-3 px-3" onClick={handleSearch}>
-                Go!
-              </button>
-              <button className="purple-btn2 rounded-3 mt-2" onClick={handleReset}>
-                Reset
-              </button>
-            </div>
-          </div>
+          <ListSearchBar
+            value={searchTerm}
+            onChange={handleSearchInputChange}
+            onKeyDown={handleKeyDown}
+            placeholder="Search by name, account, or status..."
+            onReset={handleReset}
+            onRefresh={() => {
+              setLoading(true);
+              fetchEncashRequests();
+            }}
+            suggestions={suggestions}
+            getSuggestionKey={(request) => request.id}
+            renderSuggestion={(request) =>
+              `${request.person_name} · ${request.account_number}`
+            }
+            onSuggestionClick={handleSuggestionClick}
+            highlightedIndex={selectedIndex}
+          />
 
           <div
             className="tbl-container mt-4"
@@ -620,7 +447,7 @@ const EncashList = () => {
                     >
                       {currentItems.map((request) => (
                         <tr key={request.id}>
-                          <td style={{ textAlign: "center", cursor: "pointer", color: "#5e2750", textDecoration: "underline" }}
+                          <td style={{ textAlign: "center", cursor: "pointer", color: "var(--lockated-primary-hover)", textDecoration: "underline" }}
                             onClick={() => navigate(`/encash-details/${request.id}`)}
                           >
                             {request.id}
@@ -686,11 +513,13 @@ const EncashList = () => {
                     </tbody>
                   </table>
                 </div>
-                <Pagination
-                  currentPage={currentPage}
+                <ListPagination
+                  currentPage={safeCurrentPage}
                   totalPages={totalPages}
+                  totalCount={filteredItems.length}
+                  pageSize={itemsPerPage}
                   onPageChange={handlePageChange}
-                  totalEntries={filteredItems.length}
+                  itemLabel="requests"
                 />
               </>
             ) : (

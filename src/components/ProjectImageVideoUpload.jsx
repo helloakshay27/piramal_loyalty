@@ -495,7 +495,7 @@ const ProjectImageVideoUpload = ({
           }
 
           .ratio-upload-area:hover {
-            border-color: #5e2750;
+            border-color: var(--lockated-primary-hover);
             background: #f8faff;
           }
 
@@ -510,7 +510,7 @@ const ProjectImageVideoUpload = ({
           }
 
           .ratio-upload-area:hover .upload-placeholder {
-            color: #5e2750;
+            color: var(--lockated-primary-hover);
           }
 
           .ratio-upload-area.has-upload {
@@ -665,7 +665,7 @@ const ProjectImageVideoUpload = ({
           }
 
           .continue-btn {
-            background: #5e2750;
+            background: var(--lockated-primary-hover);
             color: white;
             border: none;
             padding: 12px 24px;
@@ -676,7 +676,7 @@ const ProjectImageVideoUpload = ({
           }
 
           .continue-btn:hover {
-            background: #5e2750;
+            background: var(--lockated-primary-hover);
           }
 
           .bulk-upload-btn {
@@ -781,7 +781,7 @@ const ProjectImageVideoUpload = ({
         }
 
         .ratio-upload-area:hover {
-          border-color: #5e2750;
+          border-color: var(--lockated-primary-hover);
           background: #f8faff;
         }
 
@@ -795,7 +795,7 @@ const ProjectImageVideoUpload = ({
         }
 
         .ratio-upload-area:hover .upload-placeholder {
-          color: #5e2750;
+          color: var(--lockated-primary-hover);
         }
 
         .ratio-upload-area.has-upload {
@@ -950,7 +950,7 @@ const ProjectImageVideoUpload = ({
         }
 
         .continue-btn {
-          background: #5e2750;
+          background: var(--lockated-primary-hover);
           color: white;
           border: none;
           padding: 12px 24px;
@@ -961,7 +961,7 @@ const ProjectImageVideoUpload = ({
         }
 
         .continue-btn:hover {
-          background: #5e2750;
+          background: var(--lockated-primary-hover);
         }
 
         .bulk-upload-btn {

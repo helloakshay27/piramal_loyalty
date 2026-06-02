@@ -42,7 +42,7 @@ export default function RootLayout() {
     <main className="h-100 w-100">
       <Header noTier={noTier} onNavChange={setSelectedNav} />
       <div className="main-content">
-        <div>
+        <div className="lockated-sidebar-wrap">
           {selectedNav === "setup" ? <SetupSidebar /> : <Sidebar />}
         </div>
         <div className="website-content flex-grow-1">

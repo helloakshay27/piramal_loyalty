@@ -17,6 +17,7 @@ import Blogs from "./pages/blogs";
 import NewBlog from "./pages/new-blog";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./styles/lockated-brand.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import {
   BrowserRouter as Router,

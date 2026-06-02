@@ -4,37 +4,38 @@ import LockatedLogo from "/LockatedLogo.png";
 import { useNavigate, useLocation } from "react-router-dom";
 import TypeHeader from "./TypeHeader";
 
+const setupPaths = ["/event-list", "/admin-setup", "/event-create", "/event-edit"];
+
 const Header = ({ noTier, onNavChange }) => {
   const [showModal, setShowModal] = useState(false);
-  const [activeNav, setActiveNav] = useState("home"); // Track active nav
-  const navigate = useNavigate();
   const location = useLocation();
+  const navigate = useNavigate();
+  const [activeNav, setActiveNav] = useState(() =>
+    setupPaths.some((p) => location.pathname.startsWith(p)) ? "setup" : "home"
+  );
   const hostname = window.location.hostname;
 
-  // Notify parent when activeNav changes
+  useEffect(() => {
+    const isSetup = setupPaths.some((p) => location.pathname.startsWith(p));
+    setActiveNav(isSetup ? "setup" : "home");
+  }, [location.pathname]);
+
   useEffect(() => {
     if (onNavChange) {
       onNavChange(activeNav);
     }
   }, [activeNav, onNavChange]);
 
-  const handleClose = () => {
-    setShowModal(false);
-
-    // Remove any existing modal backdrop elements
-    const modalBackdrop = document.querySelector(".modal-backdrop");
-    if (modalBackdrop) {
-      modalBackdrop.remove();
-    }
-
-    // Remove modal-open class from body and clear any inline styles
+  const clearModalState = () => {
+    document.querySelectorAll(".modal-backdrop").forEach((el) => el.remove());
     document.body.classList.remove("modal-open");
     document.body.style.overflow = "";
     document.body.style.paddingRight = "";
+  };
 
-    // Remove any additional backdrop elements that might exist
-    const allBackdrops = document.querySelectorAll(".modal-backdrop");
-    allBackdrops.forEach((backdrop) => backdrop.remove());
+  const handleClose = () => {
+    setShowModal(false);
+    clearModalState();
   };
 
   const handleOpen = () => {
@@ -42,29 +43,15 @@ const Header = ({ noTier, onNavChange }) => {
   };
 
   const signout = () => {
-    console.log("Signing out...");
-    sessionStorage.clear(); // Clear session storage
+    sessionStorage.clear();
     localStorage.clear();
-
     setShowModal(false);
-
-    // Remove any existing modal backdrop elements
-    const modalBackdrop = document.querySelector(".modal-backdrop");
-    if (modalBackdrop) {
-      modalBackdrop.remove();
-    }
-
-    // Remove modal-open class from body and clear any inline styles
-    document.body.classList.remove("modal-open");
-    document.body.style.overflow = "";
-    document.body.style.paddingRight = "";
-
-    // Remove any additional backdrop elements that might exist
-    const allBackdrops = document.querySelectorAll(".modal-backdrop");
-    allBackdrops.forEach((backdrop) => backdrop.remove());
-
+    clearModalState();
     navigate("/login");
   };
+
+  const userInitial =
+    sessionStorage.getItem("firstname")?.[0]?.toUpperCase() || "A";
 
   return (
     <>
@@ -74,7 +61,7 @@ const Header = ({ noTier, onNavChange }) => {
         aria-labelledby="userInfoLabel"
         aria-hidden={!showModal}
         role="dialog"
-        style={{ display: showModal ? "block" : "none" }} // React controlled visibility
+        style={{ display: showModal ? "block" : "none" }}
       >
         <div className="modal-dialog">
           <div className="modal-content">
@@ -88,13 +75,17 @@ const Header = ({ noTier, onNavChange }) => {
             </div>
             <div className="text-center pb-5">
               <div className="avatar2">
-                <div className="avatar__letters2">A</div>
+                <div className="avatar__letters2">{userInitial}</div>
               </div>
               <br />
-              <h5>{sessionStorage.getItem("firstname") || "First Name"}</h5>
-              <p>{sessionStorage.getItem("email") || "example@example.com"}</p>
+              <h5 className="lockated-h2-medium">
+                {sessionStorage.getItem("firstname") || "First Name"}
+              </h5>
+              <p className="lockated-body-4-regular text-muted">
+                {sessionStorage.getItem("email") || "example@example.com"}
+              </p>
               <button
-                className="purple-btn1 my-3"
+                className="lockated-btn-primary btn my-3 px-4"
                 aria-label="Close"
                 onClick={signout}
               >
@@ -105,99 +96,86 @@ const Header = ({ noTier, onNavChange }) => {
         </div>
       </div>
 
-      <nav className="navbar navbar-expand-lg navbar-light p-0">
-        <div className="container-fluid py-1">
+      <header className="navbar navbar-expand-lg navbar-light lockated-header p-0">
+        <div className="container-fluid">
           <button
-            className="navbar-toggler"
+            className="navbar-toggler d-lg-none"
             type="button"
             data-bs-toggle="collapse"
-            aria-controls="navbarTogglerDemo02"
+            data-bs-target="#lockatedHeaderNav"
+            aria-controls="lockatedHeaderNav"
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
             <span className="navbar-toggler-icon" />
           </button>
-          <img alt="logo" className="go-logo mx-3 my-2" src={hostname === "rustomjee-loyalty.lockated.com" ? LockatedLogo : GophygitalLogo1} />
-          <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+
+          <img
+            alt="logo"
+            className="lockated-header__logo"
+            src={
+              hostname === "rustomjee-loyalty.lockated.com"
+                ? LockatedLogo
+                : GophygitalLogo1
+            }
+          />
+
+          <div className="collapse navbar-collapse" id="lockatedHeaderNav">
+            <ul className="lockated-header__nav navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
                 <a
-                  className={`nav-link${
-                    activeNav === "home" ? " active rounded-2" : ""
+                  className={`nav-link lockated-header__nav-link${
+                    activeNav === "home" ? " is-active" : ""
                   }`}
-                  href="./1CF_Main.html"
+                  href="/"
                   onClick={(e) => {
                     e.preventDefault();
                     setActiveNav("home");
-                    navigate("/"); // or your actual home route
+                    navigate("/");
                   }}
                 >
                   Home
                 </a>
               </li>
-              {/* <li className="nav-item">
-                <a
-                  className={`nav-link${
-                    activeNav === "dashboard" ? " active rounded-2" : ""
-                  }`}
-                  href="./31Dashboard_Daily.html"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setActiveNav("dashboard");
-                    navigate("/dashboard"); // or your actual dashboard route
-                  }}
-                >
-                  Dashboard
-                </a>
-              </li> */}
               <li className="nav-item">
                 <a
-                  className={`nav-link${
-                    activeNav === "setup" ? " active rounded-2" : ""
+                  className={`nav-link lockated-header__nav-link${
+                    activeNav === "setup" ? " is-active" : ""
                   }`}
-                  href="./31Dashboard_Daily.html"
+                  href="/event-list"
                   onClick={(e) => {
                     e.preventDefault();
                     setActiveNav("setup");
-                    navigate("/event-list"); // or your actual setup route
+                    navigate("/event-list");
                   }}
                 >
                   Setup
                 </a>
               </li>
             </ul>
-            {/* {!noTier && (
-              <div className="top-nav-right">
-                <div className="d-flex search-input w-50 mx-auto">
-                  <span className="material-symbols-outlined">search</span>
-                  <input
-                    className="form-control me-2"
-                    type="search"
-                    placeholder="Search"
-                    aria-label="Search"
-                  />
-                </div>
-              </div>
-            )} */}
           </div>
-          <TypeHeader /> {/* Dropdown inside the header */}
-          <div
-            className="avatar"
-            role="button"
-            tabIndex="0"
-            onClick={handleOpen}
-            onKeyPress={(e) => e.key === "Enter" && handleOpen()}
-            data-bs-toggle="modal"
-            data-bs-target="#userInfo"
-          >
-            <div className="avatar__letters">
-              {sessionStorage.getItem("firstname")
-                ? sessionStorage.getItem("firstname")[0].toUpperCase()
-                : "A"}
-            </div>
+
+          <div className="lockated-header__right">
+            {!noTier && <TypeHeader />}
+            <button
+              type="button"
+              className="lockated-header__icon-btn d-none d-md-inline-flex"
+              aria-label="Notifications"
+            >
+              <span className="material-symbols-outlined">notifications</span>
+            </button>
+            <button
+              type="button"
+              className="lockated-header__avatar"
+              aria-label="User menu"
+              onClick={handleOpen}
+              onKeyDown={(e) => e.key === "Enter" && handleOpen()}
+            >
+              <span className="avatar__letters">{userInitial}</span>
+            </button>
           </div>
         </div>
-      </nav>
+      </header>
     </>
   );
 };
